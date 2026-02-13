@@ -1,0 +1,57 @@
+# === Project Memory (private context) ===
+memory.md
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+*.whl
+
+# === Virtual Environment ===
+venv/
+env/
+.venv/
+.env/
+
+# === Framework Data ===
+data/
+*.db
+*.sqlite3
+*.log
+
+# === IDE / Editor ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# === OS Files ===
+Thumbs.db
+Desktop.ini
+.DS_Store
+.DS_Store?
+._*
+
+# === Secrets / Keys ===
+*.pem
+*.key
+*.crt
+*.env
+
+# === Reports (generated) ===
+reports/
+*.pdf
+
+# === Misc ===
+.gemini/
+.agent/
+node_modules/
