@@ -51,6 +51,20 @@ Desktop.ini
 reports/
 *.pdf
 
+# === Large Files ===
+rockyou.txt
+*.txt.gz
+
+# === Temp / Test Scripts ===
+test_*.py
+auto_fix.py
+parse_results.py
+_module_list.txt
+phishing_site/
+
+# === Pip Cache ===
+.pip_cache/
+
 # === Misc ===
 .gemini/
 .agent/

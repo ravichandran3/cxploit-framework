@@ -13,31 +13,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 
 def banner():
-    """Print the startup banner."""
-    from colorama import init, Fore, Style
-    init()
-    
-    art = f"""
-{Fore.RED}
-     ███████╗██╗  ██╗██████╗ ██╗      ██████╗ ██╗████████╗
-     ██╔════╝╚██╗██╔╝██╔══██╗██║     ██╔═══██╗██║╚══██╔══╝
-     █████╗   ╚███╔╝ ██████╔╝██║     ██║   ██║██║   ██║   
-     ██╔══╝   ██╔██╗ ██╔═══╝ ██║     ██║   ██║██║   ██║   
-     ███████╗██╔╝ ██╗██║     ███████╗╚██████╔╝██║   ██║   
-     ╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝ ╚═════╝ ╚═╝   ╚═╝   
-{Fore.CYAN}
-     ███████╗██████╗  █████╗ ███╗   ███╗███████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗
-     ██╔════╝██╔══██╗██╔══██╗████╗ ████║██╔════╝██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝
-     █████╗  ██████╔╝███████║██╔████╔██║█████╗  ██║ █╗ ██║██║   ██║██████╔╝█████╔╝ 
-     ██╔══╝  ██╔══██╗██╔══██║██║╚██╔╝██║██╔══╝  ██║███╗██║██║   ██║██╔══██╗██╔═██╗ 
-     ██║     ██║  ██║██║  ██║██║ ╚═╝ ██║███████╗╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗
-     ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝ ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-{Style.RESET_ALL}
-{Fore.GREEN}     [ Exploit Development Framework v1.0.0 ]{Style.RESET_ALL}
-{Fore.YELLOW}     [ Type 'help' for available commands     ]{Style.RESET_ALL}
-{Fore.MAGENTA}     [ For educational and authorized use only  ]{Style.RESET_ALL}
-"""
-    print(art)
+    """Print the startup banner (minimal — main banner shown by console)."""
+    pass  # Banner is displayed by InteractiveConsole.start()
 
 
 def main():

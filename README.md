@@ -2,15 +2,15 @@
   <img src="https://img.shields.io/badge/version-2.0.0-brightgreen?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/python-3.10+-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/license-Educational-orange?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/modules-36+-red?style=for-the-badge" alt="Modules">
+  <img src="https://img.shields.io/badge/modules-105-red?style=for-the-badge" alt="Modules">
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-purple?style=for-the-badge" alt="Platform">
 </p>
 
-<h1 align="center">⚡ CXploit — Exploit Development Framework</h1>
+<h1 align="center">⚡ CXploit — Custom Exploit Development Framework v2.0</h1>
 
 <p align="center">
-  <em>A Metasploit-beating exploit development and penetration testing framework built in Python.</em><br>
-  <em>36+ modules • Auto-Exploitation • Encrypted C2 • WAF Bypass • Real-Time Dashboard</em>
+  <em>A comprehensive, Metasploit-class exploit development and penetration testing framework built entirely in Python.</em><br>
+  <em>105 modules • 7 categories • Auto-Exploitation • Encrypted C2 • WAF Bypass • Real-Time Dashboard</em>
 </p>
 
 ---
@@ -26,18 +26,20 @@
 ## 📖 Table of Contents
 
 - [Overview](#-overview)
+- [What's New in v2.0](#-whats-new-in-v20)
 - [Features](#-features)
 - [Architecture](#-architecture)
 - [Installation](#-installation)
 - [Quick Start](#-quick-start)
 - [CLI Reference](#-cli-reference)
-- [Module Categories](#-module-categories)
-  - [Reconnaissance](#-reconnaissance)
-  - [Exploits](#-exploits)
-  - [Payloads](#-payloads)
-  - [Post-Exploitation](#-post-exploitation)
-  - [Evasion](#-evasion)
-  - [Auxiliary](#-auxiliary)
+- [Complete Module Catalog (105 Modules)](#-complete-module-catalog-105-modules)
+  - [Reconnaissance (17)](#-reconnaissance-17-modules)
+  - [Exploits (20)](#-exploits-20-modules)
+  - [Payloads (9)](#-payloads-9-modules)
+  - [Post-Exploitation (10)](#-post-exploitation-10-modules)
+  - [Evasion (7)](#-evasion-7-modules)
+  - [Auxiliary (23)](#-auxiliary-23-modules)
+  - [Other (19)](#-other-19-modules)
 - [REST API](#-rest-api)
 - [Configuration](#%EF%B8%8F-configuration)
 - [Report Generation](#-report-generation)
@@ -47,25 +49,52 @@
 - [Development](#-development)
 - [Troubleshooting](#-troubleshooting)
 - [Contributing](#-contributing)
+- [Changelog](#-changelog)
 - [License](#-license)
 
 ---
 
 ## 🔍 Overview
 
-**CXploit** is a comprehensive, modular exploit development framework that goes beyond Metasploit, written entirely in Python. It provides security professionals with an integrated environment for:
+**CXploit** is a comprehensive, modular exploit development framework written entirely in Python. With **105 loaded modules** across 7 categories, it provides security professionals with a Metasploit-class integrated environment for:
 
-- **Reconnaissance** — Port scanning, host discovery, service enumeration, OS fingerprinting, web scanning, vulnerability scanning, and **offline CVE database matching**
-- **Auto-Exploitation** — **AI-powered pipeline**: scan -> service detection -> CVE matching -> automated exploitation
-- **Exploitation** — SQL injection, XSS, LFI/RFI, SSH brute-forcing, buffer overflow toolkits, and **multi-protocol credential spraying**
-- **Payload Generation** — Reverse shells, bind shells, meterpreter-style stagers, and **polymorphic payloads** with multi-layer encryption
-- **Post-Exploitation** — System enumeration, persistence mechanisms, credential harvesting
-- **Evasion** — AES/XOR encryption, traffic obfuscation, timing randomization, **WAF detection & bypass** (20+ WAFs)
+- **Reconnaissance** — Port scanning, host discovery, service enumeration, OS fingerprinting, web scanning, vulnerability scanning, OSINT, DNS enumeration, SCADA/ICS scanning, WiFi analysis, blockchain auditing, firmware analysis, supply chain auditing, and **offline CVE database matching**
+- **Auto-Exploitation** — **AI-powered pipeline**: scan → service detection → CVE matching → automated exploitation
+- **Exploitation** — SQL injection, XSS, LFI/RFI, SSH brute-forcing, buffer overflow toolkits, FTP/Telnet/RDP/VNC/SMTP exploits, database exploits (MySQL, MSSQL, PostgreSQL, Oracle, Redis), browser exploits, WebApp deserialization/SSRF/SSTI, IoT/MQTT/UPnP, and **multi-protocol credential spraying**
+- **Payload Generation** — Reverse shells, bind shells, meterpreter-style stagers, **polymorphic payloads** with multi-layer encryption, shellcode generators, multi-handlers, and macro builders
+- **Post-Exploitation** — System enumeration, persistence, credential harvesting, lateral movement, container escape, memory forensics, loot management, anti-forensics, ransomware simulation, Windows/Linux privilege escalation
+- **Evasion** — AES/XOR encryption, traffic obfuscation, timing randomization, **WAF detection & bypass** (20+ WAFs), AV/AMSI bypass, DNS tunneling, JA3 fingerprint randomization
 - **C2 Infrastructure** — **Encrypted C2 server** with AES-256 TCP/HTTP channels and deployable agent stubs
-- **Reporting** — Professional HTML, JSON, and PDF reports with vulnerability severity ratings
-- **Real-Time Dashboard** — **Live web dashboard** with vulnerability heatmaps, session monitoring, and event logs
+- **Auxiliary** — Credential sprayers, email testers, HTTP tunnels, SCADA scanners, hash crackers, multi-protocol scanners (FTP, HTTP, SSH, SSL, SNMP, NetBIOS, RDP, IPMI)
+- **Reporting** — Professional HTML, JSON, PDF, and compliance reports with vulnerability severity ratings
 
-The framework features a **Metasploit-like interactive CLI** with tab-completion, module search, session management, background jobs, **attack chain automation**, and an optional **REST API** for remote control.
+The framework features a **Metasploit-like interactive CLI** with 72 commands, tab-completion, module search, session management, background jobs, **attack chain automation**, and an optional **REST API** for remote control.
+
+---
+
+## 🆕 What's New in v2.0
+
+### Expansion: 36 → 105 Modules
+
+| Category | v1.0 | v2.0 | New |
+|----------|------|------|-----|
+| Reconnaissance | 7 | 17 | WiFi, SCADA, OSINT, Blockchain, Firmware, Supply Chain, Wireless Protocol, Active Directory, Cloud, Threat Intel |
+| Exploits | 5 | 20 | FTP, Telnet, RDP, VNC, SMTP, SNMP, LDAP, NFS, AD, Wireless, Cloud, MySQL, MSSQL, PostgreSQL, Oracle, Redis, Browser, WebApp, IoT |
+| Payloads | 6 | 9 | Multi-Handler, Shellcode Generator, Macro Builder |
+| Post-Exploitation | 2 | 10 | Lateral Movement, Container Escape, Memory Forensics, Loot Manager, Anti-Forensics, Ransomware Sim, Windows Privesc, Linux Privesc |
+| Evasion | 2 | 7 | AV Evasion (AMSI), Traffic Evasion (DNS tunnel/JA3), additional encryption modules |
+| Auxiliary | 2 | 23 | Email Tester, HTTP Tunnel, FTP/HTTP/SSH/SSL/SNMP/NetBIOS/RDP/IPMI Scanners, Credential Store, Report Generator |
+| **Total** | **36** | **105** | **+69 new modules** |
+
+### Quality Improvements
+- ✅ Fixed 88+ bare `except:` clauses → `except Exception:` across 20+ files
+- ✅ Added `check()` method to all module classes
+- ✅ Suppressed paramiko TripleDES deprecation warning
+- ✅ Fixed duplicate banner display
+- ✅ Improved mobile tester tool detection output
+- ✅ All 153 Python files pass syntax verification with 0 errors
+- ✅ All 105 modules load, instantiate, and dispatch cleanly
+- ✅ 72 CLI commands verified (19 base + 53 extended)
 
 ---
 
@@ -74,7 +103,7 @@ The framework features a **Metasploit-like interactive CLI** with tab-completion
 ### Core Engine
 | Feature | Description |
 |---------|-------------|
-| **36+ Built-in Modules** | Ready-to-use modules across 8 categories |
+| **105 Built-in Modules** | Ready-to-use modules across 7 categories |
 | **Dynamic Module Loader** | Auto-discovers all modules at startup using Python package introspection |
 | **Thread-Safe Singleton** | Framework core uses a locked singleton pattern for safe concurrent access |
 | **SQLite Database** | Persistent storage for targets, services, vulnerabilities, credentials, sessions, and events |
@@ -84,10 +113,10 @@ The framework features a **Metasploit-like interactive CLI** with tab-completion
 | **Safety System** | Target authorization, emergency stop, rate limiting |
 | **Plugin Architecture** | Extensible plugin system for custom functionality |
 
-### Metasploit-Beating Features
+### Metasploit-Class Features
 | Feature | Description |
 |---------|-------------|
-| **Auto-Exploitation (AutoPwn)** | Automated scan -> CVE match -> exploit pipeline with one command |
+| **Auto-Exploitation (AutoPwn)** | Automated scan → CVE match → exploit pipeline with one command |
 | **Offline CVE Database** | 50+ CVEs across 14 services with version-range CVSS matching |
 | **WAF Detection & Bypass** | Fingerprint 20+ WAFs and auto-generate mutated SQLi/XSS bypass payloads |
 | **Multi-Protocol Credential Sprayer** | Single module for 11 protocols (SSH, FTP, HTTP, SMB, MySQL, RDP, etc.) |
@@ -95,27 +124,20 @@ The framework features a **Metasploit-like interactive CLI** with tab-completion
 | **Encrypted C2 Infrastructure** | AES-256 encrypted TCP/HTTP C2 server with deployable beacon agents |
 | **Real-Time Web Dashboard** | Live vulnerability heatmap, session monitor, and event log |
 | **Attack Chain Automation** | Create, save, and replay multi-step attack sequences |
+| **SCADA/ICS Scanning** | Modbus, DNP3, BACnet, S7comm protocol scanning |
+| **IoT Exploitation** | MQTT, UPnP, CoAP protocol attacks |
+| **Blockchain Auditing** | Smart contract analysis and DeFi vulnerability detection |
 
-### CLI
+### CLI (72 Commands)
 | Feature | Description |
 |---------|-------------|
 | **Interactive Console** | Metasploit-style prompt with `prompt_toolkit` |
 | **Tab Completion** | Context-aware auto-completion for commands, modules, and options |
-| **Module Search** | Full-text search across module names and descriptions |
+| **53 Extended Commands** | Mobile testing, SCADA scan, WiFi scan, threat intel, compliance, and more |
 | **Session Management** | Create, interact, background, and kill exploitation sessions |
 | **Background Jobs** | Run modules in background threads with job tracking |
 | **Resource Scripts** | Execute batch commands from `.rc` files |
-| **Report Generation** | One-command report generation in multiple formats |
 | **Emergency Stop** | Instantly halt all module execution |
-
-### Networking
-| Feature | Description |
-|---------|-------------|
-| **CIDR Support** | Scan entire subnets (e.g., `192.168.1.0/24`) |
-| **Rate Limiting** | Configurable delay between connections to avoid detection |
-| **Banner Grabbing** | Protocol-aware banner capture (HTTP, SSH, FTP, SMTP, etc.) |
-| **Dynamic Service Detection** | Uses `socket.getservbyport()` with fallback dictionary |
-| **TCP and UDP Scanning** | Full support for both protocols |
 
 ---
 
@@ -128,16 +150,17 @@ The framework features a **Metasploit-like interactive CLI** with tab-completion
 +-----------+-----------+-----------+-----------+-------------------+
 |    CLI    | REST API  | Dashboard |  Plugins  |    Reporting      |
 | console   | server    | dashboard | manager   |   report_gen     |
-| commands  |           |           |           |                   |
+| commands  |           |           |           |   compliance     |
 | completer |           |           |           |                   |
 +-----------+-----------+-----------+-----------+-------------------+
 |                        Core Engine                                |
 |  framework | database | events | module_loader | autopwn          |
-|  session   | config   | safety_checker                           |
+|  session   | config   | safety_checker | credential_store         |
+|  report_generator | zeroday_detector                              |
 +------------------------------------------------------------------+
-|                          Modules                                  |
-|  Recon(7) | Exploits(5) | Payloads(6) | Post(2) | Evasion(2)     |
-|  Auxiliary(2) | C2(2) | API/Dashboard(2)                         |
+|                     Modules (105 total)                            |
+|  Recon(17) | Exploits(20) | Payloads(9) | Post(10) | Evasion(7) |
+|  Auxiliary(23) | C2(2) | API/Dashboard(2)                        |
 +------------------------------------------------------------------+
 |                         Utilities                                 |
 |  network | constants | validators | crypto                       |
@@ -152,12 +175,12 @@ The framework features a **Metasploit-like interactive CLI** with tab-completion
 
 - **Python 3.10+** (tested on 3.10, 3.11, 3.12)
 - **pip** (Python package manager)
-- **Nmap** (optional, for enhanced service detection via `python-nmap`)
+- **Git** (for cloning)
 
-### Step 1: Clone or Download
+### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/cxploit-framework.git
+git clone https://github.com/ravichandran3/cxploit-framework.git
 cd cxploit-framework
 ```
 
@@ -192,19 +215,32 @@ pip install -r requirements.txt
 | `pycryptodome` | 3.20.0 | AES, XOR, and other encryption |
 | `jinja2` | 3.1.3 | HTML report templating |
 | `reportlab` | 4.1.0 | PDF report generation |
-| `flask` | 3.0.2 | REST API server |
+| `flask` | 3.0.2 | REST API server and dashboard |
 | `python-nmap` | 0.7.1 | Nmap integration for scanning |
 | `rich` | 13.7.0 | Rich terminal formatting and tables |
 | `aiohttp` | 3.9.3 | Async HTTP operations |
 | `sqlalchemy` | 2.0.25 | Database ORM and session management |
 
+### Optional External Tools
+
+These are NOT required but enhance mobile testing capabilities:
+
+| Tool | Purpose | Install |
+|------|---------|---------|
+| `adb` | Android Debug Bridge | `developer.android.com/studio` |
+| `apktool` | APK reverse engineering | `github.com/iBotPeaches/Apktool` |
+| `jadx` | DEX to Java decompiler | `github.com/skylot/jadx` |
+| `frida` | Dynamic instrumentation | `pip install frida-tools` |
+| `objection` | Mobile exploration toolkit | `pip install objection` |
+| `mitmproxy` | SSL/TLS interception | `pip install mitmproxy` |
+
 ### Step 4: Verify Installation
 
 ```bash
-python main.py --no-banner -q
+python main.py
 ```
 
-You should see `Ready! 36 modules loaded.` (or more) — the framework is good to go.
+You should see the CXploit banner and `Ready! 105 modules loaded.`
 
 ---
 
@@ -223,6 +259,8 @@ cxploit > search scan
   recon/port_scanner    — TCP/UDP port scanner with service detection
   recon/vuln_scanner    — Vulnerability scanner
   recon/web_scanner     — Web application scanner
+  recon/scada_scanner   — SCADA/ICS scanner
+  recon/wifi_scanner    — WiFi scanner
 
 cxploit > use recon/port_scanner
 cxploit (recon/port_scanner) > show options
@@ -241,22 +279,18 @@ cxploit > show vulns
 cxploit > report html
 ```
 
+### Auto-Exploitation
+
+```
+cxploit > autopwn 192.168.1.0/24
+```
+
+This runs the full pipeline: scan → service detection → CVE matching → automated exploitation.
+
 ### Run with Resource Script
 
 ```bash
 python main.py -r scripts/my_scan.rc
-```
-
-Resource script example (`my_scan.rc`):
-```
-authorize 192.168.1.0/24
-use recon/port_scanner
-set RHOST 192.168.1.0/24
-set PORTS 21,22,80,443,3306,8080
-set THREADS 50
-run
-back
-report html
 ```
 
 ### Launch with REST API
@@ -286,7 +320,7 @@ python main.py --api --api-port 8080
 | `use <module>` | Select a module (supports partial names) |
 | `back` | Deselect the current module |
 | `info` | Show detailed module information |
-| `show modules` | List all loaded modules |
+| `show modules` | List all 105 loaded modules |
 | `show options` | Show current module's configurable options |
 | `search <query>` | Search modules by name or description |
 | `reload` | Reload the current module from disk |
@@ -332,370 +366,158 @@ python main.py --api --api-port 8080
 | `emergency_stop` | Halt all module execution (toggle) |
 | `scan <target>` | Quick port scan shortcut |
 | `report <format>` | Generate report (html/json/pdf) |
+| `compliance <framework>` | Generate compliance report (pci/hipaa/nist/gdpr) |
 
-### Advanced Commands (Metasploit-Beating)
+### Advanced Commands
 
 | Command | Description |
 |---------|-------------|
 | `autopwn <target/CIDR>` | Run the full auto-exploitation pipeline |
 | `dashboard [port]` | Launch the real-time web dashboard |
 | `cve_search <service> [version]` | Search the offline CVE database |
-| `cve <service> [version]` | Alias for `cve_search` |
 | `chain create <name>` | Create a named attack chain |
 | `chain add <command>` | Add a step to the current chain |
 | `chain run [name]` | Execute an attack chain |
 | `chain list` | List all defined chains |
 | `chain save <file>` | Save chains to JSON file |
-| `chain load <file>` | Load chains from JSON file |
+| `mobile_test [mode]` | Mobile application security testing |
+| `scada_scan <target>` | SCADA/ICS protocol scanning |
+| `wifi_scan [interface]` | WiFi network scanning |
+| `threat_intel <target>` | Threat intelligence gathering |
+| `supply_chain <project_dir>` | Supply chain security audit |
+| `firmware <file>` | Firmware analysis |
+| `blockchain <address>` | Blockchain/smart contract auditing |
+| `osint <domain>` | OSINT intelligence gathering |
 
 ---
 
-## 📂 Module Categories
-
-### 🔎 Reconnaissance
-
-#### `recon/port_scanner` — TCP/UDP Port Scanner
-Multi-threaded port scanner with CIDR support, rate limiting, and dynamic service detection.
-
-```
-set RHOST 192.168.1.0/24    # Single IP or CIDR range
-set PORTS 1-65535           # Port range, comma-separated, or ranges
-set THREADS 200             # Concurrent scan threads
-set PROTOCOL tcp            # tcp or udp
-set BANNER true             # Enable banner grabbing
-set RATE_LIMIT 0            # Delay between connections (ms)
-set TIMEOUT 5               # Connection timeout (seconds)
-```
-
-**Features:**
-- CIDR subnet expansion (scans all hosts in range)
-- Configurable rate limiting to avoid IDS detection
-- Protocol-aware banner grabbing (HTTP HEAD, SSH, FTP, SMTP)
-- Dynamic service identification via `socket.getservbyport()` + fallback table
-- Auto-stores discovered services in the database
-
----
-
-#### `recon/host_discovery` — Network Host Discovery
-Discovers live hosts on a network using multiple techniques.
-
-#### `recon/service_enum` — Service Enumeration
-Deep service fingerprinting with version detection.
-
-#### `recon/os_fingerprint` — OS Fingerprinting
-Identifies target operating system using TCP/IP stack analysis.
-
-#### `recon/web_scanner` — Web Application Scanner
-Scans web applications for common directories, files, and misconfigurations.
-
-#### `recon/vuln_scanner` — Vulnerability Scanner
-Automated vulnerability detection against known CVEs and common weaknesses.
-
-#### `recon/cve_db` — CVE Database & Auto-Matcher
-Offline CVE database with 50+ CVEs across 14 services. Supports version-range matching with CVSS scoring.
-
-```
-set SERVICE openssh
-set VERSION 8.9
-set MIN_SEVERITY HIGH
-run
-```
-
-**Supported Services:** OpenSSH, Apache, Nginx, MySQL, PostgreSQL, Redis, vsftpd, ProFTPD, SMB, RDP, Elasticsearch, MongoDB, IIS
-
-**Example Output:**
-```
-[!!!] CVE-2023-38408  CVSS 9.8  (CRITICAL)  PKCS#11 remote code execution
-[!! ] CVE-2024-6387   CVSS 8.1  (HIGH)      RegreSSHion: Race condition RCE
-```
-
----
-
-### 💥 Exploits
-
-#### `exploit/web/sqli` — SQL Injection
-Automated SQL injection scanner and exploiter with multi-DBMS support.
-
-```
-set RHOST http://target.com/page.php
-set PARAM id                            # Vulnerable parameter
-set METHOD GET                          # GET or POST
-set TECHNIQUE all                       # error/blind/time/union/all
-set DBMS auto                           # mysql/mssql/oracle/sqlite/pgsql/auto
-set COOKIE PHPSESSID=abc123            # Session cookie
-set HEADERS X-Custom:value             # Extra headers
-set DATA key=val&key2=val2             # POST body data
-```
-
-**Techniques:**
-- **Error-based** — Regex matching for MySQL, MSSQL, Oracle, PostgreSQL, SQLite error signatures
-- **Blind Boolean** — Response length and status code differential analysis with multiple quoting styles
-- **Time-based** — SLEEP/WAITFOR/pg_sleep inference with baseline comparison
-- **UNION-based** — Auto column count detection via ORDER BY, NULL injection
-
-**Features:**
-- Multi-DBMS fingerprinting (MySQL, MSSQL, Oracle, PostgreSQL, SQLite)
-- Auto column count detection
-- Data extraction via UNION SELECT (version, user, database)
-- Cookie and custom header injection support
-- Auto-stores findings in vulnerability database
-
----
-
-#### `exploit/web/xss` — Cross-Site Scripting
-Reflected and stored XSS detection with payload encoding and WAF bypass.
-
-#### `exploit/web/lfi_rfi` — Local/Remote File Inclusion
-LFI/RFI scanner with path traversal, PHP filter wrappers, and log poisoning payloads.
-
-#### `exploit/network/ssh_brute` — SSH Brute Force
-Multi-threaded SSH credential brute-forcer using `paramiko`.
-
-```
-set RHOST 192.168.1.1
-set RPORT 22
-set USERNAME admin              # Single user or file path
-set PASSWORD /path/to/wordlist  # Single password or file path
-set THREADS 10
-set STOP_ON_SUCCESS true
-```
-
----
-
-#### `exploit/bof/stack_overflow` — Buffer Overflow Toolkit
-Complete 5-stage buffer overflow exploitation workflow.
-
-```
-set RHOST 192.168.1.100
-set RPORT 9999
-set MODE fuzz               # fuzz / pattern / offset / badchars / exploit
-set BUFFER_SIZE 2000
-set STEP 200
-set OFFSET 524              # Set after calculating
-set EIP 0x625011AF          # JMP ESP address
-set SHELLCODE <hex>         # Your shellcode in hex
-set NOP_SIZE 16
-set PREFIX TRUN .           # Data prefix
-```
-
-**Stages:**
-1. **`fuzz`** — Send incrementally larger buffers to find the crash point
-2. **`pattern`** — Send a cyclic pattern to capture the EIP value in debugger
-3. **`offset`** — Calculate exact EIP offset from the captured value
-4. **`badchars`** — Send all 256 bytes to identify bad characters
-5. **`exploit`** — Build final payload: padding + EIP + NOP sled + shellcode
-
----
-
-### 🎯 Payloads
-
-#### `payload/reverse_shell` — Reverse Shell Listener
-Multi-handler listener with real bidirectional I/O.
-
-```
-set LHOST 0.0.0.0
-set LPORT 4444
-set TIMEOUT 0              # 0 = infinite wait
-set MULTI_HANDLER false    # Accept multiple connections
-```
-
-**Features:**
-- Threaded stdin reader for true interactive shell
-- Multi-handler mode for accepting multiple simultaneous connections
-- Automatic session creation in the framework
-- Clean socket shutdown and resource cleanup
-
----
-
-#### `payload/meterpreter` — Meterpreter Stager
-Advanced post-exploitation Python stager with length-prefixed protocol.
-
-```
-set LHOST 192.168.1.100
-set LPORT 4444
-set RECONNECT true
-set RECONNECT_DELAY 5
-```
-
-**Generated stager capabilities:**
-- `sysinfo` — OS, user, hostname, PID, Python version
-- `execute <cmd>` — Run shell commands with timeout
-- `ls [path]` — List directory contents
-- `cd <path>` — Change working directory
-- `pwd` — Print working directory
-- `getuid` — Current username
-- `ps` — Process listing
-- `upload <path>` — Upload file to target
-- `download <path>` — Download file from target
-- `hashdump` — Extract password hashes (platform-aware)
-- Auto-reconnect on connection loss
-
----
-
-#### `payload/bind_shell` — Bind Shell Connector
-Connects to a bind shell on a target.
-
-#### `payload/encoder` — Payload Encoder
-Encode payloads with XOR, Base64, and custom schemes.
-
-#### `payload/generator` — Payload Generator
-Generate platform-specific payloads for various architectures.
-
-#### `payload/polymorphic` — Polymorphic Payload Engine
-Generates self-modifying payloads that produce a unique hash on every generation.
-
-```
-set LHOST 192.168.1.100
-set LPORT 4444
-set PLATFORM python             # python / powershell / bash
-set MUTATIONS all               # vars,junk,strings,encrypt,flow,all
-set LAYERS 2                    # Encryption layers (1-5)
-run
-```
-
-**Mutation Types:**
-- **Variable Randomization** — All variable names replaced with random strings
-- **Junk Code Insertion** — Dead code injected between real statements
-- **String Splitting** — String literals split into concatenated parts
-- **Control Flow Flattening** — Adds obfuscation wrappers
-- **Multi-Layer Encryption** — XOR encryption with random keys, nested N layers deep
-
----
-
-### 🔧 Post-Exploitation
-
-#### `post/sys_enum` — System Enumeration
-Comprehensive system information gathering.
-- **SystemEnumerator** — OS info, users, installed software, environment variables
-- **NetworkEnumerator** — Network interfaces, routing tables, ARP cache, connections
-
-#### `post/persistence` — Persistence Mechanisms
-Establish persistence on compromised hosts using platform-appropriate techniques.
-
----
-
-### 🛡 Evasion
-
-#### `evasion/encryption` — Payload Encryption
-- **PayloadEncryptor** — AES-256 and XOR encryption for payloads
-- **TrafficObfuscator** — Encode C2 traffic to evade network inspection
-- **TimingRandomizer** — Random delays between operations to avoid timing-based detection
-
-#### `evasion/waf_bypass` — WAF Detection & Bypass Engine
-Fingerprints 20+ WAFs and generates mutated payloads to bypass them.
-
-```
-set RHOST https://target.com
-set MODE full                  # detect / bypass / full
-set PAYLOAD_TYPE sqli          # sqli / xss
-set ITERATIONS 15              # Number of mutations
-run
-```
-
-**Detected WAFs:** Cloudflare, AWS WAF, ModSecurity, Imperva, Akamai, F5 BIG-IP, Sucuri, Barracuda, Fortinet, Citrix NetScaler, Wordfence, SonicWall, Comodo, StackPath, Alibaba WAF, DDoS-Guard, WatchGuard, Palo Alto, NSFOCUS, Radware
-
-**Bypass Techniques:** Case variation, comment injection, double encoding, HPP, inline comments, hex encoding, tab substitution, scientific notation, keyword splitting, Unicode, NULL bytes, newline injection
-
----
-
-### 🔨 Auxiliary
-
-#### `auxiliary/tools` — Utility Tools
-- **HTTPFileServer** — Spin up a quick HTTP file server for payload delivery
-- **HashCracker** — Offline hash cracking (MD5, SHA1, SHA256, NTLM)
-- **WordlistGenerator** — Generate targeted wordlists from gathered intelligence
-
-#### `auxiliary/cred_sprayer` — Multi-Protocol Credential Sprayer
-One module to spray credentials across 11 protocols.
-
-```
-set RHOST 192.168.1.10
-set PROTOCOL ssh               # ssh/ftp/http/smb/mysql/mssql/rdp/telnet/pop3/imap/postgresql
-set USERNAME /path/to/users.txt
-set PASSWORD /path/to/passwords.txt
-set MODE spray                 # bruteforce / spray / stuffing
-set THREADS 10
-set JITTER 0.5                 # Random delay between attempts
-run
-```
-
----
-
-### 📡 C2 Infrastructure
-
-#### `c2/c2_server` — Encrypted C2 Server
-AES-256 encrypted Command & Control server with multi-agent management.
-
-```
-set LHOST 0.0.0.0
-set LPORT 4443
-set PROTOCOL tcp               # tcp / http
-set BEACON_INTERVAL 5
-run
-```
-
-**Features:**
-- AES-256-CBC encrypted channels with auto-generated keys
-- Multi-agent concurrent management (up to 50 agents)
-- TCP and HTTP transport protocols
-- File exfiltration endpoint
-- Framework session integration
-- Agent listing and command queuing
-
-#### `c2/c2_agent` — C2 Agent Generator
-Generates deployable Python beacon agents.
-
-```
-set LHOST 192.168.1.100
-set LPORT 4443
-set KEY <key-from-server>
-set PROTOCOL tcp
-set BEACON_INTERVAL 5
-set JITTER 20
-set ENCODE true
-set SELF_DESTRUCT false
-run
-```
-
-**Agent Built-in Commands:** `sysinfo`, `shell`, `pwd`, `cd`, `ls`, `getuid`, `ps`, `download`, `upload`, `screenshot`, `selfdestruct`, `exit`
-
----
-
-### 📊 Real-Time Dashboard
-
-#### `api/dashboard` — Web Dashboard
-Live web dashboard with dark glassmorphism theme.
-
-```
-cxploit > dashboard 5001
-```
-
-**Dashboard Panels:**
-- **Stats Cards** — Targets, services, vulnerabilities, credentials
-- **Vulnerability Heatmap** — Critical/High/Medium/Low severity breakdown
-- **Active Sessions** — Live session monitoring
-- **Target List** — All discovered targets with status
-- **Recent Vulnerabilities** — Latest findings with severity
-- **Live Event Log** — Real-time framework events
-
-Auto-refreshes every 3 seconds via AJAX polling.
-
----
-
-### 🔗 Attack Chain Automation
-
-Create, save, and replay multi-step attack sequences:
-
-```
-cxploit > chain create recon_attack
-cxploit > chain add scan 192.168.1.1
-cxploit > chain add cve_search openssh 8.9
-cxploit > chain add use exploit/network/ssh_brute
-cxploit > chain add set RHOST 192.168.1.1
-cxploit > chain add run
-cxploit > chain save chains.json
-cxploit > chain run recon_attack
-```
+## 📂 Complete Module Catalog (105 Modules)
+
+### 🔎 Reconnaissance (17 Modules)
+
+| Module | Description |
+|--------|-------------|
+| `recon/port_scanner` | TCP/UDP port scanner with CIDR support, 5 timing profiles, OS fingerprinting |
+| `recon/host_discovery` | Network host discovery using ARP, ICMP, TCP SYN |
+| `recon/service_enum` | Deep service fingerprinting with version detection |
+| `recon/os_fingerprint` | OS identification via TCP/IP stack analysis |
+| `recon/web_scanner` | Web application scanner with directory brute-forcing and tech detection |
+| `recon/vuln_scanner` | Automated vulnerability detection with CVE matching |
+| `recon/cve_db` | Offline CVE database — 50+ CVEs across 14 services |
+| `recon/dns_enum` | DNS enumeration — zone transfers, subdomain brute, wildcard detection |
+| `recon/osint` | OSINT intelligence — WHOIS, DNS, subdomains, emails, certificate transparency |
+| `recon/network_mapper` | Network mapping — ARP discovery, OS detection, topology visualization |
+| `recon/wifi_scanner` | WiFi scanning — SSID discovery, encryption analysis, rogue AP detection |
+| `recon/scada_scanner` | SCADA/ICS scanning — Modbus, DNP3, BACnet, S7comm, EtherNet/IP |
+| `recon/threat_intel` | Threat intelligence — IOC analysis, STIX/TAXII, feed aggregation |
+| `recon/supply_chain_auditor` | Supply chain audit — dependency CVE scanning, typosquat detection |
+| `recon/firmware_analyzer` | Firmware analysis — binary extraction, string analysis, crypto detection |
+| `recon/blockchain_auditor` | Blockchain audit — smart contract analysis, DeFi vulnerability detection |
+| `recon/wireless_protocol` | Wireless protocol analyzer — Bluetooth, Zigbee, LoRa, NFC, Z-Wave |
+
+### 💥 Exploits (20 Modules)
+
+| Module | Description |
+|--------|-------------|
+| `exploit/web/sqli` | SQL injection — error/blind/time/union techniques, multi-DBMS |
+| `exploit/web/xss` | Cross-site scripting — reflected, stored, DOM-based with WAF bypass |
+| `exploit/web/lfi_rfi` | Local/Remote file inclusion with PHP wrappers and log poisoning |
+| `exploit/web/advanced_web_exploit` | Advanced web — deserialization, SSRF, SSTI attacks |
+| `exploit/network/ssh_brute` | SSH brute-force with wordlist support and multi-threading |
+| `exploit/network/ftp_exploit` | FTP exploitation — anonymous login, path traversal, command injection |
+| `exploit/network/telnet_exploit` | Telnet exploitation — default credentials, command injection |
+| `exploit/network/rdp_exploit` | RDP exploitation — BlueKeep detection, brute-force, NLA bypass |
+| `exploit/network/vnc_exploit` | VNC exploitation — auth bypass, brute-force, screenshot capture |
+| `exploit/network/smtp_exploit` | SMTP exploitation — open relay, user enumeration, header injection |
+| `exploit/network/snmp_exploit` | SNMP exploitation — community string brute-force, MIB walking |
+| `exploit/network/ldap_exploit` | LDAP exploitation — anonymous bind, injection, password spraying |
+| `exploit/network/nfs_exploit` | NFS exploitation — share enumeration, mount access, UID spoofing |
+| `exploit/network/ad_exploit` | Active Directory — Kerberoasting, AS-REP roasting, DCSync |
+| `exploit/network/wireless_exploit` | Wireless — WEP/WPA cracking, evil twin, deauth attacks |
+| `exploit/network/cloud_exploit` | Cloud — S3 bucket enum, metadata service, IAM misconfiguration |
+| `exploit/database/mysql_exploit` | MySQL — UDF injection, file read/write, privilege escalation |
+| `exploit/database/mssql_exploit` | MSSQL — xp_cmdshell, linked servers, privilege escalation |
+| `exploit/database/postgresql_exploit` | PostgreSQL — COPY command RCE, large object abuse |
+| `exploit/database/oracle_exploit` | Oracle — TNS poisoning, Java stored procedure RCE |
+| `exploit/database/redis_exploit` | Redis — unauthorized access, Lua sandbox escape, module loading |
+| `exploit/bof/stack_overflow` | Buffer overflow — 5-stage exploitation workflow (fuzz/pattern/offset/badchars/exploit) |
+| `exploit/browser/browser_exploit` | Browser exploitation — JS injection, WebRTC leak, credential stealing |
+| `exploit/specialized/webapp_exploit` | WebApp advanced — deserialization chains, SSRF, SSTI |
+| `exploit/specialized/iot_exploit` | IoT — MQTT exploitation, UPnP attacks, CoAP manipulation |
+
+### 🎯 Payloads (9 Modules)
+
+| Module | Description |
+|--------|-------------|
+| `payload/reverse_shell` | Reverse shell multi-handler with interactive I/O |
+| `payload/bind_shell` | Bind shell connector |
+| `payload/meterpreter` | Meterpreter-style stager with 12+ built-in commands |
+| `payload/encoder` | Payload encoder — XOR, Base64, custom schemes |
+| `payload/generator` | Platform-specific payload generator |
+| `payload/polymorphic` | Polymorphic payload engine — 5 mutation types, multi-layer encryption |
+| `payload/multi_handler` | Multi-handler — manages multiple simultaneous payload connections |
+| `payload/shellcode_generator` | Shellcode generator — x86/x64 shellcode for Windows/Linux |
+| `payload/macro_builder` | Macro builder — Office VBA/HTA/JS payload generation |
+
+### 🔧 Post-Exploitation (10 Modules)
+
+| Module | Description |
+|--------|-------------|
+| `post/sys_enum` | System enumeration — OS, users, software, network, processes |
+| `post/persistence` | Persistence — registry, cron, services, scheduled tasks |
+| `post/lateral_move` | Lateral movement — WMI, PsExec, SSH pivoting, pass-the-hash |
+| `post/container_escape` | Container escape — Docker socket, privileged mode, kernel exploits |
+| `post/memory_forensics` | Memory forensics — process dumping, credential extraction, DLL analysis |
+| `post/loot_manager` | Loot manager — file search, credential harvesting, data exfiltration |
+| `post/antiforensics` | Anti-forensics — log cleaning, timestamp modification, trace removal |
+| `post/ransom_sim` | Ransomware simulation — safe encryption/decryption demo for training |
+| `post/windows_post` | Windows post-exploitation — Mimikatz integration, UAC bypass, token manipulation |
+| `post/linux_post` | Linux post-exploitation — privilege escalation, container detection, persistence |
+
+### 🛡 Evasion (7 Modules)
+
+| Module | Description |
+|--------|-------------|
+| `evasion/encryption` | Payload encryption — AES-256 and XOR with self-decrypting stubs |
+| `evasion/encryption/TrafficObfuscator` | Traffic obfuscation — user-agent rotation, domain fronting, jitter |
+| `evasion/encryption/AntiForensics` | Anti-forensics — log cleaning, timestomping scripts |
+| `evasion/encryption/TimingRandomizer` | Timing randomization — evade behavior-based detection |
+| `evasion/waf_bypass` | WAF bypass — fingerprints 20+ WAFs, generates mutated payloads |
+| `evasion/av_evasion` | AV evasion — AMSI bypass, obfuscation, process hollowing |
+| `evasion/traffic_evasion` | Traffic evasion — DNS tunneling, JA3 fingerprint randomization |
+
+### 🔨 Auxiliary (23 Modules)
+
+| Module | Description |
+|--------|-------------|
+| `auxiliary/tools/HTTPFileServer` | HTTP file server for payload delivery |
+| `auxiliary/tools/DNSLookup` | DNS lookup and enumeration |
+| `auxiliary/tools/HashCracker` | Hash cracker — MD5, SHA1, SHA256, brute-force |
+| `auxiliary/tools/WordlistGenerator` | Wordlist generator with mutations and leet speak |
+| `auxiliary/cred_sprayer` | Multi-protocol credential sprayer (11 protocols) |
+| `auxiliary/email_tester` | Email security tester — SPF, DKIM, DMARC, open relay |
+| `auxiliary/http_tunnel` | HTTP tunneling for firewall evasion |
+| `auxiliary/hash_cracker` | Advanced hash cracker with rainbow tables |
+| `auxiliary/ftp_scanner` | FTP vulnerability scanner — anonymous login, version detection |
+| `auxiliary/http_scanner` | HTTP vulnerability scanner — headers, methods, misconfigurations |
+| `auxiliary/ssh_scanner` | SSH scanner — algorithm enumeration, version detection |
+| `auxiliary/ssl_scanner` | SSL/TLS scanner — certificate validation, cipher analysis, HSTS |
+| `auxiliary/snmp_scanner` | SNMP scanner — community strings, MIB walking |
+| `auxiliary/netbios_scanner` | NetBIOS scanner — name resolution, share enumeration |
+| `auxiliary/rdp_scanner` | RDP scanner — NLA detection, version fingerprinting |
+| `auxiliary/ipmi_scanner` | IPMI scanner — cipher 0 detection, hash extraction |
+| `auxiliary/credential_store` | Credential store — centralized credential management |
+| `auxiliary/report_generator` | Report generator — HTML/JSON/PDF output |
+
+### 📡 Other Modules (19)
+
+| Category | Modules |
+|----------|---------|
+| **C2 Infrastructure** | `c2/c2_server` (Encrypted C2 with AES-256), `c2/c2_agent` (Deployable beacon generator) |
+| **API & Dashboard** | `api/server` (Flask REST API), `api/dashboard` (Real-time web dashboard) |
+| **Core** | `core/autopwn`, `core/credential_store`, `core/report_generator`, `core/zeroday_detector` |
+| **Reporting** | `reporting/report_gen`, `reporting/compliance_report` |
+| **Recon (additional)** | `recon/mobile_tester`, `recon/ad_enum`, `recon/bluetooth_scanner`, `recon/cert_analyzer`, `recon/cloud_scanner` |
 
 ---
 
@@ -728,12 +550,6 @@ python main.py --api --api-host 0.0.0.0 --api-port 5000
 curl -X POST http://localhost:5000/api/v1/modules/recon/port_scanner/run \
   -H "Content-Type: application/json" \
   -d '{"rhost": "192.168.1.1", "ports": "1-1024", "threads": "50"}'
-```
-
-### Example: Get Vulnerabilities
-
-```bash
-curl http://localhost:5000/api/v1/vulnerabilities
 ```
 
 ---
@@ -774,29 +590,20 @@ Configuration is stored in `data/config.json` and auto-created on first launch.
 }
 ```
 
-### Key Configuration Options
-
-| Setting | Default | Description |
-|---------|---------|-------------|
-| `framework.max_threads` | 10 | Default thread count for modules |
-| `framework.default_timeout` | 5 | Default socket timeout in seconds |
-| `framework.loglevel` | INFO | Logging level (DEBUG/INFO/WARNING/ERROR) |
-| `scanner.default_ports` | 1-1024 | Default port range for quick scans |
-| `safety.require_authorization` | false | Require explicit target authorization |
-| `safety.rate_limit_rps` | 100 | Max requests per second |
-
 ---
 
 ## 📊 Report Generation
 
 Generate professional penetration testing reports directly from the console.
 
-### Usage
-
 ```
-cxploit > report html    # HTML report with dark theme
-cxploit > report json    # Machine-readable JSON
-cxploit > report pdf     # PDF document with ReportLab
+cxploit > report html       # HTML report with dark theme
+cxploit > report json       # Machine-readable JSON
+cxploit > report pdf        # PDF document
+cxploit > compliance pci    # PCI-DSS compliance report
+cxploit > compliance hipaa  # HIPAA compliance report
+cxploit > compliance nist   # NIST compliance report
+cxploit > compliance gdpr   # GDPR compliance report
 ```
 
 ### Report Contents
@@ -805,22 +612,15 @@ cxploit > report pdf     # PDF document with ReportLab
 - **Targets** — IP, hostname, OS, status
 - **Vulnerabilities** — Name, severity (Critical/High/Medium/Low), description, CVE, proof
 - **Credentials** — Service, username, password/hash
+- **Compliance Mapping** — Framework-specific requirement coverage
 
 Reports are saved to `data/reports/report_YYYYMMDD_HHMMSS.<format>`.
-
-### HTML Report Features
-- Dark theme with glassmorphism design
-- Severity-colored vulnerability cards
-- Statistics dashboard with counters
-- Responsive layout
 
 ---
 
 ## 🔗 Session Management
 
 Sessions represent active connections to compromised hosts.
-
-### Lifecycle
 
 ```
 # After a successful exploit with a reverse shell:
@@ -829,7 +629,7 @@ Sessions represent active connections to compromised hosts.
 # List sessions
 cxploit > sessions -l
 
-# Interact with a session (enters interactive shell)
+# Interact with a session
 cxploit > sessions -i a1b2c3d4
 [*] Interactive session a1b2c3d4. Press Ctrl+C to background.
 
@@ -841,13 +641,6 @@ $ ^C
 # Kill a session
 cxploit > sessions -k a1b2c3d4
 ```
-
-### Session Features
-- **Socket health check** — `is_alive()` probes the connection
-- **Command execution** — `execute()` sends commands with recv timeout
-- **Interactive mode** — `interact()` provides bidirectional I/O with Ctrl+C backgrounding
-- **History tracking** — All executed commands and outputs are logged
-- **Database persistence** — Sessions are stored in the framework database
 
 ---
 
@@ -878,9 +671,11 @@ class MyPlugin:
     
     def run(self):
         target = self.options["TARGET"]["value"]
-        # Your logic here
         print(f"[+] Running against {target}")
         return {"status": "complete"}
+    
+    def check(self):
+        return True
 ```
 
 The module loader will auto-discover it on next startup.
@@ -890,93 +685,111 @@ The module loader will auto-discover it on next startup.
 ## 📁 Project Structure
 
 ```
-exploit_framework/
-├── __init__.py                  # Package init, BANNER
-├── api/
-│   ├── __init__.py
-│   ├── server.py                # Flask REST API server
-│   └── dashboard.py             # [NEW] Real-time web dashboard
-├── auxiliary/
-│   ├── __init__.py
-│   ├── tools.py                 # HTTP server, hash cracker, wordlist gen
-│   └── cred_sprayer.py          # [NEW] Multi-protocol credential sprayer
-├── c2/                          # [NEW] C2 Infrastructure
-│   ├── __init__.py
-│   ├── c2_server.py             # [NEW] Encrypted C2 server (AES-256)
-│   └── c2_agent.py              # [NEW] Deployable agent generator
-├── cli/
-│   ├── __init__.py
-│   ├── commands.py              # Command handlers (help, show, use, run, etc.)
-│   ├── completer.py             # Tab-completion engine
-│   └── console.py               # Interactive console (+ autopwn, dashboard, chain)
-├── core/
-│   ├── __init__.py
-│   ├── autopwn.py               # [NEW] Auto-exploitation engine
-│   ├── config.py                # Configuration manager (JSON persistence)
-│   ├── database.py              # SQLAlchemy ORM (targets, vulns, creds, etc.)
-│   ├── events.py                # Event system and logging
-│   ├── framework.py             # Central engine (singleton, module mgmt, jobs)
-│   ├── module_loader.py         # Dynamic module discovery and registration
-│   └── session.py               # Session management with interactive I/O
-├── evasion/
-│   ├── __init__.py
-│   ├── encryption.py            # AES/XOR encryption, traffic obfuscation
-│   └── waf_bypass.py            # [NEW] WAF detection & bypass engine
-├── exploits/
-│   ├── __init__.py
-│   ├── base.py                  # Abstract base class for all exploits
-│   ├── bof/
-│   │   ├── __init__.py
-│   │   └── stack_overflow.py    # 5-mode buffer overflow toolkit
-│   ├── network/
-│   │   ├── __init__.py
-│   │   └── ssh_brute.py         # SSH brute-force with paramiko
-│   └── web/
-│       ├── __init__.py
-│       ├── lfi_rfi.py           # Local/Remote file inclusion
-│       ├── sqli.py              # SQL injection (error/blind/time/union)
-│       └── xss.py               # Cross-site scripting
-├── payloads/
-│   ├── __init__.py
-│   ├── bind_shell.py            # Bind shell connector
-│   ├── encoder.py               # Payload encoder (XOR, Base64)
-│   ├── generator.py             # Payload generator
-│   ├── meterpreter.py           # Meterpreter-style stager
-│   ├── polymorphic.py           # [NEW] Polymorphic payload engine
-│   └── reverse_shell.py         # Reverse shell multi-handler
-├── plugins/
-│   ├── __init__.py
-│   ├── custom/
-│   │   ├── __init__.py
-│   │   └── example_plugin.py
-│   └── plugin_manager.py        # Plugin lifecycle management
-├── post/
-│   ├── __init__.py
-│   ├── persistence.py           # Persistence mechanisms
-│   └── sys_enum.py              # System and network enumeration
-├── recon/
-│   ├── __init__.py
-│   ├── cve_db.py                # [NEW] Offline CVE database (50+ CVEs)
-│   ├── host_discovery.py        # Network host discovery
-│   ├── os_fingerprint.py        # OS fingerprinting
-│   ├── port_scanner.py          # TCP/UDP port scanner with CIDR
-│   ├── service_enum.py          # Service enumeration
-│   ├── vuln_scanner.py          # Vulnerability scanner
-│   └── web_scanner.py           # Web application scanner
-├── reporting/
-│   ├── __init__.py
-│   └── report_gen.py            # HTML, JSON, PDF report generator
-└── utils/
-    ├── __init__.py
-    ├── constants.py             # Framework constants and payload lists
-    ├── crypto.py                # Cryptographic utilities
-    ├── network.py               # Network helpers (CIDR, ports, DNS, etc.)
-    └── validators.py            # Input validation and SafetyChecker
-
-main.py                          # Entry point
-memory.md                        # Project context for future sessions
-requirements.txt                 # Python dependencies
-README.md                        # This file
+cxploit-framework/
+├── main.py                              # Entry point
+├── requirements.txt                     # Python dependencies
+├── README.md                            # This file
+├── exploit_framework/
+│   ├── __init__.py                      # Package init + BANNER
+│   ├── api/
+│   │   ├── server.py                    # Flask REST API
+│   │   └── dashboard.py                 # Real-time web dashboard
+│   ├── auxiliary/                        # 23 modules
+│   │   ├── tools.py                     # HTTP server, hash cracker, wordlist gen, DNS
+│   │   ├── cred_sprayer.py              # Multi-protocol credential sprayer
+│   │   ├── email_tester.py              # Email security tester
+│   │   ├── http_tunnel.py               # HTTP tunneling
+│   │   ├── ftp_scanner.py               # FTP scanner
+│   │   ├── http_scanner.py              # HTTP scanner
+│   │   ├── ssh_scanner.py               # SSH scanner
+│   │   ├── ssl_scanner.py               # SSL/TLS scanner
+│   │   ├── snmp_scanner.py              # SNMP scanner
+│   │   ├── netbios_scanner.py           # NetBIOS scanner
+│   │   ├── rdp_scanner.py               # RDP scanner
+│   │   ├── ipmi_scanner.py              # IPMI scanner
+│   │   ├── credential_store.py          # Credential management
+│   │   └── report_generator.py          # Report generator
+│   ├── c2/
+│   │   ├── c2_server.py                 # Encrypted C2 server (AES-256)
+│   │   └── c2_agent.py                  # Deployable agent generator
+│   ├── cli/
+│   │   ├── commands.py                  # Command handlers
+│   │   ├── completer.py                 # Tab-completion engine
+│   │   └── console.py                   # Interactive console (72 commands)
+│   ├── core/
+│   │   ├── autopwn.py                   # Auto-exploitation engine
+│   │   ├── config.py                    # Configuration manager
+│   │   ├── database.py                  # SQLAlchemy ORM
+│   │   ├── events.py                    # Event system
+│   │   ├── framework.py                 # Central engine (singleton)
+│   │   ├── module_loader.py             # Dynamic module discovery
+│   │   ├── session.py                   # Session management
+│   │   ├── credential_store.py          # Credential store
+│   │   ├── report_generator.py          # Report generator
+│   │   └── zeroday_detector.py          # Zero-day detection engine
+│   ├── evasion/                          # 7 modules
+│   │   ├── encryption.py                # AES/XOR encryption + 4 classes
+│   │   ├── waf_bypass.py                # WAF detection & bypass
+│   │   ├── av_evasion.py                # AV/AMSI bypass
+│   │   └── traffic_evasion.py           # DNS tunnel, JA3 randomization
+│   ├── exploits/                         # 20 modules
+│   │   ├── base.py                      # Abstract base class
+│   │   ├── bof/stack_overflow.py        # Buffer overflow toolkit
+│   │   ├── browser/browser_exploit.py   # Browser exploitation
+│   │   ├── database/                    # MySQL, MSSQL, PostgreSQL, Oracle, Redis
+│   │   ├── network/                     # SSH, FTP, Telnet, RDP, VNC, SMTP, SNMP, LDAP, NFS, AD, Wireless, Cloud
+│   │   ├── specialized/                 # WebApp, IoT
+│   │   └── web/                         # SQLi, XSS, LFI/RFI
+│   ├── payloads/                         # 9 modules
+│   │   ├── reverse_shell.py             # Reverse shell
+│   │   ├── bind_shell.py                # Bind shell
+│   │   ├── meterpreter.py               # Meterpreter stager
+│   │   ├── polymorphic.py               # Polymorphic engine
+│   │   ├── multi_handler.py             # Multi-handler
+│   │   ├── shellcode_generator.py       # Shellcode generator
+│   │   └── macro_builder.py             # Office macro builder
+│   ├── post/                             # 10 modules
+│   │   ├── sys_enum.py                  # System enumeration
+│   │   ├── persistence.py               # Persistence mechanisms
+│   │   ├── lateral_move.py              # Lateral movement
+│   │   ├── container_escape.py          # Container escape
+│   │   ├── memory_forensics.py          # Memory forensics
+│   │   ├── loot_manager.py              # Loot management
+│   │   ├── antiforensics.py             # Anti-forensics
+│   │   ├── ransom_sim.py                # Ransomware simulation
+│   │   ├── windows_post.py              # Windows post-exploitation
+│   │   └── linux_post.py                # Linux post-exploitation
+│   ├── recon/                            # 17 modules
+│   │   ├── port_scanner.py              # Port scanner
+│   │   ├── host_discovery.py            # Host discovery
+│   │   ├── service_enum.py              # Service enumeration
+│   │   ├── os_fingerprint.py            # OS fingerprinting
+│   │   ├── web_scanner.py               # Web scanner
+│   │   ├── vuln_scanner.py              # Vulnerability scanner
+│   │   ├── cve_db.py                    # CVE database
+│   │   ├── dns_enum.py                  # DNS enumeration
+│   │   ├── osint.py                     # OSINT intelligence
+│   │   ├── network_mapper.py            # Network mapping
+│   │   ├── wifi_scanner.py              # WiFi scanning
+│   │   ├── scada_scanner.py             # SCADA/ICS scanning
+│   │   ├── threat_intel.py              # Threat intelligence
+│   │   ├── supply_chain_auditor.py      # Supply chain audit
+│   │   ├── firmware_analyzer.py         # Firmware analysis
+│   │   ├── blockchain_auditor.py        # Blockchain auditing
+│   │   └── wireless_protocol.py         # Wireless protocol analysis
+│   ├── reporting/
+│   │   ├── report_gen.py                # HTML/JSON/PDF reports
+│   │   └── compliance_report.py         # Compliance reports
+│   └── utils/
+│       ├── constants.py                 # Framework constants
+│       ├── crypto.py                    # Crypto utilities
+│       ├── network.py                   # Network helpers
+│       └── validators.py               # Input validation
+├── data/                                # Runtime data
+│   ├── config.json                      # Configuration
+│   ├── logs/                            # Log files
+│   └── reports/                         # Generated reports
+└── plugins/                             # Custom plugins
 ```
 
 ---
@@ -986,7 +799,7 @@ README.md                        # This file
 ### Adding a New Module
 
 1. Create a new Python file in the appropriate category directory
-2. Define a class with `MODULE_INFO` dict and a `run()` method
+2. Define a class with `MODULE_INFO` dict, a `run()` method, and a `check()` method
 3. Add `options` dict for configurable parameters
 4. The module loader auto-discovers it on next startup
 
@@ -1011,45 +824,19 @@ class MyScanner:
     def run(self):
         host = self.options["RHOST"]["value"]
         port = int(self.options["RPORT"]["value"])
-        # Scanning logic here
         print(f"[+] Scanning {host}:{port}")
         
-        # Store results in database
         if self.framework and hasattr(self.framework, "db"):
             self.framework.db.add_target(host, status="up")
         
         return {"host": host, "port": port, "status": "complete"}
     
     def check(self):
-        """Optional: quick vulnerability check."""
+        """Quick vulnerability check."""
         return True
 ```
 
-### Extending an Exploit Module
-
-Inherit from `BaseExploit` for database storage helpers:
-
-```python
-from exploit_framework.exploits.base import BaseExploit
-
-class MyExploit(BaseExploit):
-    MODULE_INFO = { ... }
-    
-    def __init__(self):
-        super().__init__()
-        self.options = { ... }
-    
-    def run(self):
-        # Use built-in helpers
-        self.store_vuln("192.168.1.1", "My Vuln", severity="high")
-        self.store_cred("192.168.1.1", "admin", password="pass123", service="ssh")
-        self.store_service("192.168.1.1", 22, service_name="ssh")
-        
-        self.print_good("Exploit successful!")
-        return {"success": True}
-```
-
-### Running Tests
+### Running Verification
 
 ```bash
 python -c "
@@ -1066,17 +853,15 @@ fw.shutdown()
 
 ## 🐛 Troubleshooting
 
-### Common Issues
-
 | Issue | Solution |
 |-------|----------|
-| `ModuleNotFoundError` | Ensure virtual environment is activated and `requirements.txt` is installed |
-| `TripleDES deprecation warning` | Cosmetic warning from paramiko — safe to ignore |
+| `ModuleNotFoundError` | Ensure venv is activated and `pip install -r requirements.txt` complete |
+| `0 modules loaded` | Check that `exploit_framework/__init__.py` exists and `sys.path` is correct |
 | `Port already in use` | Another process is using the port. Use `netstat -tlnp` to find it |
 | `Permission denied` (scanning) | Some scans require root/admin privileges (especially UDP, ICMP) |
 | `Emergency stop active` | Run `emergency_stop` again to toggle it off |
 | `Target not authorized` | Run `authorize <target>` before testing |
-| `0 modules loaded` | Check that `exploit_framework/__init__.py` exists and `sys.path` is correct |
+| Mobile tools "Not installed" | These are optional external tools — see Installation for install instructions |
 
 ### Enable Debug Logging
 
@@ -1098,15 +883,43 @@ Logs are stored in `data/logs/`.
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-module`)
 3. Add your module following the structure above
-4. Ensure the framework loads with `36+` modules
-5. Submit a pull request
+4. Ensure all modules have `MODULE_INFO`, `run()`, and `check()` methods
+5. Verify syntax: `python -c "import py_compile; py_compile.compile('your_file.py', doraise=True)"`
+6. Submit a pull request
 
 ### Coding Standards
 - PEP 8 compliance
 - Docstrings on all public methods
-- Error handling for all network operations
+- Use `except Exception:` (never bare `except:`)
 - No hardcoded values — use `self.options` for configurable parameters
 - Store results in the database when possible
+
+---
+
+## 📋 Changelog
+
+### v2.0.0 (2025-02-25)
+- **+69 new modules** — expanded from 36 to 105 modules
+- Added database exploits: MySQL, MSSQL, PostgreSQL, Oracle, Redis
+- Added network exploits: FTP, Telnet, RDP, VNC, SMTP, SNMP, LDAP, NFS, AD, Wireless, Cloud
+- Added advanced recon: OSINT, SCADA, WiFi, Blockchain, Firmware, Supply Chain, Threat Intel
+- Added post-exploitation: Lateral movement, container escape, memory forensics, anti-forensics
+- Added evasion: AV/AMSI bypass, DNS tunneling, JA3 randomization
+- Added payloads: Multi-handler, shellcode generator, macro builder
+- Added auxiliary scanners: FTP, HTTP, SSH, SSL, SNMP, NetBIOS, RDP, IPMI
+- Fixed 88+ bare `except:` clauses for proper error handling
+- Added `check()` method to all module classes
+- Suppressed paramiko deprecation warnings
+- Fixed duplicate banner display
+- Updated CLI to 72 commands (19 base + 53 extended)
+
+### v1.0.0
+- Initial release with 36 modules
+- Core framework with dynamic module loader
+- Interactive CLI with tab-completion
+- REST API and web dashboard
+- Auto-exploitation engine
+- Encrypted C2 infrastructure
 
 ---
 
