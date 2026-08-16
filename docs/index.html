@@ -1,0 +1,1485 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CxPloit-Framework — Full Documentation</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{
+  --bg:#0b0f1a;--bg2:#101728;--bg3:#151d33;
+  --card:#131a2e;--card2:#182240;
+  --border:#1c2850;--border2:#253566;
+  --accent:#00ff9d;--accent2:#00c8ff;--accent3:#ff3e6c;--accent4:#ffb800;--accent5:#a855f7;
+  --fg:#e4eaf4;--fg2:#c0c9db;--muted:#5e6d8a;--muted2:#3d4f6f;
+  --success:#00ff9d;--warn:#ffb800;--danger:#ff3e6c;--info:#00c8ff;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:'Inter',sans-serif;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,255,157,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,157,.02) 1px,transparent 1px);background-size:48px 48px;pointer-events:none;z-index:0}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* ── LAYOUT ── */
+.app{display:flex;min-height:100vh;position:relative;z-index:1}
+.sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100;transition:transform .3s}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.main{margin-left:280px;flex:1;min-height:100vh}
+
+/* ── SIDEBAR ── */
+.sb-logo{padding:20px 20px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.sb-logo-icon{width:36px;height:36px;border:2px solid var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--accent);background:rgba(0,255,157,.06);flex-shrink:0}
+.sb-logo-text{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;letter-spacing:-.5px}
+.sb-logo-text span{color:var(--accent)}
+.sb-version{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);background:var(--bg3);padding:2px 6px;border-radius:3px;margin-left:8px}
+
+.sb-section{padding:12px 0}
+.sb-section-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted2);padding:0 20px;margin-bottom:6px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:7px 20px;color:var(--fg2);font-size:13px;cursor:pointer;transition:all .15s;text-decoration:none;border-left:3px solid transparent}
+.sb-link:hover{background:rgba(0,255,157,.04);color:var(--fg)}
+.sb-link.active{color:var(--accent);background:rgba(0,255,157,.06);border-left-color:var(--accent)}
+.sb-link i{width:16px;text-align:center;font-size:12px;flex-shrink:0}
+.sb-link .badge{font-family:'JetBrains Mono',monospace;font-size:9px;background:var(--bg3);color:var(--muted);padding:1px 5px;border-radius:3px;margin-left:auto}
+
+/* ── CONTENT ── */
+.content{max-width:960px;margin:0 auto;padding:32px 40px 80px}
+.page{display:none}
+.page.active{display:block;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+.page-header{margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.page-title{font-size:28px;font-weight:800;margin-bottom:6px;letter-spacing:-.5px}
+.page-title span{color:var(--accent)}
+.page-subtitle{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* ── COMPONENTS ── */
+.section{margin-bottom:36px}
+.section-title{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;color:var(--fg)}
+.section-title i{font-size:13px}
+.section-title .st-accent{color:var(--accent)}
+.section-title .st-info{color:var(--accent2)}
+.section-title .st-warn{color:var(--accent4)}
+.section-title .st-danger{color:var(--accent3)}
+.section-title .st-purple{color:var(--accent5)}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.card.c-green::before{background:linear-gradient(90deg,var(--accent),transparent)}
+.card.c-blue::before{background:linear-gradient(90deg,var(--accent2),transparent)}
+.card.c-red::before{background:linear-gradient(90deg,var(--accent3),transparent)}
+.card.c-yellow::before{background:linear-gradient(90deg,var(--accent4),transparent)}
+.card.c-purple::before{background:linear-gradient(90deg,var(--accent5),transparent)}
+.card-title{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.card-title i{font-size:13px}
+.card-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:10px}
+
+/* Code blocks */
+.code-block{background:var(--bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:10px 0}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:8px 14px;background:var(--bg2);border-bottom:1px solid var(--border)}
+.code-lang{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent2);letter-spacing:1px}
+.code-copy{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);cursor:pointer;background:none;border:1px solid var(--border);padding:2px 8px;border-radius:4px;transition:all .15s}
+.code-copy:hover{color:var(--accent);border-color:var(--accent)}
+.code-body{padding:14px 16px;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.7;overflow-x:auto;white-space:pre;color:var(--fg2)}
+.code-body .kw{color:var(--accent5)}
+.code-body .fn{color:var(--accent2)}
+.code-body .cls{color:var(--accent4)}
+.code-body .str{color:var(--accent)}
+.code-body .cmt{color:var(--muted);font-style:italic}
+.code-body .dec{color:var(--accent3)}
+.code-body .num{color:var(--accent4)}
+.code-body .self{color:var(--accent3)}
+.code-body .op{color:var(--fg)}
+.code-body .param{color:#f0abfc}
+
+/* Tables */
+.doc-table{width:100%;border-collapse:collapse;font-size:12px;margin:10px 0}
+.doc-table th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:8px 12px;border-bottom:1px solid var(--border);background:var(--bg2)}
+.doc-table td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+.doc-table tr:hover td{background:rgba(0,255,157,.02)}
+.doc-table .param-name{font-family:'JetBrains Mono',monospace;color:var(--accent2);font-size:11px}
+.doc-table .type{font-family:'JetBrains Mono',monospace;color:var(--accent5);font-size:10px}
+.doc-table .required{font-family:'JetBrains Mono',monospace;font-size:9px;padding:1px 6px;border-radius:3px}
+.doc-table .req-yes{background:rgba(255,62,108,.12);color:var(--accent3);border:1px solid rgba(255,62,108,.2)}
+.doc-table .req-no{background:rgba(0,200,255,.08);color:var(--accent2);border:1px solid rgba(0,200,255,.15)}
+
+/* Tags */
+.tag{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 8px;border-radius:4px;display:inline-block}
+.tag-green{background:rgba(0,255,157,.1);color:var(--accent);border:1px solid rgba(0,255,157,.2)}
+.tag-blue{background:rgba(0,200,255,.1);color:var(--accent2);border:1px solid rgba(0,200,255,.2)}
+.tag-red{background:rgba(255,62,108,.1);color:var(--accent3);border:1px solid rgba(255,62,108,.2)}
+.tag-yellow{background:rgba(255,184,0,.1);color:var(--accent4);border:1px solid rgba(255,184,0,.2)}
+.tag-purple{background:rgba(168,85,247,.1);color:var(--accent5);border:1px solid rgba(168,85,247,.2)}
+
+/* Lists */
+.func-list{list-style:none;padding:0}
+.func-list li{font-size:12px;padding:4px 0;display:flex;align-items:flex-start;gap:8px;line-height:1.6;color:var(--fg2)}
+.func-list li::before{content:'▸';flex-shrink:0;margin-top:1px}
+.func-list.fl-green li::before{color:var(--accent)}
+.func-list.fl-blue li::before{color:var(--accent2)}
+.func-list.fl-red li::before{color:var(--accent3)}
+.func-list.fl-yellow li::before{color:var(--accent4)}
+.func-list.fl-purple li::before{color:var(--accent5)}
+
+/* Module cards grid */
+.module-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:700px){.module-grid{grid-template-columns:1fr}}
+
+/* Architecture diagram mini */
+.arch-layer{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-bottom:10px;display:flex;align-items:center;gap:14px}
+.arch-layer-num{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;width:36px;flex-shrink:0}
+.arch-layer-content{flex:1}
+.arch-layer-name{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;margin-bottom:4px}
+.arch-layer-desc{font-size:11px;color:var(--muted);line-height:1.5}
+.arch-layer-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.arch-connector{display:flex;justify-content:center;padding:2px 0}
+.arch-connector .arrow{color:var(--accent);font-size:12px;opacity:.4}
+
+/* Flow diagram */
+.flow-row{display:flex;align-items:center;gap:6px;overflow-x:auto;padding:4px 0}
+.flow-box{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center;min-width:100px;flex-shrink:0}
+.flow-box-step{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:3px}
+.flow-box-name{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600}
+.flow-box-desc{font-size:9px;color:var(--muted);margin-top:3px;line-height:1.3}
+.flow-arrow{color:var(--accent);font-size:14px;flex-shrink:0;opacity:.5}
+
+/* Import tree */
+.import-tree{font-family:'JetBrains Mono',monospace;font-size:11px;line-height:2;color:var(--fg2)}
+.import-tree .it-from{color:var(--accent5)}
+.import-tree .it-import{color:var(--accent2)}
+.import-tree .it-as{color:var(--accent4)}
+.import-tree .it-comment{color:var(--muted);font-style:italic}
+
+/* Callout */
+.callout{border-radius:8px;padding:14px 16px;margin:12px 0;display:flex;gap:10px;font-size:12px;line-height:1.6}
+.callout i{margin-top:2px;flex-shrink:0}
+.callout.ca-info{background:rgba(0,200,255,.06);border:1px solid rgba(0,200,255,.15);color:var(--fg2)}
+.callout.ca-info i{color:var(--accent2)}
+.callout.ca-warn{background:rgba(255,184,0,.06);border:1px solid rgba(255,184,0,.15);color:var(--fg2)}
+.callout.ca-warn i{color:var(--accent4)}
+.callout.ca-danger{background:rgba(255,62,108,.06);border:1px solid rgba(255,62,108,.15);color:var(--fg2)}
+.callout.ca-danger i{color:var(--accent3)}
+.callout.ca-success{background:rgba(0,255,157,.06);border:1px solid rgba(0,255,157,.15);color:var(--fg2)}
+.callout.ca-success i{color:var(--accent)}
+
+/* Inline code */
+code{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--bg2);padding:1px 6px;border-radius:4px;color:var(--accent2);border:1px solid var(--border)}
+
+/* Breadcrumb */
+.breadcrumb{font-size:11px;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:6px}
+.breadcrumb span{color:var(--fg2)}
+
+/* Search */
+.search-box{padding:12px 20px;border-bottom:1px solid var(--border)}
+.search-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 12px 8px 32px;color:var(--fg);font-size:12px;font-family:'Inter',sans-serif;outline:none;transition:border .15s}
+.search-input:focus{border-color:var(--accent)}
+.search-wrap{position:relative}
+.search-wrap i{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:12px}
+
+/* Mobile toggle */
+.mobile-toggle{display:none;position:fixed;top:12px;left:12px;z-index:200;width:40px;height:40px;background:var(--card);border:1px solid var(--border);border-radius:8px;align-items:center;justify-content:center;color:var(--fg);font-size:16px;cursor:pointer}
+
+/* Stat row */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+.stat-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
+.stat-num{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.5px;margin-top:2px}
+
+/* Tab system */
+.tabs{display:flex;gap:2px;margin-bottom:14px;background:var(--bg2);border-radius:8px;padding:3px;border:1px solid var(--border)}
+.tab-btn{font-family:'JetBrains Mono',monospace;font-size:10px;padding:6px 14px;border-radius:6px;cursor:pointer;color:var(--muted);background:none;border:none;transition:all .15s}
+.tab-btn:hover{color:var(--fg)}
+.tab-btn.active{background:var(--card);color:var(--accent);border:1px solid var(--border)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+@media(max-width:900px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .mobile-toggle{display:flex}
+  .content{padding:24px 20px 60px}
+  .stat-row{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<button class="mobile-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')"><i class="fas fa-bars"></i></button>
+
+<div class="app">
+<!-- ═══════════════════ SIDEBAR ═══════════════════ -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon"><i class="fas fa-skull-crossbones"></i></div>
+    <div class="sb-logo-text"><span>Cx</span>Ploit</div>
+    <span class="sb-version">v1.0</span>
+  </div>
+
+  <div class="search-box">
+    <div class="search-wrap">
+      <i class="fas fa-search"></i>
+      <input class="search-input" type="text" placeholder="Search docs..." oninput="handleSearch(this.value)">
+    </div>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-section-title">Getting Started</div>
+    <a class="sb-link active" data-page="overview" onclick="showPage('overview')"><i class="fas fa-home"></i> Overview</a>
+    <a class="sb-link" data-page="architecture" onclick="showPage('architecture')"><i class="fas fa-sitemap"></i> Architecture</a>
+    <a class="sb-link" data-page="quickstart" onclick="showPage('quickstart')"><i class="fas fa-rocket"></i> Quick Start</a>
+    <a class="sb-link" data-page="dependencies" onclick="showPage('dependencies')"><i class="fas fa-cube"></i> Dependencies</a>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-section-title">Core Engine</div>
+    <a class="sb-link" data-page="core-engine" onclick="showPage('core-engine')"><i class="fas fa-microchip"></i> Engine <span class="badge">core</span></a>
+    <a class="sb-link" data-page="module-loader" onclick="showPage('module-loader')"><i class="fas fa-puzzle-piece"></i> Module Loader</a>
+    <a class="sb-link" data-page="session-mgr" onclick="showPage('session-mgr')"><i class="fas fa-link"></i> Session Manager</a>
+    <a class="sb-link" data-page="payload-builder" onclick="showPage('payload-builder')"><i class="fas fa-bomb"></i> Payload Builder</a>
+    <a class="sb-link" data-page="handler-sys" onclick="showPage('handler-sys')"><i class="fas fa-shield-halved"></i> Handler System</a>
+    <a class="sb-link" data-page="event-bus" onclick="showPage('event-bus')"><i class="fas fa-rotate"></i> Event Bus</a>
+    <a class="sb-link" data-page="datastore" onclick="showPage('datastore')"><i class="fas fa-database"></i> Data Store</a>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-section-title">Modules</div>
+    <a class="sb-link" data-page="mod-exploits" onclick="showPage('mod-exploits')"><i class="fas fa-bolt"></i> Exploits <span class="badge">4</span></a>
+    <a class="sb-link" data-page="mod-payloads" onclick="showPage('mod-payloads')"><i class="fas fa-paper-plane"></i> Payloads <span class="badge">6</span></a>
+    <a class="sb-link" data-page="mod-encoders" onclick="showPage('mod-encoders')"><i class="fas fa-lock"></i> Encoders <span class="badge">3</span></a>
+    <a class="sb-link" data-page="mod-auxiliary" onclick="showPage('mod-auxiliary')"><i class="fas fa-satellite-dish"></i> Auxiliary <span class="badge">4</span></a>
+    <a class="sb-link" data-page="mod-post" onclick="showPage('mod-post')"><i class="fas fa-user-secret"></i> Post-Exploitation <span class="badge">5</span></a>
+  </div>
+
+  <div class="sb-section">
+    <div class="sb-section-title">Reference</div>
+    <a class="sb-link" data-page="cli-ref" onclick="showPage('cli-ref')"><i class="fas fa-terminal"></i> CLI Reference</a>
+    <a class="sb-link" data-page="api-ref" onclick="showPage('api-ref')"><i class="fas fa-code"></i> API Reference</a>
+    <a class="sb-link" data-page="config" onclick="showPage('config')"><i class="fas fa-gear"></i> Configuration</a>
+    <a class="sb-link" data-page="project-struct" onclick="showPage('project-struct')"><i class="fas fa-folder-tree"></i> Project Structure</a>
+  </div>
+</aside>
+
+<!-- ═══════════════════ MAIN CONTENT ═══════════════════ -->
+<main class="main">
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: OVERVIEW                    ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page active" id="page-overview">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> <span>Overview</span></div>
+    <div class="page-title"><span>CxPloit</span>-Framework</div>
+    <div class="page-subtitle">A modular, extensible exploit development and execution framework for penetration testing and security research. Inspired by Metasploit — rebuilt from scratch with a cleaner plugin architecture and modern Python.</div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-item"><div class="stat-num" style="color:var(--accent)">5</div><div class="stat-label">CORE LAYERS</div></div>
+    <div class="stat-item"><div class="stat-num" style="color:var(--accent2)">22</div><div class="stat-label">MODULES</div></div>
+    <div class="stat-item"><div class="stat-num" style="color:var(--accent4)">9</div><div class="stat-label">ENGINE COMPONENTS</div></div>
+    <div class="stat-item"><div class="stat-num" style="color:var(--accent5)">6</div><div class="stat-label">PIPELINE STEPS</div></div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-info-circle st-accent"></i> What is CxPloit-Framework?</div>
+    <div class="card c-green">
+      <p style="font-size:13px;line-height:1.8;color:var(--fg2)">
+        <strong style="color:var(--fg)">CxPloit-Framework</strong> is a Python-based security testing framework that provides a structured environment for developing, organizing, and executing exploit code. It separates concerns into five distinct layers — from user interface down to persistent storage — and uses a dynamic module loader to discover and register exploit, payload, encoder, auxiliary, and post-exploitation modules at runtime.
+      </p>
+      <p style="font-size:13px;line-height:1.8;color:var(--fg2);margin-top:12px">
+        Unlike standalone exploit scripts, CxPloit provides <strong style="color:var(--fg)">shared infrastructure</strong>: payload generation, session management, encoder chaining, handler/listener setup, and workspace isolation — so every module benefits from the same capabilities without reimplementing them.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-crosshairs st-info"></i> Key Features</div>
+    <div class="module-grid">
+      <div class="card c-green">
+        <div class="card-title" style="color:var(--accent)"><i class="fas fa-puzzle-piece" style="color:var(--accent)"></i> Modular Plugin System</div>
+        <div class="card-desc">Drop-in modules auto-discovered from disk. Each module implements a standard interface with <code>options()</code>, <code>check()</code>, <code>run()</code>.</div>
+      </div>
+      <div class="card c-blue">
+        <div class="card-title" style="color:var(--accent2)"><i class="fas fa-layer-group" style="color:var(--accent2)"></i> Staged Payload Delivery</div>
+        <div class="card-desc">Stager (small bootloader) + Stage (full payload) pattern for reliable delivery across restricted networks and character-limited injection points.</div>
+      </div>
+      <div class="card c-red">
+        <div class="card-title" style="color:var(--accent3)"><i class="fas fa-shield-virus" style="color:var(--accent3)"></i> Encoder Chaining</div>
+        <div class="card-desc">Stack multiple encoders (XOR, Shikata Ga Nai, character exclusion) to produce polymorphic shellcode that evades signature-based AV/EDR.</div>
+      </div>
+      <div class="card c-yellow">
+        <div class="card-title" style="color:var(--accent4)"><i class="fas fa-network-wired" style="color:var(--accent4)"></i> Session Routing &amp; Pivoting</div>
+        <div class="card-desc">Active sessions double as tunnel endpoints. Route commands through compromised hosts to reach internal network segments.</div>
+      </div>
+      <div class="card c-purple">
+        <div class="card-title" style="color:var(--accent5)"><i class="fas fa-database" style="color:var(--accent5)"></i> Workspace Isolation</div>
+        <div class="card-desc">Separate workspaces for different engagements. Hosts, credentials, loot, and config are fully isolated per-workspace.</div>
+      </div>
+      <div class="card c-green">
+        <div class="card-title" style="color:var(--accent)"><i class="fas fa-rotate" style="color:var(--accent)"></i> Event-Driven Architecture</div>
+        <div class="card-desc">Pub/sub event bus connects all layers. UI updates, module triggers, and session events flow through a single unified channel.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-diagram-project st-warn"></i> Exploit Execution Pipeline</div>
+    <div class="flow-row">
+      <div class="flow-box"><div class="flow-box-step">1</div><div class="flow-box-name" style="color:var(--accent2)">Select</div><div class="flow-box-desc">Load exploit module</div></div>
+      <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="flow-box"><div class="flow-box-step">2</div><div class="flow-box-name" style="color:var(--accent)">Configure</div><div class="flow-box-desc">Set RHOST, payload, encoder</div></div>
+      <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="flow-box"><div class="flow-box-step">3</div><div class="flow-box-name" style="color:var(--accent4)">Check</div><div class="flow-box-desc">Verify vulnerability</div></div>
+      <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="flow-box"><div class="flow-box-step">4</div><div class="flow-box-name" style="color:var(--accent3)">Exploit</div><div class="flow-box-desc">Deliver encoded payload</div></div>
+      <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="flow-box"><div class="flow-box-step">5</div><div class="flow-box-name" style="color:var(--accent5)">Handle</div><div class="flow-box-desc">Listener catches callback</div></div>
+      <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+      <div class="flow-box"><div class="flow-box-step">6</div><div class="flow-box-name" style="color:var(--accent)">Post</div><div class="flow-box-desc">Escalate, persist, loot</div></div>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: ARCHITECTURE               ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-architecture">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> <span>Architecture</span></div>
+    <div class="page-title">System <span>Architecture</span></div>
+    <div class="page-subtitle">Five-layer decoupled architecture. Each layer communicates only through the Event Bus and Data Store — no direct cross-layer coupling.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-layer-group st-accent"></i> Layer Stack (Top → Bottom)</div>
+
+    <div class="arch-layer">
+      <div class="arch-layer-num" style="color:var(--accent)">L1</div>
+      <div class="arch-layer-content">
+        <div class="arch-layer-name" style="color:var(--accent)">User Interface Layer</div>
+        <div class="arch-layer-desc">CLI (REPL shell), Web GUI (Flask dashboard), API/SDK (REST + Python bindings). All interfaces connect to the same Core Engine via a unified controller.</div>
+        <div class="arch-layer-tags"><span class="tag tag-green">cmdloop</span><span class="tag tag-blue">Flask</span><span class="tag tag-purple">REST</span></div>
+      </div>
+    </div>
+    <div class="arch-connector"><span class="arrow"><i class="fas fa-arrow-down"></i></span></div>
+
+    <div class="arch-layer">
+      <div class="arch-layer-num" style="color:var(--accent2)">L2</div>
+      <div class="arch-layer-content">
+        <div class="arch-layer-name" style="color:var(--accent2)">Core Engine Layer</div>
+        <div class="arch-layer-desc">The orchestrator: Module Loader, Exploit Dispatcher, Session Manager, Payload Builder, Handler System, Event Bus, Encoder Chain, Data Store, Report Engine. This is the heart of the framework.</div>
+        <div class="arch-layer-tags"><span class="tag tag-blue">engine.py</span><span class="tag tag-green">module_loader</span><span class="tag tag-red">session_mgr</span><span class="tag tag-yellow">payload</span></div>
+      </div>
+    </div>
+    <div class="arch-connector"><span class="arrow"><i class="fas fa-arrow-down"></i></span></div>
+
+    <div class="arch-layer">
+      <div class="arch-layer-num" style="color:var(--accent3)">L3</div>
+      <div class="arch-layer-content">
+        <div class="arch-layer-name" style="color:var(--accent3)">Module Ecosystem Layer</div>
+        <div class="arch-layer-desc">Four module types: Exploits (RCE, LPE, DoS), Payloads (reverse, bind, meterpreter), Encoders (XOR, SGN, charset), Auxiliary (scanners, fuzzers, recon). All implement the ModuleBase interface.</div>
+        <div class="arch-layer-tags"><span class="tag tag-red">exploits</span><span class="tag tag-yellow">payloads</span><span class="tag tag-green">encoders</span><span class="tag tag-blue">auxiliary</span></div>
+      </div>
+    </div>
+    <div class="arch-connector"><span class="arrow"><i class="fas fa-arrow-down"></i></span></div>
+
+    <div class="arch-layer">
+      <div class="arch-layer-num" style="color:var(--accent4)">L4</div>
+      <div class="arch-layer-content">
+        <div class="arch-layer-name" style="color:var(--accent4)">Post-Exploitation Layer</div>
+        <div class="arch-layer-desc">Privilege escalation, persistence mechanisms, network pivoting (SOCKS/port forward), loot &amp; credential collection. Operates through active sessions.</div>
+        <div class="arch-layer-tags"><span class="tag tag-yellow">privesc</span><span class="tag tag-purple">persist</span><span class="tag tag-red">pivot</span><span class="tag tag-green">loot</span></div>
+      </div>
+    </div>
+    <div class="arch-connector"><span class="arrow"><i class="fas fa-arrow-down"></i></span></div>
+
+    <div class="arch-layer">
+      <div class="arch-layer-num" style="color:var(--accent5)">L5</div>
+      <div class="arch-layer-content">
+        <div class="arch-layer-name" style="color:var(--accent5)">Infrastructure &amp; Storage Layer</div>
+        <div class="arch-layer-desc">Database (SQLite/PostgreSQL), networking sockets (TCP/UDP/HTTP/SSL), file I/O, logging, and configuration management.</div>
+        <div class="arch-layer-tags"><span class="tag tag-purple">sqlite</span><span class="tag tag-blue">socket</span><span class="tag tag-green">ssl</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-arrows-spin st-info"></i> Cross-Layer Communication</div>
+    <div class="card c-blue">
+      <div class="card-desc">Layers never import each other directly. All communication flows through two mechanisms:</div>
+      <ul class="func-list fl-blue">
+        <li><strong style="color:var(--fg)">Event Bus</strong> — publish/subscribe pattern. Any layer can emit events (<code>exploit.launched</code>, <code>session.opened</code>, <code>module.loaded</code>) and any layer can subscribe.</li>
+        <li><strong style="color:var(--fg)">Data Store</strong> — centralized key-value store with workspace-scoped namespaces. Modules read/write options, the CLI reads state, the DB layer persists.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: QUICK START                ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-quickstart">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Quick Start</div>
+    <div class="page-title">Quick <span>Start</span></div>
+    <div class="page-subtitle">Get CxPloit-Framework running in under 5 minutes.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-1 st-accent"></i> Clone &amp; Install</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">BASH</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="cmt"># Clone the repository</span>
+git clone https://github.com/ravichandran3/cxploit-framework.git
+cd cxploit-framework
+
+<span class="cmt"># Install Python dependencies</span>
+pip install -r requirements.txt
+
+<span class="cmt"># Or install in development mode</span>
+pip install -e .</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-2 st-info"></i> Launch the Framework</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">BASH</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="cmt"># Start the interactive CLI</span>
+python cxploit.py
+
+<span class="cmt"># Or with a specific workspace</span>
+python cxploit.py -w engagement_01
+
+<span class="cmt"># Start the web GUI (Flask dashboard)</span>
+python cxploit.py --web --port 8080</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-3 st-warn"></i> Run Your First Exploit</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">CxPloit CONSOLE</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body">cxploit > <span class="fn">search</span> type:exploit platform:linux
+
+cxploit > <span class="fn">use</span> exploit/linux/http/vulnerability_cve_2023_1234
+
+cxploit exploit (...) > <span class="fn">set</span> RHOST 192.168.1.100
+cxploit exploit (...) > <span class="fn">set</span> RPORT 8080
+cxploit exploit (...) > <span class="fn">set</span> PAYLOAD linux/x64/reverse_tcp
+
+cxploit exploit (...) > <span class="fn">check</span>
+[*] Target appears vulnerable.
+
+cxploit exploit (...) > <span class="fn">exploit</span>
+[*] Sending payload...
+[*] Session 1 opened (192.168.1.100:8080 → 10.0.0.1:4444)
+
+cxploit exploit (...) > <span class="fn">sessions</span>
+  ID  Type        Info          Connection
+  1   meterpreter linux/x64    10.0.0.1:4444 → 192.168.1.100:43212
+
+cxploit exploit (...) > <span class="fn">sessions</span> -i 1
+meterpreter > <span class="fn">sysinfo</span>
+meterpreter > <span class="fn">getuid</span></div>
+    </div>
+  </section>
+
+  <div class="callout ca-warn">
+    <i class="fas fa-triangle-exclamation"></i>
+    <div><strong>Disclaimer:</strong> This framework is intended for authorized penetration testing and security research only. Unauthorized use against systems you do not own or have permission to test is illegal.</div>
+  </div>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: DEPENDENCIES               ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-dependencies">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Dependencies</div>
+    <div class="page-title">Dependencies &amp; <span>Imports</span></div>
+    <div class="page-subtitle">All Python packages and internal imports required by each component.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-cube st-accent"></i> External Packages (requirements.txt)</div>
+    <table class="doc-table">
+      <tr><th>Package</th><th>Version</th><th>Used By</th><th>Purpose</th></tr>
+      <tr><td class="param-name">socket</td><td class="type">stdlib</td><td>handlers, payloads</td><td>Raw TCP/UDP connections, listener sockets</td></tr>
+      <tr><td class="param-name">ssl</td><td class="type">stdlib</td><td>handlers</td><td>TLS/SSL wrapping for HTTPS handlers</td></tr>
+      <tr><td class="param-name">struct</td><td class="type">stdlib</td><td>payloads, encoders</td><td>Binary packing/unpacking for shellcode</td></tr>
+      <tr><td class="param-name">threading</td><td class="type">stdlib</td><td>engine, handlers</td><td>Concurrent listener and handler threads</td></tr>
+      <tr><td class="param-name">argparse</td><td class="type">stdlib</td><td>cli</td><td>Command-line argument parsing</td></tr>
+      <tr><td class="param-name">cmd</td><td class="type">stdlib</td><td>cli</td><td>REPL loop base class (cmd.Cmd)</td></tr>
+      <tr><td class="param-name">readline</td><td class="type">stdlib</td><td>cli</td><td>Tab-completion and command history</td></tr>
+      <tr><td class="param-name">importlib</td><td class="type">stdlib</td><td>module_loader</td><td>Dynamic module discovery and importing</td></tr>
+      <tr><td class="param-name">inspect</td><td class="type">stdlib</td><td>module_loader</td><td>Introspection for module class detection</td></tr>
+      <tr><td class="param-name">sqlite3</td><td class="type">stdlib</td><td>datastore</td><td>Embedded database for workspaces</td></tr>
+      <tr><td class="param-name">flask</td><td class="type">≥2.3</td><td>web_gui</td><td>HTTP server for web dashboard</td></tr>
+      <tr><td class="param-name">flask-socketio</td><td class="type">≥5.3</td><td>web_gui</td><td>WebSocket event streaming to browser</td></tr>
+      <tr><td class="param-name">requests</td><td class="type">≥2.31</td><td>auxiliary, exploits</td><td>HTTP client for web-based exploits</td></tr>
+      <tr><td class="param-name">paramiko</td><td class="type">≥3.4</td><td>payloads, auxiliary</td><td>SSH client for brute-force and pivoting</td></tr>
+      <tr><td class="param-name">scapy</td><td class="type">≥2.5</td><td>auxiliary</td><td>Packet crafting for network scanners</td></tr>
+      <tr><td class="param-name">pycryptodome</td><td class="type">≥3.19</td><td>encoders, payloads</td><td>AES, RSA, XOR crypto operations</td></tr>
+      <tr><td class="param-name">keystone-engine</td><td class="type">≥0.9</td><td>payloads</td><td>JIT assembly for multi-arch shellcode</td></tr>
+      <tr><td class="param-name">capstone</td><td class="type">≥4.0</td><td>encoders</td><td>Disassembly engine for shellcode analysis</td></tr>
+      <tr><td class="param-name">colorama</td><td class="type">≥0.4</td><td>cli</td><td>Cross-platform colored terminal output</td></tr>
+    </table>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-project-diagram st-info"></i> Internal Import Map</div>
+    <div class="card c-blue">
+      <div class="import-tree">
+<span class="it-from">from</span> core.engine <span class="it-import">import</span> CxPloitEngine
+<span class="it-from">from</span> core.module_loader <span class="it-import">import</span> ModuleLoader, ModuleRegistry
+<span class="it-from">from</span> core.session_manager <span class="it-import">import</span> SessionManager, Session
+<span class="it-from">from</span> core.payload_builder <span class="it-import">import</span> PayloadBuilder
+<span class="it-from">from</span> core.handler_system <span class="it-import">import</span> HandlerSystem, ReverseTCPHandler
+<span class="it-from">from</span> core.event_bus <span class="it-import">import</span> EventBus, Event
+<span class="it-from">from</span> core.datastore <span class="it-import">import</span> DataStore, Workspace
+<span class="it-from">from</span> core.encoder_chain <span class="it-import">import</span> EncoderChain
+<span class="it-from">from</span> core.report_engine <span class="it-import">import</span> ReportEngine
+<span class="it-from">from</span> modules.base <span class="it-import">import</span> ModuleBase, ExploitBase, PayloadBase
+<span class="it-from">from</span> modules.base <span class="it-import">import</span> EncoderBase, AuxiliaryBase, PostBase
+<span class="it-from">from</span> lib.shellcode <span class="it-import">import</span> ShellcodeGenerator
+<span class="it-from">from</span> lib.network <span class="it-import">import</span> RawSocket, TLSSocket
+<span class="it-from">from</span> lib.crypto <span class="it-import">import</span> xor_encode, aes_encrypt
+      </div>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: CORE ENGINE                ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-core-engine">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Core Engine <span>engine.py</span></div>
+    <div class="page-title">Core <span>Engine</span></div>
+    <div class="page-subtitle">The central orchestrator that wires all components together and drives the exploit lifecycle.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-file-code st-accent"></i> Class: CxPloitEngine</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">PYTHON — core/engine.py</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="kw">class</span> <span class="cls">CxPloitEngine</span>:
+    <span class="str">"""Central orchestrator for the CxPloit framework."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="self">self</span>, config_path=<span class="str">"config.yml"</span>):
+        <span class="cmt"># Initialize all core subsystems</span>
+        <span class="self">self</span>.module_loader = <span class="cls">ModuleLoader</span>()
+        <span class="self">self</span>.session_mgr = <span class="cls">SessionManager</span>()
+        <span class="self">self</span>.payload_builder = <span class="cls">PayloadBuilder</span>()
+        <span class="self">self</span>.handler_sys = <span class="cls">HandlerSystem</span>()
+        <span class="self">self</span>.event_bus = <span class="cls">EventBus</span>()
+        <span class="self">self</span>.datastore = <span class="cls">DataStore</span>()
+        <span class="self">self</span>.encoder_chain = <span class="cls">EncoderChain</span>()
+        <span class="self">self</span>.report_engine = <span class="cls">ReportEngine</span>()
+        <span class="self">self</span>.active_module = <span class="kw">None</span>
+        <span class="self">self</span>.running = <span class="kw">False</span>
+
+    <span class="kw">def</span> <span class="fn">initialize</span>(<span class="self">self</span>):
+        <span class="str">"""Boot sequence: load config, init DB, discover modules."""</span>
+        <span class="self">self</span>.datastore.connect()
+        <span class="self">self</span>.module_loader.discover(<span class="str">"modules/"</span>)
+        <span class="self">self</span>.handler_sys.start_listeners()
+        <span class="self">self</span>.event_bus.emit(<span class="str">"engine.ready"</span>)
+
+    <span class="kw">def</span> <span class="fn">use_module</span>(<span class="self">self</span>, module_path: <span class="cls">str</span>):
+        <span class="str">"""Load a module by its path (e.g. 'exploit/linux/http/cve_xxx')."""</span>
+        <span class="self">self</span>.active_module = <span class="self">self</span>.module_loader.load(module_path)
+        <span class="self">self</span>.event_bus.emit(<span class="str">"module.selected"</span>, module_path)
+
+    <span class="kw">def</span> <span class="fn">execute_exploit</span>(<span class="self">self</span>):
+        <span class="str">"""Run the full exploit pipeline: check → exploit → handle."""</span>
+        <span class="kw">if</span> <span class="self">self</span>.active_module.check():
+            payload = <span class="self">self</span>.payload_builder.build(<span class="self">self</span>.active_module)
+            <span class="self">self</span>.encoder_chain.apply(payload)
+            result = <span class="self">self</span>.active_module.run(payload)
+            session = <span class="self">self</span>.handler_sys.accept()
+            <span class="self">self</span>.session_mgr.register(session)
+            <span class="self">self</span>.event_bus.emit(<span class="str">"session.opened"</span>, session)
+
+    <span class="kw">def</span> <span class="fn">shutdown</span>(<span class="self">self</span>):
+        <span class="str">"""Graceful teardown: close sessions, stop listeners, save state."""</span>
+        <span class="self">self</span>.session_mgr.close_all()
+        <span class="self">self</span>.handler_sys.stop_all()
+        <span class="self">self</span>.datastore.save()
+        <span class="self">self</span>.event_bus.emit(<span class="str">"engine.shutdown"</span>)</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-list st-info"></i> Engine Methods Reference</div>
+    <table class="doc-table">
+      <tr><th>Method</th><th>Parameters</th><th>Returns</th><th>Description</th></tr>
+      <tr><td class="param-name">initialize()</td><td class="type">—</td><td class="type">None</td><td>Boot sequence: connect DB, discover modules, start listeners</td></tr>
+      <tr><td class="param-name">use_module(path)</td><td class="type">str</td><td class="type">ModuleBase</td><td>Load and set active module by dotted path</td></tr>
+      <tr><td class="param-name">execute_exploit()</td><td class="type">—</td><td class="type">Session</td><td>Run check → build payload → encode → exploit → handle</td></tr>
+      <tr><td class="param-name">set_option(key, val)</td><td class="type">str, Any</td><td class="type">None</td><td>Set a module option (RHOST, RPORT, PAYLOAD, etc.)</td></tr>
+      <tr><td class="param-name">get_option(key)</td><td class="type">str</td><td class="type">Any</td><td>Read current value of a module option</td></tr>
+      <tr><td class="param-name">search(filter)</td><td class="type">dict</td><td class="type">list[ModuleBase]</td><td>Search module registry by type, platform, CVE, name</td></tr>
+      <tr><td class="param-name">shutdown()</td><td class="type">—</td><td class="type">None</td><td>Graceful teardown: close sessions, stop listeners, persist</td></tr>
+    </table>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: MODULE LOADER              ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-module-loader">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Core <span>module_loader.py</span></div>
+    <div class="page-title">Module <span>Loader</span></div>
+    <div class="page-subtitle">Discovers, imports, validates, and registers all framework modules at runtime.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-file-code st-accent"></i> Class: ModuleLoader</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">PYTHON — core/module_loader.py</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="kw">class</span> <span class="cls">ModuleLoader</span>:
+    <span class="str">"""Discovers and loads modules from the modules/ directory tree."""</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="self">self</span>):
+        <span class="self">self</span>.registry = <span class="cls">ModuleRegistry</span>()
+        <span class="self">self</span>.module_paths = []  <span class="cmt"># List of discovered .py files</span>
+        <span class="self">self</span>.loaded = {}       <span class="cmt"># path → module_class mapping</span>
+
+    <span class="kw">def</span> <span class="fn">discover</span>(<span class="self">self</span>, base_dir: <span class="cls">str</span> = <span class="str">"modules/"</span>):
+        <span class="str">"""Walk the modules/ tree and catalog all Python files."""</span>
+        <span class="kw">for</span> root, dirs, files <span class="kw">in</span> os.walk(base_dir):
+            <span class="kw">for</span> f <span class="kw">in</span> files:
+                <span class="kw">if</span> f.endswith(<span class="str">".py"</span>) <span class="kw">and</span> <span class="kw">not</span> f.startswith(<span class="str">"_"</span>):
+                    <span class="self">self</span>.module_paths.append(
+                        os.path.join(root, f)
+                    )
+
+    <span class="kw">def</span> <span class="fn">load</span>(<span class="self">self</span>, module_path: <span class="cls">str</span>) -> <span class="cls">ModuleBase</span>:
+        <span class="str">"""Import a module file and return its class instance."""</span>
+        spec = importlib.util.spec_from_file_location(
+            module_path, <span class="self">self</span>._resolve(module_path)
+        )
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        cls = <span class="self">self</span>._find_module_class(mod)
+        instance = cls()
+        <span class="self">self</span>.loaded[module_path] = instance
+        <span class="kw">return</span> instance
+
+    <span class="kw">def</span> <span class="fn">_find_module_class</span>(<span class="self">self</span>, mod) -> <span class="cls">type</span>:
+        <span class="str">"""Find the class in a module that inherits from ModuleBase."""</span>
+        <span class="kw">for</span> name, obj <span class="kw">in</span> inspect.getmembers(mod, inspect.isclass):
+            <span class="kw">if</span> issubclass(obj, <span class="cls">ModuleBase</span>) <span class="kw">and</span> obj <span class="kw">is not</span> <span class="cls">ModuleBase</span>:
+                <span class="kw">return</span> obj
+
+    <span class="kw">def</span> <span class="fn">load_all</span>(<span class="self">self</span>):
+        <span class="str">"""Load every discovered module into the registry."""</span>
+        <span class="kw">for</span> path <span class="kw">in</span> <span class="self">self</span>.module_paths:
+            <span class="kw">try</span>:
+                instance = <span class="self">self</span>.load(path)
+                <span class="self">self</span>.registry.register(instance)
+            <span class="kw">except</span> Exception <span class="kw">as</span> e:
+                logger.warning(<span class="str">f"Failed to load {path}: {e}"</span>)</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-registry st-info"></i> Class: ModuleRegistry</div>
+    <div class="card c-blue">
+      <div class="card-desc">The registry stores loaded module instances indexed by type, name, and path. It supports searching by filters.</div>
+      <table class="doc-table">
+        <tr><th>Method</th><th>Parameters</th><th>Returns</th><th>Description</th></tr>
+        <tr><td class="param-name">register(module)</td><td class="type">ModuleBase</td><td class="type">None</td><td>Add module to registry, indexed by type + path</td></tr>
+        <tr><td class="param-name">get(path)</td><td class="type">str</td><td class="type">ModuleBase</td><td>Retrieve module instance by dotted path</td></tr>
+        <tr><td class="param-name">search(**filters)</td><td class="type">type, platform, cve</td><td class="type">list[ModuleBase]</td><td>Filter registry by module attributes</td></tr>
+        <tr><td class="param-name">list_types()</td><td class="type">—</td><td class="type">list[str]</td><td>Return all registered module types</td></tr>
+        <tr><td class="param-name">count()</td><td class="type">—</td><td class="type">int</td><td>Total number of registered modules</td></tr>
+      </table>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: SESSION MANAGER            ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-session-mgr">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Core <span>session_manager.py</span></div>
+    <div class="page-title">Session <span>Manager</span></div>
+    <div class="page-subtitle">Maintains active shell/meterpreter sessions, routes commands, manages session lifecycle.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-file-code st-accent"></i> Classes</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">PYTHON — core/session_manager.py</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="kw">class</span> <span class="cls">Session</span>:
+    <span class="str">"""Represents an active connection to a compromised host."""</span>
+    session_id: <span class="cls">int</span>
+    session_type: <span class="cls">str</span>      <span class="cmt"># "shell" | "meterpreter"</span>
+    platform: <span class="cls">str</span>           <span class="cmt"># "linux/x64", "windows/x86"</span>
+    conn: <span class="cls">socket.socket</span>     <span class="cmt"># Underlying socket connection</span>
+    tunnel: <span class="cls">Session</span> = <span class="kw">None</span>  <span class="cmt"># Pivot tunnel parent</span>
+    created_at: <span class="cls">float</span>
+
+    <span class="kw">def</span> <span class="fn">execute</span>(<span class="self">self</span>, command: <span class="cls">str</span>) -> <span class="cls">str</span>: ...
+    <span class="kw">def</span> <span class="fn">write</span>(<span class="self">self</span>, data: <span class="cls">bytes</span>) -> <span class="cls">None</span>: ...
+    <span class="kw">def</span> <span class="fn">read</span>(<span class="self">self</span>) -> <span class="cls">bytes</span>: ...
+    <span class="kw">def</span> <span class="fn">close</span>(<span class="self">self</span>) -> <span class="cls">None</span>: ...
+    <span class="kw">def</span> <span class="fn">is_alive</span>(<span class="self">self</span>) -> <span class="cls">bool</span>: ...
+
+<span class="kw">class</span> <span class="cls">SessionManager</span>:
+    sessions: <span class="cls">dict</span>[<span class="cls">int</span>, <span class="cls">Session</span>] = {}
+    _next_id: <span class="cls">int</span> = <span class="num">1</span>
+
+    <span class="kw">def</span> <span class="fn">register</span>(<span class="self">self</span>, conn, session_type, platform) -> <span class="cls">Session</span>: ...
+    <span class="kw">def</span> <span class="fn">interact</span>(<span class="self">self</span>, session_id: <span class="cls">int</span>) -> <span class="cls">None</span>: ...
+    <span class="kw">def</span> <span class="fn">route_through</span>(<span class="self">self</span>, session_id, subnet) -> <span class="cls">None</span>: ...
+    <span class="kw">def</span> <span class="fn">close</span>(<span class="self">self</span>, session_id: <span class="cls">int</span>) -> <span class="cls">None</span>: ...
+    <span class="kw">def</span> <span class="fn">close_all</span>(<span class="self">self</span>) -> <span class="cls">None</span>: ...
+    <span class="kw">def</span> <span class="fn">list</span>(<span class="self">self</span>) -> <span class="cls">list</span>[<span class="cls">Session</span>]: ...</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-route st-warn"></i> Pivoting via Sessions</div>
+    <div class="callout ca-info">
+      <i class="fas fa-info-circle"></i>
+      <div>When <code>route_through(session_id, subnet)</code> is called, all traffic destined for that subnet is tunneled through the specified session's connection. This enables lateral movement into internal networks without direct connectivity.</div>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: PAYLOAD BUILDER            ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-payload-builder">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Core <span>payload_builder.py</span></div>
+    <div class="page-title">Payload <span>Builder</span></div>
+    <div class="page-subtitle">Assembles payloads from stager + stage components, applies encoder chains, and outputs in multiple formats.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-file-code st-accent"></i> Class: PayloadBuilder</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">PYTHON — core/payload_builder.py</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="kw">class</span> <span class="cls">PayloadBuilder</span>:
+    <span class="str">"""Builds payloads by assembling stager + stage + encoder chain."""</span>
+
+    <span class="kw">def</span> <span class="fn">build</span>(<span class="self">self</span>, module: <span class="cls">ModuleBase</span>) -> <span class="cls">bytes</span>:
+        <span class="str">"""Full build pipeline: select payload → assemble → encode → format."""</span>
+        payload_mod = <span class="self">self</span>.resolve_payload(module)
+        raw = payload_mod.generate()
+        <span class="kw">if</span> payload_mod.staged:
+            stager = payload_mod.stager()
+            stage = payload_mod.stage()
+            raw = stager + stage
+        encoded = <span class="self">self</span>.encoder_chain.apply(raw, module.options)
+        <span class="kw">return</span> <span class="self">self</span>.format_output(encoded, module.options)
+
+    <span class="kw">def</span> <span class="fn">resolve_payload</span>(<span class="self">self</span>, module) -> <span class="cls">PayloadBase</span>:
+        <span class="str">"""Resolve the payload module from the module's PAYLOAD option."""</span>
+        payload_path = module.options[<span class="str">"PAYLOAD"</span>]
+        <span class="kw">return</span> <span class="self">self</span>.registry.get(payload_path)
+
+    <span class="kw">def</span> <span class="fn">format_output</span>(<span class="self">self</span>, data: <span class="cls">bytes</span>, opts: <span class="cls">dict</span>) -> <span class="cls">bytes</span>:
+        <span class="str">"""Transform raw shellcode into the requested output format."""</span>
+        fmt = opts.get(<span class="str">"FORMAT"</span>, <span class="str">"raw"</span>)
+        <span class="kw">if</span> fmt == <span class="str">"raw"</span>:    <span class="kw">return</span> data
+        <span class="kw">elif</span> fmt == <span class="str">"exe"</span>:  <span class="kw">return</span> <span class="self">self</span>._wrap_pe(data)
+        <span class="kw">elif</span> fmt == <span class="str">"elf"</span>:  <span class="kw">return</span> <span class="self">self</span>._wrap_elf(data)
+        <span class="kw">elif</span> fmt == <span class="str">"python"</span>: <span class="kw">return</span> <span class="self">self</span>._wrap_python(data)
+        <span class="kw">elif</span> fmt == <span class="str">"c"</span>:     <span class="kw">return</span> <span class="self">self</span>._wrap_c(data)</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-cogs st-info"></i> Supported Output Formats</div>
+    <table class="doc-table">
+      <tr><th>Format</th><th>Description</th><th>Use Case</th></tr>
+      <tr><td class="param-name">raw</td><td>Raw shellcode bytes</td><td>Direct injection into memory buffer</td></tr>
+      <tr><td class="param-name">exe</td><td>Windows PE executable</td><td>Standalone payload binary for Windows</td></tr>
+      <tr><td class="param-name">elf</td><td>Linux ELF executable</td><td>Standalone payload binary for Linux</td></tr>
+      <tr><td class="param-name">python</td><td>Python wrapper script</td><td>Platform-independent delivery</td></tr>
+      <tr><td class="param-name">c</td><td>C source with shellcode array</td><td>Compile on target with gcc/cc</td></tr>
+      <tr><td class="param-name">powershell</td><td>PS1 script with Base64 payload</td><td>Windows in-memory execution</td></tr>
+    </table>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: HANDLER SYSTEM             ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-handler-sys">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Core <span>handler_system.py</span></div>
+    <div class="page-title">Handler <span>System</span></div>
+    <div class="page-subtitle">Network listeners that catch payload callbacks and establish sessions.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-file-code st-accent"></i> Handler Types</div>
+    <div class="module-grid">
+      <div class="card c-green">
+        <div class="card-title" style="color:var(--accent)"><i class="fas fa-arrow-left" style="color:var(--accent)"></i> ReverseTCPHandler</div>
+        <div class="card-desc">Listens on LHOST:LPORT. Target connects back. Bypasses inbound firewalls.</div>
+        <div class="code-block"><div class="code-body"><span class="kw">def</span> <span class="fn">listen</span>(<span class="self">self</span>, lhost, lport):
+  sock = socket.socket()
+  sock.bind((lhost, lport))
+  sock.listen(<span class="num">5</span>)
+  conn, addr = sock.accept()
+  <span class="kw">return</span> <span class="cls">Session</span>(conn, addr)</div></div>
+      </div>
+      <div class="card c-blue">
+        <div class="card-title" style="color:var(--accent2)"><i class="fas fa-arrow-right" style="color:var(--accent2)"></i> BindTCPHandler</div>
+        <div class="card-desc">Connects to target's listening port. Requires target to open a port. Works when egress is filtered.</div>
+        <div class="code-block"><div class="code-body"><span class="kw">def</span> <span class="fn">connect</span>(<span class="self">self</span>, rhost, rport):
+  sock = socket.socket()
+  sock.connect((rhost, rport))
+  <span class="kw">return</span> <span class="cls">Session</span>(sock, (rhost, rport))</div></div>
+      </div>
+      <div class="card c-yellow">
+        <div class="card-title" style="color:var(--accent4)"><i class="fas fa-globe" style="color:var(--accent4)"></i> ReverseHTTPHandler</div>
+        <div class="card-desc">Payload callbacks over HTTP/HTTPS. Polls for commands. Bypasses deep packet inspection.</div>
+      </div>
+      <div class="card c-purple">
+        <div class="card-title" style="color:var(--accent5)"><i class="fas fa-clone" style="color:var(--accent5)"></i> MultiHandler</div>
+        <div class="card-desc">Listens on one port, dispatches to different payload handlers based on the connecting payload type.</div>
+      </div>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: EVENT BUS                  ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-event-bus">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Core <span>event_bus.py</span></div>
+    <div class="page-title">Event <span>Bus</span></div>
+    <div class="page-subtitle">Publish/subscribe event system for decoupled inter-component communication.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-file-code st-accent"></i> Class: EventBus</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">PYTHON — core/event_bus.py</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="kw">class</span> <span class="cls">EventBus</span>:
+    <span class="str">"""Simple pub/sub event bus for decoupled communication."""</span>
+    _subscribers: <span class="cls">dict</span>[<span class="cls">str</span>, <span class="cls">list</span>[<span class="cls">Callable</span>]] = defaultdict(list)
+
+    <span class="kw">def</span> <span class="fn">subscribe</span>(<span class="self">self</span>, event: <span class="cls">str</span>, handler: <span class="cls">Callable</span>):
+        <span class="str">"""Register a handler for an event name."""</span>
+        <span class="self">self</span>._subscribers[event].append(handler)
+
+    <span class="kw">def</span> <span class="fn">emit</span>(<span class="self">self</span>, event: <span class="cls">str</span>, *args, **kwargs):
+        <span class="str">"""Publish an event; all subscribers are called."""</span>
+        <span class="kw">for</span> handler <span class="kw">in</span> <span class="self">self</span>._subscribers.get(event, []):
+            handler(*args, **kwargs)
+
+    <span class="kw">def</span> <span class="fn">unsubscribe</span>(<span class="self">self</span>, event: <span class="cls">str</span>, handler: <span class="cls">Callable</span>):
+        <span class="str">"""Remove a handler from an event."""</span>
+        <span class="self">self</span>._subscribers[event].remove(handler)</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-broadcast-tower st-warn"></i> Built-in Events</div>
+    <table class="doc-table">
+      <tr><th>Event Name</th><th>Emitted By</th><th>Payload</th><th>Consumers</th></tr>
+      <tr><td class="param-name">engine.ready</td><td>Engine</td><td class="type">—</td><td>CLI, WebGUI</td></tr>
+      <tr><td class="param-name">module.loaded</td><td>ModuleLoader</td><td class="type">ModuleBase</td><td>Engine, CLI</td></tr>
+      <tr><td class="param-name">module.selected</td><td>Engine</td><td class="type">str (path)</td><td>CLI, WebGUI</td></tr>
+      <tr><td class="param-name">session.opened</td><td>HandlerSystem</td><td class="type">Session</td><td>SessionMgr, CLI, DB</td></tr>
+      <tr><td class="param-name">session.closed</td><td>SessionMgr</td><td class="type">int (id)</td><td>CLI, DB</td></tr>
+      <tr><td class="param-name">exploit.launched</td><td>Engine</td><td class="type">ModuleBase</td><td>ReportEngine, DB</td></tr>
+      <tr><td class="param-name">exploit.success</td><td>Engine</td><td class="type">Session</td><td>CLI, WebGUI, Report</td></tr>
+      <tr><td class="param-name">exploit.failed</td><td>Engine</td><td class="type">Exception</td><td>CLI, Report</td></tr>
+    </table>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: DATA STORE                 ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-datastore">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Core <span>datastore.py</span></div>
+    <div class="page-title">Data <span>Store</span></div>
+    <div class="page-subtitle">Persistent storage backend with workspace isolation for hosts, credentials, loot, and module options.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-database st-purple"></i> Schema Overview</div>
+    <table class="doc-table">
+      <tr><th>Table</th><th>Columns</th><th>Description</th></tr>
+      <tr><td class="param-name">workspaces</td><td class="type">id, name, created_at</td><td>Isolated environments per engagement</td></tr>
+      <tr><td class="param-name">hosts</td><td class="type">id, workspace_id, address, os, arch, status</td><td>Discovered or exploited targets</td></tr>
+      <tr><td class="param-name">services</td><td class="type">id, host_id, port, proto, name, state</td><td>Open ports and running services</td></tr>
+      <tr><td class="param-name">credentials</td><td class="type">id, host_id, type, user, secret, origin</td><td>Captured hashes and passwords</td></tr>
+      <tr><td class="param-name">loot</td><td class="type">id, host_id, type, data, path</td><td>Files, screenshots, configs</td></tr>
+      <tr><td class="param-name">sessions_log</td><td class="type">id, session_id, command, output, ts</td><td>Command history per session</td></tr>
+    </table>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: MOD-EXPLOITS               ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-mod-exploits">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Modules <span>exploits/</span></div>
+    <div class="page-title">Exploit <span>Modules</span></div>
+    <div class="page-subtitle">Vulnerability-specific modules. Each implements <code>options()</code>, <code>check()</code>, and <code>run()</code>.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-file-code st-danger"></i> Module Base Class</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">PYTHON — modules/base.py</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="kw">class</span> <span class="cls">ExploitBase</span>(<span class="cls">ModuleBase</span>):
+    <span class="str">"""Base class for all exploit modules."""</span>
+    module_type = <span class="str">"exploit"</span>
+
+    <span class="kw">def</span> <span class="fn">options</span>(<span class="self">self</span>) -> <span class="cls">dict</span>:
+        <span class="str">"""Return dict of required/optional parameters."""</span>
+        <span class="kw">return</span> {
+            <span class="str">"RHOST"</span>:  {<span class="str">"type"</span>: <span class="cls">str</span>, <span class="str">"required"</span>: <span class="kw">True</span>,  <span class="str">"desc"</span>: <span class="str">"Target host"</span>},
+            <span class="str">"RPORT"</span>:  {<span class="str">"type"</span>: <span class="cls">int</span>, <span class="str">"required"</span>: <span class="kw">True</span>,  <span class="str">"desc"</span>: <span class="str">"Target port"</span>},
+            <span class="str">"PAYLOAD"</span>: {<span class="str">"type"</span>: <span class="cls">str</span>, <span class="str">"required"</span>: <span class="kw">True</span>,  <span class="str">"desc"</span>: <span class="str">"Payload to deliver"</span>},
+            <span class="str">"TARGET"</span>: {<span class="str">"type"</span>: <span class="cls">int</span>, <span class="str">"required"</span>: <span class="kw">False</span>, <span class="str">"desc"</span>: <span class="str">"Target index (0=default)"</span>},
+        }
+
+    <span class="kw">def</span> <span class="fn">check</span>(<span class="self">self</span>) -> <span class="cls">bool</span>:
+        <span class="str">"""Verify if target is vulnerable (non-destructive)."""</span>
+        <span class="kw">raise</span> <span class="cls">NotImplementedError</span>
+
+    <span class="kw">def</span> <span class="fn">run</span>(<span class="self">self</span>, payload: <span class="cls">bytes</span>) -> <span class="cls">bool</span>:
+        <span class="str">"""Execute the exploit with the given payload. Return success."""</span>
+        <span class="kw">raise</span> <span class="cls">NotImplementedError</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-bolt st-danger"></i> Exploit Module Catalog</div>
+    <div class="module-grid">
+      <div class="card c-red">
+        <div class="card-title" style="color:var(--accent3)"><i class="fas fa-server" style="color:var(--accent3)"></i> Remote Exploits</div>
+        <div class="card-desc">Target services listening on the network (RCE over network).</div>
+        <ul class="func-list fl-red">
+          <li><code>exploit/linux/http/apache_mod_cgi</code> — Apache mod_cgi bash env injection</li>
+          <li><code>exploit/linux/ftp/vsftpd_234</code> — VSFTPD 2.3.4 backdoor</li>
+          <li><code>exploit/windows/smb/ms17_010</code> — EternalBlue SMB RCE</li>
+          <li><code>exploit/windows/http/iis_webdav</code> — IIS WebDAV buffer overflow</li>
+        </ul>
+      </div>
+      <div class="card c-yellow">
+        <div class="card-title" style="color:var(--accent4)"><i class="fas fa-user" style="color:var(--accent4)"></i> Local Exploits</div>
+        <div class="card-desc">Run on the target after initial access. Escalate privileges locally.</div>
+        <ul class="func-list fl-yellow">
+          <li><code>exploit/linux/local/kenel_cve_2021_4034</code> — Pkexec LPE</li>
+          <li><code>exploit/linux/local/sudo_baron_samito</code> — Sudo rule bypass</li>
+          <li><code>exploit/windows/local/bypassuac</code> — UAC bypass via eventvwr</li>
+          <li><code>exploit/windows/local/privexchange</code> — Exchange privilege escalation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: MOD-PAYLOADS               ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-mod-payloads">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Modules <span>payloads/</span></div>
+    <div class="page-title">Payload <span>Modules</span></div>
+    <div class="page-subtitle">Shellcode and executable payloads for various platforms and connection types.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-file-code st-warn"></i> Payload Base Class</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">PYTHON — modules/base.py</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="kw">class</span> <span class="cls">PayloadBase</span>(<span class="cls">ModuleBase</span>):
+    module_type = <span class="str">"payload"</span>
+    staged = <span class="kw">False</span>       <span class="cmt"># True = stager + stage</span>
+    platform = <span class="str">"linux"</span>   <span class="cmt"># Target OS</span>
+    arch = <span class="str">"x64"</span>        <span class="cmt"># Target architecture</span>
+
+    <span class="kw">def</span> <span class="fn">generate</span>(<span class="self">self</span>) -> <span class="cls">bytes</span>:
+        <span class="str">"""Generate the complete payload shellcode."""</span>
+        <span class="kw">if</span> <span class="self">self</span>.staged:
+            <span class="kw">return</span> <span class="self">self</span>.stager() + <span class="self">self</span>.stage()
+        <span class="kw">return</span> <span class="self">self</span>._generate_single()
+
+    <span class="kw">def</span> <span class="fn">stager</span>(<span class="self">self</span>) -> <span class="cls">bytes</span>:
+        <span class="str">"""Small bootloader that downloads and executes the stage."""</span>
+        <span class="kw">raise</span> <span class="cls">NotImplementedError</span>
+
+    <span class="kw">def</span> <span class="fn">stage</span>(<span class="self">self</span>) -> <span class="cls">bytes</span>:
+        <span class="str">"""Full payload (meterpreter, shell) loaded by the stager."""</span>
+        <span class="kw">raise</span> <span class="cls">NotImplementedError</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-paper-plane st-warn"></i> Payload Catalog</div>
+    <table class="doc-table">
+      <tr><th>Path</th><th>Type</th><th>Platform</th><th>Staged</th><th>Description</th></tr>
+      <tr><td class="param-name">linux/x64/shell_reverse_tcp</td><td class="type">shell</td><td>Linux x64</td><td>No</td><td>Single reverse TCP shell</td></tr>
+      <tr><td class="param-name">linux/x64/reverse_tcp</td><td class="type">meterpreter</td><td>Linux x64</td><td>Yes</td><td>Staged meterpreter over reverse TCP</td></tr>
+      <tr><td class="param-name">linux/x64/shell_bind_tcp</td><td class="type">shell</td><td>Linux x64</td><td>No</td><td>Bind shell on target port</td></tr>
+      <tr><td class="param-name">windows/x64/reverse_tcp</td><td class="type">meterpreter</td><td>Windows x64</td><td>Yes</td><td>Staged meterpreter over reverse TCP</td></tr>
+      <tr><td class="param-name">windows/x64/reverse_https</td><td class="type">meterpreter</td><td>Windows x64</td><td>Yes</td><td>Staged meterpreter over HTTPS</td></tr>
+      <tr><td class="param-name">generic/shell_reverse_tcp</td><td class="type">shell</td><td>Any</td><td>No</td><td>Platform-independent reverse shell in Python</td></tr>
+    </table>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: MOD-ENCODERS               ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-mod-encoders">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Modules <span>encoders/</span></div>
+    <div class="page-title">Encoder <span>Modules</span></div>
+    <div class="page-subtitle">Transform payload bytes to evade signature detection. Encoders can be chained.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-file-code st-accent"></i> Encoder Base Class</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">PYTHON — modules/base.py</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="kw">class</span> <span class="cls">EncoderBase</span>(<span class="cls">ModuleBase</span>):
+    module_type = <span class="str">"encoder"</span>
+
+    <span class="kw">def</span> <span class="fn">encode</span>(<span class="self">self</span>, data: <span class="cls">bytes</span>, badchars: <span class="cls">str</span> = <span class="str">""</span>) -> <span class="cls">bytes</span>:
+        <span class="str">"""Transform payload bytes, avoiding badchars."""</span>
+        <span class="kw">raise</span> <span class="cls">NotImplementedError</span>
+
+    <span class="kw">def</span> <span class="fn">decode_stub</span>(<span class="self">self</span>) -> <span class="cls">bytes</span>:
+        <span class="str">"""Return the decoder stub prepended to encoded payload.
+        When executed, the stub decodes the payload in-memory."""</span>
+        <span class="kw">raise</span> <span class="cls">NotImplementedError</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-lock st-accent"></i> Encoder Catalog</div>
+    <div class="module-grid">
+      <div class="card c-green">
+        <div class="card-title" style="color:var(--accent)"><i class="fas fa-shuffle" style="color:var(--accent)"></i> Shikata Ga Nai</div>
+        <div class="card-desc">Polymorphic XOR encoder. Each run produces different output. Decoder stub uses random key and XOR-decodes payload in a loop.</div>
+        <div class="tag-list"><span class="tag tag-green">polymorphic</span><span class="tag tag-green">xor</span><span class="tag tag-green">x86/x64</span></div>
+      </div>
+      <div class="card c-blue">
+        <div class="card-title" style="color:var(--accent2)"><i class="fas fa-plus-minus" style="color:var(--accent2)"></i> XOR Encoder</div>
+        <div class="card-desc">Simple single-key XOR encoding. Fast but not polymorphic — same key produces same output.</div>
+        <div class="tag-list"><span class="tag tag-blue">xor</span><span class="tag tag-blue">simple</span></div>
+      </div>
+      <div class="card c-yellow">
+        <div class="card-title" style="color:var(--accent4)"><i class="fas fa-ban" style="color:var(--accent4)"></i> Charset Exclusion</div>
+        <div class="card-desc">Re-encodes payload to avoid specified bad characters (e.g., null bytes, newlines). Wraps another encoder.</div>
+        <div class="tag-list"><span class="tag tag-yellow">badchars</span><span class="tag tag-yellow">wrapper</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: MOD-AUXILIARY              ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-mod-auxiliary">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Modules <span>auxiliary/</span></div>
+    <div class="page-title">Auxiliary <span>Modules</span></div>
+    <div class="page-subtitle">Non-exploit tools: scanners, fuzzers, protocol utilities, and recon modules.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-satellite-dish st-info"></i> Auxiliary Catalog</div>
+    <table class="doc-table">
+      <tr><th>Path</th><th>Category</th><th>Description</th></tr>
+      <tr><td class="param-name">auxiliary/scanner/portscan/tcp</td><td>scanner</td><td>Multi-threaded TCP port scanner with service detection</td></tr>
+      <tr><td class="param-name">auxiliary/scanner/http/dir_scanner</td><td>scanner</td><td>Web directory brute-forcer with common wordlists</td></tr>
+      <tr><td class="param-name">auxiliary/scanner/ssh/brute_force</td><td>scanner</td><td>SSH credential brute-forcer using paramiko</td></tr>
+      <tr><td class="param-name">auxiliary/fuzzer/http/parameter_fuzz</td><td>fuzzer</td><td>HTTP parameter fuzzing for injection detection</td></tr>
+      <tr><td class="param-name">auxiliary/recon/dns_enum</td><td>recon</td><td>DNS subdomain enumeration via dictionary attack</td></tr>
+      <tr><td class="param-name">auxiliary/spoof/arp/spoof</td><td>spoof</td><td>ARP cache poisoning for MITM position</td></tr>
+    </table>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: MOD-POST                   ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-mod-post">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Modules <span>post/</span></div>
+    <div class="page-title">Post-Exploitation <span>Modules</span></div>
+    <div class="page-subtitle">Actions performed on compromised hosts through active sessions.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-user-secret st-purple"></i> Post Module Catalog</div>
+    <div class="module-grid">
+      <div class="card c-yellow">
+        <div class="card-title" style="color:var(--accent4)"><i class="fas fa-arrow-up" style="color:var(--accent4)"></i> Privilege Escalation</div>
+        <ul class="func-list fl-yellow">
+          <li><code>post/linux/escalate/kernel_suggester</code> — Suggests kernel exploits based on uname</li>
+          <li><code>post/linux/escalate/sudo_check</code> — Checks sudo misconfigurations</li>
+          <li><code>post/windows/escalate/bypassuac</code> — UAC bypass methods</li>
+        </ul>
+      </div>
+      <div class="card c-purple">
+        <div class="card-title" style="color:var(--accent5)"><i class="fas fa-arrows-rotate" style="color:var(--accent5)"></i> Persistence</div>
+        <ul class="func-list fl-purple">
+          <li><code>post/linux/persist/cron_backdoor</code> — Install cron-based callback</li>
+          <li><code>post/windows/persist/registry</code> — Registry run key persistence</li>
+          <li><code>post/windows/persist/service</code> — Create Windows service for payload</li>
+        </ul>
+      </div>
+      <div class="card c-red">
+        <div class="card-title" style="color:var(--accent3)"><i class="fas fa-route" style="color:var(--accent3)"></i> Pivoting</div>
+        <ul class="func-list fl-red">
+          <li><code>post/multi/pivot/socks_proxy</code> — SOCKS4a proxy through session</li>
+          <li><code>post/multi/pivot/portfwd</code> — Local/remote port forwarding</li>
+        </ul>
+      </div>
+      <div class="card c-green">
+        <div class="card-title" style="color:var(--accent)"><i class="fas fa-box-open" style="color:var(--accent)"></i> Loot &amp; Collection</div>
+        <ul class="func-list fl-green">
+          <li><code>post/linux/gather/enum_configs</code> — Harvest config files</li>
+          <li><code>post/linux/gather/hashdump</code> — Extract /etc/shadow hashes</li>
+          <li><code>post/windows/gather/hashdump</code> — Dump SAM database hashes</li>
+          <li><code>post/windows/gather/enum_chrome</code> — Extract Chrome saved passwords</li>
+          <li><code>post/multi/gather/screenshot</code> — Capture desktop screenshot</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: CLI REFERENCE              ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-cli-ref">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Reference <span>CLI</span></div>
+    <div class="page-title">CLI <span>Reference</span></div>
+    <div class="page-subtitle">All interactive console commands.</div>
+  </div>
+
+  <section class="section">
+    <table class="doc-table">
+      <tr><th>Command</th><th>Syntax</th><th>Description</th></tr>
+      <tr><td class="param-name">search</td><td>search [filter:value ...]</td><td>Search modules. Filters: type, platform, cve, name</td></tr>
+      <tr><td class="param-name">use</td><td>use &lt;module_path&gt;</td><td>Load a module as the active module</td></tr>
+      <tr><td class="param-name">info</td><td>info</td><td>Show active module details, options, and description</td></tr>
+      <tr><td class="param-name">set</td><td>set &lt;KEY&gt; &lt;VALUE&gt;</td><td>Set a module option</td></tr>
+      <tr><td class="param-name">unset</td><td>unset &lt;KEY&gt;</td><td>Clear a module option back to default</td></tr>
+      <tr><td class="param-name">show</td><td>show [options|payloads|targets|encoders]</td><td>Display module information</td></tr>
+      <tr><td class="param-name">check</td><td>check</td><td>Run non-destructive vulnerability check</td></tr>
+      <tr><td class="param-name">exploit</td><td>exploit [-j]</td><td>Run exploit. -j = run as background job</td></tr>
+      <tr><td class="param-name">run</td><td>run</td><td>Alias for exploit (for auxiliary/post modules)</td></tr>
+      <tr><td class="param-name">sessions</td><td>sessions [-i ID] [-k ID]</td><td>List sessions. -i = interact, -k = kill</td></tr>
+      <tr><td class="param-name">handler</td><td>handler -p &lt;payload&gt; -H &lt;lhost&gt; -P &lt;lport&gt;</td><td>Start a payload handler/listener</td></tr>
+      <tr><td class="param-name">route</td><td>route add &lt;subnet&gt; &lt;session_id&gt;</td><td>Add pivot route through a session</td></tr>
+      <tr><td class="param-name">workspace</td><td>workspace [name|-a name|-d name]</td><td>Switch, add, or delete workspaces</td></tr>
+      <tr><td class="param-name">db</td><td>db [hosts|services|creds|loot]</td><td>Query the workspace database</td></tr>
+      <tr><td class="param-name">back</td><td>back</td><td>Deselect active module, return to main prompt</td></tr>
+      <tr><td class="param-name">exit</td><td>exit</td><td>Shutdown engine and exit</td></tr>
+    </table>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: API REFERENCE              ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-api-ref">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Reference <span>API</span></div>
+    <div class="page-title">API <span>Reference</span></div>
+    <div class="page-subtitle">REST API and Python SDK for programmatic control.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-globe st-info"></i> REST Endpoints</div>
+    <table class="doc-table">
+      <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+      <tr><td class="param-name">GET</td><td class="type">/api/modules</td><td>List all loaded modules with metadata</td></tr>
+      <tr><td class="param-name">GET</td><td class="type">/api/modules/:path</td><td>Get module details, options, and description</td></tr>
+      <tr><td class="param-name">POST</td><td class="type">/api/modules/:path/execute</td><td>Execute a module with given options</td></tr>
+      <tr><td class="param-name">GET</td><td class="type">/api/sessions</td><td>List active sessions</td></tr>
+      <tr><td class="param-name">POST</td><td class="type">/api/sessions/:id/execute</td><td>Run a command in a session</td></tr>
+      <tr><td class="param-name">DELETE</td><td class="type">/api/sessions/:id</td><td>Kill a session</td></tr>
+      <tr><td class="param-name">GET</td><td class="type">/api/hosts</td><td>List hosts in current workspace</td></tr>
+      <tr><td class="param-name">GET</td><td class="type">/api/creds</td><td>List collected credentials</td></tr>
+      <tr><td class="param-name">GET</td><td class="type">/api/loot</td><td>List collected loot</td></tr>
+      <tr><td class="param-name">POST</td><td class="type">/api/handlers/start</td><td>Start a payload handler</td></tr>
+    </table>
+  </section>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-code st-accent"></i> Python SDK Example</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">PYTHON</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="it-from">from</span> cxploit.sdk <span class="it-import">import</span> CxPloitClient
+
+api = <span class="cls">CxPloitClient</span>(<span class="str">"http://localhost:8080"</span>)
+
+<span class="cmt"># Search for Linux exploits</span>
+modules = api.modules.search(type=<span class="str">"exploit"</span>, platform=<span class="str">"linux"</span>)
+
+<span class="cmt"># Execute an exploit</span>
+result = api.modules.execute(
+    <span class="str">"exploit/linux/http/apache_mod_cgi"</span>,
+    options={<span class="str">"RHOST"</span>: <span class="str">"192.168.1.100"</span>, <span class="str">"RPORT"</span>: <span class="num">80</span>}
+)
+
+<span class="cmt"># List and interact with sessions</span>
+sessions = api.sessions.list()
+<span class="kw">if</span> sessions:
+    output = api.sessions.execute(sessions[<span class="num">0</span>].id, <span class="str">"whoami"</span>)
+    <span class="fn">print</span>(output)</div>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: CONFIGURATION              ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-config">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Reference <span>Configuration</span></div>
+    <div class="page-title">Configuration <span>Options</span></div>
+    <div class="page-subtitle">All framework and module configuration parameters.</div>
+  </div>
+
+  <section class="section">
+    <div class="section-title"><i class="fas fa-file-code st-purple"></i> config.yml</div>
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">YAML — config.yml</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+      <div class="code-body"><span class="cmt"># CxPloit Framework Configuration</span>
+<span class="param">database</span>:
+  <span class="param">backend</span>: <span class="str">"sqlite"</span>          <span class="cmt"># sqlite | postgresql</span>
+  <span class="param">path</span>: <span class="str">"data/cxploit.db"</span>
+  <span class="param">host</span>: <span class="str">"localhost"</span>       <span class="cmt"># for postgresql</span>
+  <span class="param">port</span>: <span class="num">5432</span>
+
+<span class="param">handlers</span>:
+  <span class="param">default_lhost</span>: <span class="str">"0.0.0.0"</span>
+  <span class="param">default_lport</span>: <span class="num">4444</span>
+  <span class="param">auto_listen</span>: <span class="kw">true</span>          <span class="cmt"># Start handler on exploit</span>
+  <span class="param">ssl_cert</span>: <span class="kw">null</span>             <span class="cmt"># Path to SSL cert for HTTPS</span>
+
+<span class="param">encoder</span>:
+  <span class="param">default</span>: <span class="str">"encoder/x86/shikata_ga_nai"</span>
+  <span class="param">iterations</span>: <span class="num">5</span>              <span class="cmt"># Number of encoding passes</span>
+  <span class="param">badchars</span>: <span class="str">"\\x00"</span>         <span class="cmt"># Characters to avoid</span>
+
+<span class="param">modules</span>:
+  <span class="param">paths</span>:
+    - <span class="str">"modules/exploits"</span>
+    - <span class="str">"modules/payloads"</span>
+    - <span class="str">"modules/encoders"</span>
+    - <span class="str">"modules/auxiliary"</span>
+    - <span class="str">"modules/post"</span>
+  <span class="param">auto_load</span>: <span class="kw">true</span>
+
+<span class="param">logging</span>:
+  <span class="param">level</span>: <span class="str">"INFO"</span>
+  <span class="param">file</span>: <span class="str">"logs/cxploit.log"</span>
+  <span class="param">max_size</span>: <span class="num">10485760</span>          <span class="cmt"># 10MB</span></div>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ╔═══════════════════════════════════════════╗ -->
+<!-- ║          PAGE: PROJECT STRUCTURE          ║ -->
+<!-- ╚═══════════════════════════════════════════╝ -->
+<div class="page" id="page-project-struct">
+<div class="content">
+  <div class="page-header">
+    <div class="breadcrumb"><i class="fas fa-home"></i> Reference <span>Project Structure</span></div>
+    <div class="page-title">Project <span>Structure</span></div>
+    <div class="page-subtitle">Complete directory layout with every file's purpose.</div>
+  </div>
+
+  <section class="section">
+    <div class="code-block">
+      <div class="code-header"><span class="code-lang">DIRECTORY TREE</span></div>
+      <div class="code-body" style="line-height:1.9"><span style="color:var(--accent2);font-weight:600">cxploit-framework/</span>
+├── <span style="color:var(--accent)">cxploit.py</span>                    <span class="cmt">← Entry point / CLI launcher</span>
+├── <span style="color:var(--accent4)">config.yml</span>                    <span class="cmt">← Framework configuration</span>
+├── <span style="color:var(--accent4)">requirements.txt</span>              <span class="cmt">← Python dependencies</span>
+├── <span style="color:var(--accent4)">setup.py</span>                      <span class="cmt">← Package installer</span>
+├── <span style="color:var(--accent4)">README.md</span>                     <span class="cmt">← Project documentation</span>
+│
+├── <span style="color:var(--accent2);font-weight:600">core/</span>                         <span class="cmt">← Core engine layer</span>
+│   ├── <span style="color:var(--accent)">engine.py</span>                 <span class="cmt">← Main orchestrator class</span>
+│   ├── <span style="color:var(--accent)">module_loader.py</span>          <span class="cmt">← Dynamic module discovery &amp; import</span>
+│   ├── <span style="color:var(--accent)">session_manager.py</span>        <span class="cmt">← Session lifecycle management</span>
+│   ├── <span style="color:var(--accent)">payload_builder.py</span>        <span class="cmt">← Payload assembly + encoding</span>
+│   ├── <span style="color:var(--accent)">handler_system.py</span>         <span class="cmt">← Listener / handler management</span>
+│   ├── <span style="color:var(--accent)">event_bus.py</span>              <span class="cmt">← Pub/sub event system</span>
+│   ├── <span style="color:var(--accent)">datastore.py</span>              <span class="cmt">← Database layer + workspace</span>
+│   ├── <span style="color:var(--accent)">encoder_chain.py</span>          <span class="cmt">← Encoder stacking logic</span>
+│   └── <span style="color:var(--accent)">report_engine.py</span>          <span class="cmt">← Report generation (HTML/JSON/PDF)</span>
+│
+├── <span style="color:var(--accent2);font-weight:600">modules/</span>                      <span class="cmt">← Module ecosystem layer</span>
+│   ├── <span style="color:var(--accent)">base.py</span>                   <span class="cmt">← ModuleBase, ExploitBase, PayloadBase, etc.</span>
+│   ├── <span style="color:var(--accent3);font-weight:600">exploits/</span>                  <span class="cmt">← Exploit modules</span>
+│   │   ├── <span style="color:var(--accent3);font-weight:600">linux/</span>
+│   │   │   ├── <span style="color:var(--accent3);font-weight:600">http/</span>               <span class="cmt">← Web-based RCE exploits</span>
+│   │   │   ├── <span style="color:var(--accent3);font-weight:600">ftp/</span>                <span class="cmt">← FTP service exploits</span>
+│   │   │   ├── <span style="color:var(--accent3);font-weight:600">smb/</span>                <span class="cmt">← SMB service exploits</span>
+│   │   │   └── <span style="color:var(--accent3);font-weight:600">local/</span>              <span class="cmt">← Local privilege escalation</span>
+│   │   └── <span style="color:var(--accent3);font-weight:600">windows/</span>
+│   │       ├── <span style="color:var(--accent3);font-weight:600">smb/</span>
+│   │       ├── <span style="color:var(--accent3);font-weight:600">http/</span>
+│   │       └── <span style="color:var(--accent3);font-weight:600">local/</span>
+│   ├── <span style="color:var(--accent4);font-weight:600">payloads/</span>                  <span class="cmt">← Payload modules</span>
+│   │   ├── <span style="color:var(--accent4);font-weight:600">linux/</span>  <span style="color:var(--accent4);font-weight:600">x86/</span>  <span style="color:var(--accent4);font-weight:600">x64/</span>
+│   │   ├── <span style="color:var(--accent4);font-weight:600">windows/</span> <span style="color:var(--accent4);font-weight:600">x86/</span>  <span style="color:var(--accent4);font-weight:600">x64/</span>
+│   │   └── <span style="color:var(--accent4);font-weight:600">generic/</span>
+│   ├── <span style="color:var(--accent);font-weight:600">encoders/</span>                  <span class="cmt">← Encoder modules</span>
+│   │   ├── <span style="color:var(--accent);font-weight:600">x86/</span>
+│   │   └── <span style="color:var(--accent);font-weight:600">x64/</span>
+│   ├── <span style="color:var(--accent2);font-weight:600">auxiliary/</span>                 <span class="cmt">← Scanner/fuzzer/recon modules</span>
+│   │   ├── <span style="color:var(--accent2);font-weight:600">scanner/</span>
+│   │   ├── <span style="color:var(--accent2);font-weight:600">fuzzer/</span>
+│   │   └── <span style="color:var(--accent2);font-weight:600">recon/</span>
+│   └── <span style="color:var(--accent5);font-weight:600">post/</span>                      <span class="cmt">← Post-exploitation modules</span>
+│       ├── <span style="color:var(--accent5);font-weight:600">linux/</span>
+│       ├── <span style="color:var(--accent5);font-weight:600">windows/</span>
+│       └── <span style="color:var(--accent5);font-weight:600">multi/</span>               <span class="cmt">← Cross-platform post modules</span>
+│
+├── <span style="color:var(--accent2);font-weight:600">cli/</span>                          <span class="cmt">← CLI interface layer</span>
+│   ├── <span style="color:var(--accent)">console.py</span>                <span class="cmt">← Main REPL (cmd.Cmd subclass)</span>
+│   ├── <span style="color:var(--accent)">completer.py</span>              <span class="cmt">← Tab-completion logic</span>
+│   └── <span style="color:var(--accent)">commands.py</span>               <span class="cmt">← Command handlers</span>
+│
+├── <span style="color:var(--accent2);font-weight:600">web_gui/</span>                      <span class="cmt">← Web interface layer</span>
+│   ├── <span style="color:var(--accent)">app.py</span>                    <span class="cmt">← Flask application</span>
+│   ├── <span style="color:var(--accent)">api.py</span>                    <span class="cmt">← REST API routes</span>
+│   └── <span style="color:var(--accent2);font-weight:600">templates/</span>                <span class="cmt">← Jinja2 HTML templates</span>
+│
+├── <span style="color:var(--accent2);font-weight:600">lib/</span>                          <span class="cmt">← Shared libraries</span>
+│   ├── <span style="color:var(--accent)">shellcode.py</span>              <span class="cmt">← Shellcode generation helpers</span>
+│   ├── <span style="color:var(--accent)">network.py</span>                <span class="cmt">← Socket wrappers (TCP/SSL/HTTP)</span>
+│   └── <span style="color:var(--accent)">crypto.py</span>                 <span class="cmt">← Crypto utilities (XOR/AES/RSA)</span>
+│
+├── <span style="color:var(--accent2);font-weight:600">data/</span>                         <span class="cmt">← Framework data files</span>
+│   ├── <span style="color:var(--accent4)">cxploit.db</span>                <span class="cmt">← Default SQLite database</span>
+│   └── <span style="color:var(--accent2);font-weight:600">wordlists/</span>                <span class="cmt">← Dictionary files for brute-force</span>
+│
+└── <span style="color:var(--accent2);font-weight:600">logs/</span>                         <span class="cmt">← Log output directory</span>
+    └── <span style="color:var(--accent4)">cxploit.log</span></div>
+    </div>
+  </section>
+</div>
+</div>
+
+</main>
+</div>
+
+<script>
+/* ── Page Navigation ── */
+function showPage(pageId) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Show target
+  const target = document.getElementById('page-' + pageId);
+  if (target) target.classList.add('active');
+  // Update sidebar
+  document.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+  const link = document.querySelector(`.sb-link[data-page="${pageId}"]`);
+  if (link) link.classList.add('active');
+  // Close mobile sidebar
+  document.querySelector('.sidebar').classList.remove('open');
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+
+/* ── Copy Code ── */
+function copyCode(btn) {
+  const codeBody = btn.closest('.code-block').querySelector('.code-body');
+  const text = codeBody.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+/* ── Search ── */
+function handleSearch(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('.sb-link').forEach(link => {
+    const text = link.textContent.toLowerCase();
+    if (q && !text.includes(q)) {
+      link.style.opacity = '0.3';
+    } else {
+      link.style.opacity = '1';
+    }
+  });
+}
+
+/* ── Keyboard shortcut ── */
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+    const input = document.querySelector('.search-input');
+    if (document.activeElement !== input) {
+      e.preventDefault();
+      input.focus();
+    }
+  }
+});
+</script>
+</body>
+</html>
