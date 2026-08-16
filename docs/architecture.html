@@ -1,0 +1,967 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CXploit Framework - Complete Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0B1120;
+    --bg-card: #111827;
+    --bg-card-hover: #1A2332;
+    --border: #1E293B;
+    --border-accent: #334155;
+    --text-primary: #F1F5F9;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+    --accent-blue: #3B82F6;
+    --accent-cyan: #06B6D4;
+    --accent-emerald: #10B981;
+    --accent-amber: #F59E0B;
+    --accent-rose: #F43F5E;
+    --accent-violet: #8B5CF6;
+    --accent-orange: #F97316;
+    --accent-pink: #EC4899;
+    --accent-teal: #14B8A6;
+    --accent-lime: #84CC16;
+    --accent-sky: #0EA5E9;
+
+    --core-color: #3B82F6;
+    --cli-color: #06B6D4;
+    --api-color: #8B5CF6;
+    --recon-color: #10B981;
+    --aux-color: #F59E0B;
+    --post-color: #F43F5E;
+    --payload-color: #F97316;
+    --evasion-color: #EC4899;
+    --c2-color: #EF4444;
+    --plugin-color: #14B8A6;
+    --report-color: #84CC16;
+    --util-color: #64748B;
+    --ext-color: #0EA5E9;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 2200px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header h1 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #3B82F6, #06B6D4, #10B981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+  .header .subtitle {
+    color: var(--text-secondary);
+    font-size: 15px;
+    font-weight: 400;
+  }
+  .header .codename {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent-amber);
+    font-size: 13px;
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+  .header .stats {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .header .stat { text-align: center; }
+  .header .stat .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+  }
+  .header .stat .label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .entry-section { margin-bottom: 40px; }
+  .entry-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .entry-node {
+    background: var(--bg-card);
+    border: 1.5px solid var(--core-color);
+    border-radius: 8px;
+    padding: 12px 20px;
+    text-align: center;
+    min-width: 140px;
+  }
+  .entry-node .name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--core-color);
+  }
+  .entry-node .desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .arrow { color: var(--text-muted); font-size: 20px; flex-shrink: 0; }
+
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .core-section { margin-bottom: 48px; }
+  .core-section .section-title { color: var(--core-color); border-color: var(--core-color); }
+  .core-section .icon { background: rgba(59,130,246,0.15); color: var(--core-color); }
+
+  .framework-hub {
+    background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(6,182,212,0.05));
+    border: 1.5px solid rgba(59,130,246,0.3);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .framework-hub .hub-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--core-color);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .hub-components {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .hub-comp {
+    background: var(--bg-card);
+    border: 1px solid var(--border-accent);
+    border-radius: 8px;
+    padding: 14px;
+    transition: all 0.2s;
+  }
+  .hub-comp:hover { background: var(--bg-card-hover); border-color: var(--core-color); }
+  .hub-comp .comp-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    margin-bottom: 6px;
+  }
+  .hub-comp .comp-file {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 6px;
+  }
+  .hub-comp .comp-detail {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .hub-comp .imports { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .hub-comp .imports .imp-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .hub-comp .imports .imp-list { display: flex; flex-wrap: wrap; gap: 4px; }
+  .hub-comp .imports .imp-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    background: rgba(59,130,246,0.1);
+    color: var(--core-color);
+    border: 1px solid rgba(59,130,246,0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .hub-comp .methods { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+  .hub-comp .methods .meth-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+  .hub-comp .methods .meth-list {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .module-section { margin-bottom: 48px; }
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .module-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    transition: all 0.25s;
+    border-left: 3px solid;
+  }
+  .module-card:hover {
+    background: var(--bg-card-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  .module-card .mod-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+  .module-card .mod-file {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .module-card .mod-desc {
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+  .module-card .mod-class {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  .module-card .mod-libs { display: flex; flex-wrap: wrap; gap: 3px; }
+  .module-card .mod-libs .lib-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    border: 1px solid;
+  }
+
+  .mod-recon { border-left-color: var(--recon-color); }
+  .mod-recon .mod-name { color: var(--recon-color); }
+  .mod-recon .lib-tag { background: rgba(16,185,129,0.1); color: var(--recon-color); border-color: rgba(16,185,129,0.25); }
+
+  .mod-aux { border-left-color: var(--aux-color); }
+  .mod-aux .mod-name { color: var(--aux-color); }
+  .mod-aux .lib-tag { background: rgba(245,158,11,0.1); color: var(--aux-color); border-color: rgba(245,158,11,0.25); }
+
+  .mod-post { border-left-color: var(--post-color); }
+  .mod-post .mod-name { color: var(--post-color); }
+  .mod-post .lib-tag { background: rgba(244,63,94,0.1); color: var(--post-color); border-color: rgba(244,63,94,0.25); }
+
+  .mod-payload { border-left-color: var(--payload-color); }
+  .mod-payload .mod-name { color: var(--payload-color); }
+  .mod-payload .lib-tag { background: rgba(249,115,22,0.1); color: var(--payload-color); border-color: rgba(249,115,22,0.25); }
+
+  .mod-evasion { border-left-color: var(--evasion-color); }
+  .mod-evasion .mod-name { color: var(--evasion-color); }
+  .mod-evasion .lib-tag { background: rgba(236,72,153,0.1); color: var(--evasion-color); border-color: rgba(236,72,153,0.25); }
+
+  .mod-c2 { border-left-color: var(--c2-color); }
+  .mod-c2 .mod-name { color: var(--c2-color); }
+  .mod-c2 .lib-tag { background: rgba(239,68,68,0.1); color: var(--c2-color); border-color: rgba(239,68,68,0.25); }
+
+  .mod-plugin { border-left-color: var(--plugin-color); }
+  .mod-plugin .mod-name { color: var(--plugin-color); }
+  .mod-plugin .lib-tag { background: rgba(20,184,166,0.1); color: var(--plugin-color); border-color: rgba(20,184,166,0.25); }
+
+  .mod-report { border-left-color: var(--report-color); }
+  .mod-report .mod-name { color: var(--report-color); }
+  .mod-report .lib-tag { background: rgba(132,204,22,0.1); color: var(--report-color); border-color: rgba(132,204,22,0.25); }
+
+  .mod-util { border-left-color: var(--util-color); }
+  .mod-util .mod-name { color: var(--util-color); }
+  .mod-util .lib-tag { background: rgba(100,116,139,0.1); color: var(--util-color); border-color: rgba(100,116,139,0.25); }
+
+  .mod-cli { border-left-color: var(--cli-color); }
+  .mod-cli .mod-name { color: var(--cli-color); }
+  .mod-cli .lib-tag { background: rgba(6,182,212,0.1); color: var(--cli-color); border-color: rgba(6,182,212,0.25); }
+
+  .mod-api { border-left-color: var(--api-color); }
+  .mod-api .mod-name { color: var(--api-color); }
+  .mod-api .lib-tag { background: rgba(139,92,246,0.1); color: var(--api-color); border-color: rgba(139,92,246,0.25); }
+
+  .mod-intel { border-left-color: var(--accent-violet); }
+  .mod-intel .mod-name { color: var(--accent-violet); }
+  .mod-intel .lib-tag { background: rgba(139,92,246,0.1); color: var(--accent-violet); border-color: rgba(139,92,246,0.25); }
+
+  .dep-section { margin-bottom: 48px; }
+  .dep-section .section-title { color: var(--ext-color); border-color: var(--ext-color); }
+  .dep-section .icon { background: rgba(14,165,233,0.15); color: var(--ext-color); }
+
+  .dep-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .dep-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    border-left: 3px solid var(--ext-color);
+  }
+  .dep-card .dep-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ext-color);
+    margin-bottom: 4px;
+  }
+  .dep-card .dep-ver {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .dep-card .dep-usage {
+    font-size: 10px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  .conn-section { margin-bottom: 48px; }
+  .conn-section .section-title { color: var(--accent-amber); border-color: var(--accent-amber); }
+  .conn-section .icon { background: rgba(245,158,11,0.15); color: var(--accent-amber); }
+
+  .conn-flow {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    overflow-x: auto;
+  }
+  .conn-flow pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    white-space: pre;
+  }
+  .conn-flow .hl-core { color: var(--core-color); font-weight: 600; }
+  .conn-flow .hl-cli { color: var(--cli-color); }
+  .conn-flow .hl-api { color: var(--api-color); }
+  .conn-flow .hl-recon { color: var(--recon-color); }
+  .conn-flow .hl-payload { color: var(--payload-color); }
+  .conn-flow .hl-util { color: var(--util-color); }
+  .conn-flow .hl-arrow { color: var(--text-muted); }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 32px;
+    justify-content: center;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .container { padding: 20px 16px 60px; }
+    .header h1 { font-size: 22px; }
+    .module-grid { grid-template-columns: 1fr; }
+    .dep-grid { grid-template-columns: 1fr; }
+    .hub-components { grid-template-columns: 1fr; }
+    .header .stats { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>CXploit Framework v2.0</h1>
+    <div class="subtitle">Custom Exploit Framework &mdash; Complete Architecture</div>
+    <div class="codename">CODENAME: SHADOW STRIKE</div>
+    <div class="stats">
+      <div class="stat"><div class="num">109</div><div class="label">Python Files</div></div>
+      <div class="stat"><div class="num">7</div><div class="label">Core Engine</div></div>
+      <div class="stat"><div class="num">22</div><div class="label">Recon Modules</div></div>
+      <div class="stat"><div class="num">18</div><div class="label">Auxiliary</div></div>
+      <div class="stat"><div class="num">11</div><div class="label">Post-Exploit</div></div>
+      <div class="stat"><div class="num">11</div><div class="label">Payloads</div></div>
+      <div class="stat"><div class="num">6</div><div class="label">Evasion</div></div>
+      <div class="stat"><div class="num">12</div><div class="label">Dependencies</div></div>
+    </div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--core-color)"></div>Core Engine</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--cli-color)"></div>CLI Interface</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--api-color)"></div>REST API</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--recon-color)"></div>Reconnaissance</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--aux-color)"></div>Auxiliary</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--post-color)"></div>Post-Exploitation</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--payload-color)"></div>Payloads</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--evasion-color)"></div>Evasion</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--c2-color)"></div>C2</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--accent-violet)"></div>AI/Intelligence</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--report-color)"></div>Reporting</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--util-color)"></div>Utilities</div>
+  </div>
+
+  <div class="entry-section">
+    <div class="entry-flow">
+      <div class="entry-node">
+        <div class="name">main.py</div>
+        <div class="desc">Entry Point</div>
+      </div>
+      <div class="arrow">&rarr;</div>
+      <div class="entry-node">
+        <div class="name">argparse</div>
+        <div class="desc">CLI Args Parse</div>
+      </div>
+      <div class="arrow">&rarr;</div>
+      <div class="entry-node" style="border-color: var(--cli-color);">
+        <div class="name" style="color:var(--cli-color)">InteractiveConsole</div>
+        <div class="desc">CLI REPL</div>
+      </div>
+      <div class="arrow">&rarr;</div>
+      <div class="entry-node" style="border-color: var(--core-color);">
+        <div class="name" style="color:var(--core-color)">Framework</div>
+        <div class="desc">Singleton Engine</div>
+      </div>
+      <div class="arrow">&rarr;</div>
+      <div class="entry-node" style="border-color: var(--accent-violet);">
+        <div class="name" style="color:var(--accent-violet)">ModuleLoader</div>
+        <div class="desc">Dynamic Discovery</div>
+      </div>
+      <div class="arrow">&rarr;</div>
+      <div class="entry-node" style="border-color: var(--recon-color);">
+        <div class="name" style="color:var(--recon-color)">Modules</div>
+        <div class="desc">109 Python Files</div>
+      </div>
+    </div>
+    <div style="text-align:center; margin-top:12px; font-size:11px; color:var(--text-muted);">
+      Optional: <span style="color:var(--api-color)">--api</span> flag &rarr; FrameworkAPI (Flask REST) &nbsp;|&nbsp; <span style="color:var(--accent-amber)">-r</span> flag &rarr; ResourceScript (.rc batch)
+    </div>
+  </div>
+
+  <!-- CORE ENGINE -->
+  <div class="core-section">
+    <div class="section-title">
+      <div class="icon">&#9881;</div>
+      Core Engine &mdash; Framework Hub (Singleton Pattern)
+    </div>
+    <div class="framework-hub">
+      <div class="hub-title">Framework &mdash; Central Orchestrator (core/framework.py)</div>
+      <div class="hub-components">
+
+        <div class="hub-comp">
+          <div class="comp-name">Framework</div>
+          <div class="comp-file">core/framework.py</div>
+          <div class="comp-detail">Singleton engine wiring all components. Metasploit-style <code>use/set/run</code> paradigm.</div>
+          <div class="methods">
+            <div class="meth-label">Key Methods</div>
+            <div class="meth-list">initialize(), use_module(), run_module(), run_module_background(), list_jobs(), kill_job(), set_option(), get_option(), shutdown()</div>
+          </div>
+          <div class="imports">
+            <div class="imp-label">Internal Imports</div>
+            <div class="imp-list">
+              <span class="imp-tag">ConfigManager</span>
+              <span class="imp-tag">Database</span>
+              <span class="imp-tag">EventSystem</span>
+              <span class="imp-tag">SessionManager</span>
+              <span class="imp-tag">ModuleLoader</span>
+              <span class="imp-tag">SafetyChecker</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-comp">
+          <div class="comp-name">ConfigManager</div>
+          <div class="comp-file">core/config.py</div>
+          <div class="comp-detail">JSON file persistence with dot-notation access. Default config: framework, database, network, scanner, payload, reporting, safety.</div>
+          <div class="methods">
+            <div class="meth-label">Key Methods</div>
+            <div class="meth-list">load(), save(), get(key_path), set(key_path, val), get_section(), reset(), to_dict()</div>
+          </div>
+          <div class="imports">
+            <div class="imp-label">Imports</div>
+            <div class="imp-list">
+              <span class="imp-tag">os</span>
+              <span class="imp-tag">json</span>
+              <span class="imp-tag">constants.DATA_DIR</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-comp">
+          <div class="comp-name">Database</div>
+          <div class="comp-file">core/database.py</div>
+          <div class="comp-detail">SQLAlchemy ORM + SQLite. Thread-safe with session_scope() context manager.</div>
+          <div class="methods">
+            <div class="meth-label">ORM Models</div>
+            <div class="meth-list">Target, Service, Vulnerability, Credential, ExploitSession, EventLog</div>
+          </div>
+          <div class="methods">
+            <div class="meth-label">CRUD Methods</div>
+            <div class="meth-list">add_target(), get_targets(), add_service(), add_vulnerability(), add_credential(), add_exploit_session(), add_event(), clear_events()</div>
+          </div>
+          <div class="imports">
+            <div class="imp-label">Imports</div>
+            <div class="imp-list">
+              <span class="imp-tag">sqlalchemy</span>
+              <span class="imp-tag">datetime</span>
+              <span class="imp-tag">constants.DB_PATH</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-comp">
+          <div class="comp-name">EventSystem</div>
+          <div class="comp-file">core/events.py</div>
+          <div class="comp-detail">Central pub/sub event bus for logging. Emits to file + DB + listeners.</div>
+          <div class="methods">
+            <div class="meth-label">Key Methods</div>
+            <div class="meth-list">emit(), on()/off(), debug(), info(), warning(), error(), critical(), success()</div>
+          </div>
+          <div class="imports">
+            <div class="imp-label">Imports</div>
+            <div class="imp-list">
+              <span class="imp-tag">logging</span>
+              <span class="imp-tag">datetime</span>
+              <span class="imp-tag">constants.LOGS_DIR</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-comp">
+          <div class="comp-name">SessionManager</div>
+          <div class="comp-file">core/session.py</div>
+          <div class="comp-detail">Manages exploitation sessions with real socket I/O. Bidirectional interact() mode.</div>
+          <div class="methods">
+            <div class="meth-label">Key Methods</div>
+            <div class="meth-list">create_session(), get_session(), interact(), close_session(), close_all(), list_sessions(), active_count()</div>
+          </div>
+          <div class="imports">
+            <div class="imp-label">Imports</div>
+            <div class="imp-list">
+              <span class="imp-tag">socket</span>
+              <span class="imp-tag">select</span>
+              <span class="imp-tag">threading</span>
+              <span class="imp-tag">uuid</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-comp">
+          <div class="comp-name">ModuleLoader</div>
+          <div class="comp-file">core/module_loader.py</div>
+          <div class="comp-detail">Dynamic runtime module discovery. Scans directories, finds classes with run() method, registers non-ABC classes.</div>
+          <div class="methods">
+            <div class="meth-label">Key Methods</div>
+            <div class="meth-list">discover_modules(), get_module(), create_instance(), list_modules(), search_modules(), reload_module(), count()</div>
+          </div>
+          <div class="imports">
+            <div class="imp-label">Imports</div>
+            <div class="imp-list">
+              <span class="imp-tag">importlib</span>
+              <span class="imp-tag">inspect</span>
+              <span class="imp-tag">abc</span>
+              <span class="imp-tag">constants.MODULE_TYPES</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-comp">
+          <div class="comp-name">BaseExploit (ABC)</div>
+          <div class="comp-file">exploits/base.py</div>
+          <div class="comp-detail">Abstract base class for ALL modules. Every module inherits this.</div>
+          <div class="methods">
+            <div class="meth-label">Interface</div>
+            <div class="meth-list">run() [abstract], check(), cleanup(), set_option(), get_option(), validate_options(), store_vuln(), store_cred(), print_status/good/error()</div>
+          </div>
+          <div class="imports">
+            <div class="imp-label">Imports</div>
+            <div class="imp-list">
+              <span class="imp-tag">abc.ABC</span>
+              <span class="imp-tag">abc.abstractmethod</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hub-comp">
+          <div class="comp-name">SafetyChecker</div>
+          <div class="comp-file">utils/validators.py</div>
+          <div class="comp-detail">Authorization gating + emergency stop. Integrated into Framework.run_module().</div>
+          <div class="methods">
+            <div class="meth-label">Key Methods</div>
+            <div class="meth-list">authorize_target(), is_authorized(), trigger_emergency_stop(), reset_emergency_stop(), is_stopped()</div>
+          </div>
+          <div class="imports">
+            <div class="imp-label">Imports</div>
+            <div class="imp-list">
+              <span class="imp-tag">re</span>
+              <span class="imp-tag">ipaddress</span>
+              <span class="imp-tag">urllib.parse</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CLI INTERFACE -->
+  <div class="module-section">
+    <div class="section-title" style="color:var(--cli-color); border-color:var(--cli-color);">
+      <div class="icon" style="background:rgba(6,182,212,0.15); color:var(--cli-color);">&#9000;</div>
+      CLI Interface &mdash; Interactive Console (Metasploit-style REPL)
+    </div>
+    <div class="module-grid">
+      <div class="module-card mod-cli">
+        <div class="mod-name">InteractiveConsole</div>
+        <div class="mod-file">cli/console.py (1,112 lines!)</div>
+        <div class="mod-desc">Main REPL loop with prompt_toolkit. Dispatch table for 50+ commands. Lazy imports for all module categories.</div>
+        <div class="mod-class">Class: InteractiveConsole</div>
+        <div class="mod-libs"><span class="lib-tag">prompt_toolkit</span><span class="lib-tag">rich</span><span class="lib-tag">FrameworkCompleter</span><span class="lib-tag">commands</span><span class="lib-tag">Framework</span></div>
+      </div>
+      <div class="module-card mod-cli">
+        <div class="mod-name">Command Handlers</div>
+        <div class="mod-file">cli/commands.py</div>
+        <div class="mod-desc">cmd_help(), cmd_show(), cmd_use(), cmd_set(), cmd_run(), cmd_search(), cmd_sessions(), cmd_jobs(), cmd_stats(), cmd_authorize(), cmd_emergency_stop()</div>
+        <div class="mod-class">Functions: cmd_*</div>
+        <div class="mod-libs"><span class="lib-tag">rich.Console</span><span class="lib-tag">rich.Table</span><span class="lib-tag">rich.Panel</span></div>
+      </div>
+      <div class="module-card mod-cli">
+        <div class="mod-name">FrameworkCompleter</div>
+        <div class="mod-file">cli/completer.py</div>
+        <div class="mod-desc">Context-aware auto-completion for commands, module names, show subcommands, option names, session IDs.</div>
+        <div class="mod-class">Class: FrameworkCompleter</div>
+        <div class="mod-libs"><span class="lib-tag">prompt_toolkit.completion</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- API INTERFACE -->
+  <div class="module-section">
+    <div class="section-title" style="color:var(--api-color); border-color:var(--api-color);">
+      <div class="icon" style="background:rgba(139,92,246,0.15); color:var(--api-color);">&#127760;</div>
+      REST API &amp; Dashboard
+    </div>
+    <div class="module-grid">
+      <div class="module-card mod-api">
+        <div class="mod-name">FrameworkAPI</div>
+        <div class="mod-file">api/server.py</div>
+        <div class="mod-desc">Flask REST API for remote framework control. Routes: /status, /modules, /modules/name/run, /targets, /vulnerabilities, /sessions, /report</div>
+        <div class="mod-class">Class: FrameworkAPI</div>
+        <div class="mod-libs"><span class="lib-tag">flask</span><span class="lib-tag">threading</span><span class="lib-tag">Framework</span></div>
+      </div>
+      <div class="module-card mod-api">
+        <div class="mod-name">Dashboard</div>
+        <div class="mod-file">api/dashboard.py</div>
+        <div class="mod-desc">Real-time web dashboard with embedded HTML/CSS/JS. Shows targets, services, vulns, creds, sessions, heatmap, event log.</div>
+        <div class="mod-class">Class: Dashboard</div>
+        <div class="mod-libs"><span class="lib-tag">flask</span><span class="lib-tag">werkzeug</span><span class="lib-tag">webbrowser</span><span class="lib-tag">EventSystem</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI INTELLIGENCE -->
+  <div class="module-section">
+    <div class="section-title" style="color:var(--accent-violet); border-color:var(--accent-violet);">
+      <div class="icon" style="background:rgba(139,92,246,0.15); color:var(--accent-violet);">&#129302;</div>
+      Core Intelligence &mdash; AI-Powered Engines
+    </div>
+    <div class="module-grid">
+      <div class="module-card mod-intel"><div class="mod-name">AutoPwn</div><div class="mod-file">core/autopwn.py</div><div class="mod-desc">AI-driven auto-exploitation pipeline with MITRE ATT&amp;CK mapping. Phased execution with attack chains.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">urllib3</span><span class="lib-tag">json</span><span class="lib-tag">collections</span></div></div>
+      <div class="module-card mod-intel"><div class="mod-name">AiAttackPlanner</div><div class="mod-file">core/ai_attack_planner.py</div><div class="mod-desc">Graph-based attack tree builder with MITRE ATT&amp;CK technique mapping and success probability estimation.</div><div class="mod-libs"><span class="lib-tag">json</span><span class="lib-tag">time</span></div></div>
+      <div class="module-card mod-intel"><div class="mod-name">ExploitSuggest</div><div class="mod-file">core/exploit_suggest.py</div><div class="mod-desc">CVE-to-exploit mapping with curated database of 100+ CVEs (Log4Shell, EternalBlue, BlueKeep, etc.).</div><div class="mod-libs"><span class="lib-tag">json</span></div></div>
+      <div class="module-card mod-intel"><div class="mod-name">VulnChainer</div><div class="mod-file">core/vuln_chainer.py</div><div class="mod-desc">Kill chain visualization, MITRE ATT&amp;CK mapping, multi-stage exploit chaining with templates.</div><div class="mod-libs"><span class="lib-tag">json</span><span class="lib-tag">time</span></div></div>
+      <div class="module-card mod-intel"><div class="mod-name">VulnScorer</div><div class="mod-file">core/vuln_scorer.py</div><div class="mod-desc">AI-powered CVSS v3.1 vulnerability scoring with heuristic rules, service risk multipliers, critical pattern detection.</div><div class="mod-libs"><span class="lib-tag">json</span></div></div>
+      <div class="module-card mod-intel"><div class="mod-name">ZeroDayDetector</div><div class="mod-file">core/zeroday_detector.py</div><div class="mod-desc">Behavior-based zero-day anomaly detection. Patterns: stack trace leaks, version disclosure, SQL errors, default creds.</div><div class="mod-libs"><span class="lib-tag">json</span><span class="lib-tag">requests</span></div></div>
+      <div class="module-card mod-intel"><div class="mod-name">TargetProfiler</div><div class="mod-file">core/target_profile.py</div><div class="mod-desc">Aggregates all findings per target into risk-scored profiles.</div><div class="mod-libs"><span class="lib-tag">json</span></div></div>
+      <div class="module-card mod-intel"><div class="mod-name">CredentialStore</div><div class="mod-file">core/credential_store.py</div><div class="mod-desc">Central credential management with import/export and hash cracking integration.</div><div class="mod-libs"><span class="lib-tag">json</span></div></div>
+      <div class="module-card mod-intel"><div class="mod-name">ResourceScript</div><div class="mod-file">core/resource_script.py</div><div class="mod-desc">.rc automation script parser with variables, loops, conditionals, delays for batch execution.</div><div class="mod-libs"><span class="lib-tag">time</span><span class="lib-tag">re</span></div></div>
+      <div class="module-card mod-intel"><div class="mod-name">RedteamCollab</div><div class="mod-file">core/redteam_collab.py</div><div class="mod-desc">Red team collaboration hub: shared findings, operator sync, target assignments, engagement timeline.</div><div class="mod-libs"><span class="lib-tag">json</span><span class="lib-tag">threading</span></div></div>
+    </div>
+  </div>
+
+  <!-- RECONNAISSANCE -->
+  <div class="module-section">
+    <div class="section-title" style="color:var(--recon-color); border-color:var(--recon-color);">
+      <div class="icon" style="background:rgba(16,185,129,0.15); color:var(--recon-color);">&#128269;</div>
+      Reconnaissance (22 Modules)
+    </div>
+    <div class="module-grid">
+      <div class="module-card mod-recon"><div class="mod-name">PortScanner</div><div class="mod-file">recon/port_scanner.py</div><div class="mod-desc">Multi-mode: SYN/FIN/XMAS/NULL/ACK stealth, timing profiles, service detection.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">struct</span><span class="lib-tag">threading</span><span class="lib-tag">utils.network</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">OSINTRecon</div><div class="mod-file">recon/osint.py (53KB!)</div><div class="mod-desc">Social media, Google dorks, WHOIS, Shodan, breach data lookup.</div><div class="mod-libs"><span class="lib-tag">aiohttp</span><span class="lib-tag">requests</span><span class="lib-tag">beautifulsoup4</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">NetworkMapper</div><div class="mod-file">recon/network_mapper.py</div><div class="mod-desc">Network topology discovery, SNMP walk, ARP table mapping.</div><div class="mod-libs"><span class="lib-tag">python-nmap</span><span class="lib-tag">socket</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">VulnScanner</div><div class="mod-file">recon/vuln_scanner.py</div><div class="mod-desc">500+ vulnerability checks, CVE correlation, SSL analysis.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">json</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">WebScanner</div><div class="mod-file">recon/web_scanner.py</div><div class="mod-desc">Web app scanner: directory enum, tech detection, SSL analysis.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">utils.constants</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">CloudScanner</div><div class="mod-file">recon/cloud_scanner.py</div><div class="mod-desc">AWS/Azure/GCP misconfiguration scanner, S3 bucket enumeration.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">json</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">ADEnumerator</div><div class="mod-file">recon/ad_enum.py</div><div class="mod-desc">Active Directory/LDAP enumeration, Kerberoasting, AS-REP roasting.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">ldap3</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">DnsEnum</div><div class="mod-file">recon/dns_enum.py</div><div class="mod-desc">Zone transfers, DNSSEC, subdomain bruteforce enumeration.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">dnspython</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">HostDiscovery</div><div class="mod-file">recon/host_discovery.py</div><div class="mod-desc">ARP/ICMP/TCP host discovery with CIDR expansion.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">scapy</span><span class="lib-tag">utils.network</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">OSFingerprint</div><div class="mod-file">recon/os_fingerprint.py</div><div class="mod-desc">TTL-based + banner-based OS detection.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">struct</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">ServiceEnumerator</div><div class="mod-file">recon/service_enum.py</div><div class="mod-desc">Banner grabbing, version detection for services.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">utils.network</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">DirBruteforce</div><div class="mod-file">recon/dir_bruteforce.py</div><div class="mod-desc">Web path discovery (gobuster-style) with multi-threading.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">threading</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">CVEDatabase</div><div class="mod-file">recon/cve_db.py</div><div class="mod-desc">Offline CVE data, service-to-CVE mapping.</div><div class="mod-libs"><span class="lib-tag">json</span><span class="lib-tag">sqlite3</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">ThreatIntel</div><div class="mod-file">recon/threat_intel.py</div><div class="mod-desc">Multi-source IP/domain reputation, IoC aggregation.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">json</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">WifiScanner</div><div class="mod-file">recon/wifi_scanner.py</div><div class="mod-desc">WiFi deauth, handshake capture, WPA cracking.</div><div class="mod-libs"><span class="lib-tag">scapy</span><span class="lib-tag">subprocess</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">BluetoothScanner</div><div class="mod-file">recon/bluetooth_scanner.py</div><div class="mod-desc">BLE/Classic discovery, GATT enumeration.</div><div class="mod-libs"><span class="lib-tag">subprocess</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">CertAnalyzer</div><div class="mod-file">recon/cert_analyzer.py</div><div class="mod-desc">SSL/TLS certificate chain analysis, cipher audit, Heartbleed.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">ssl</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">ScadaScanner</div><div class="mod-file">recon/scada_scanner.py</div><div class="mod-desc">SCADA/ICS: Modbus, DNP3, OPC-UA, BACnet protocols.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">struct</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">DarkwebOsint</div><div class="mod-file">recon/darkweb_osint.py</div><div class="mod-desc">Dark web breach lookup, paste monitoring via Tor.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">socks</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">SupplyChainAuditor</div><div class="mod-file">recon/supply_chain_auditor.py</div><div class="mod-desc">npm/pip/maven/nuget dependency vulnerability analysis.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">json</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">BlockchainAuditor</div><div class="mod-file">recon/blockchain_auditor.py</div><div class="mod-desc">Solidity smart contract analysis, reentrancy detection.</div><div class="mod-libs"><span class="lib-tag">json</span><span class="lib-tag">re</span></div></div>
+      <div class="module-card mod-recon"><div class="mod-name">WirelessProtocol</div><div class="mod-file">recon/wireless_protocol.py</div><div class="mod-desc">Zigbee, Z-Wave, LoRa, BLE, RFID protocol scanning.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">struct</span></div></div>
+    </div>
+  </div>
+
+  <!-- AUXILIARY -->
+  <div class="module-section">
+    <div class="section-title" style="color:var(--aux-color); border-color:var(--aux-color);">
+      <div class="icon" style="background:rgba(245,158,11,0.15); color:var(--aux-color);">&#9881;</div>
+      Auxiliary Modules (18 Modules)
+    </div>
+    <div class="module-grid">
+      <div class="module-card mod-aux"><div class="mod-name">CredSprayer</div><div class="mod-file">auxiliary/cred_sprayer.py</div><div class="mod-desc">Multi-protocol credential spraying (SSH/RDP/SMB/FTP/HTTP), lockout awareness, NTLM relay.</div><div class="mod-libs"><span class="lib-tag">paramiko</span><span class="lib-tag">requests</span><span class="lib-tag">smbprotocol</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">HashCracker</div><div class="mod-file">auxiliary/hash_cracker.py</div><div class="mod-desc">50+ hash types, rule-based cracking, rainbow table support.</div><div class="mod-libs"><span class="lib-tag">hashlib</span><span class="lib-tag">threading</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">Phishing</div><div class="mod-file">auxiliary/phishing.py</div><div class="mod-desc">Site cloning, MFA phishing, QR attacks, SMS spoofing.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">beautifulsoup4</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">Sniffer</div><div class="mod-file">auxiliary/sniffer.py</div><div class="mod-desc">ARP spoofing, PCAP export, protocol decode, deep packet inspection.</div><div class="mod-libs"><span class="lib-tag">scapy</span><span class="lib-tag">socket</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">NetworkPivot</div><div class="mod-file">auxiliary/pivot.py</div><div class="mod-desc">Port forwarding, SOCKS proxy, TCP tunneling for pivoting.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">threading</span><span class="lib-tag">select</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">SmbScanner</div><div class="mod-file">auxiliary/smb_scanner.py</div><div class="mod-desc">Share enumeration, null sessions, signing checks.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">struct</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">SSHScanner</div><div class="mod-file">auxiliary/ssh_scanner.py</div><div class="mod-desc">Version enumeration, weak algorithm detection.</div><div class="mod-libs"><span class="lib-tag">paramiko</span><span class="lib-tag">socket</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">SSLScanner</div><div class="mod-file">auxiliary/ssl_scanner.py</div><div class="mod-desc">Heartbleed, POODLE, cipher strength analysis.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">ssl</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">EmailTester</div><div class="mod-file">auxiliary/email_tester.py</div><div class="mod-desc">SPF/DKIM/DMARC validation, SMTP relay testing.</div><div class="mod-libs"><span class="lib-tag">dnspython</span><span class="lib-tag">smtplib</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">HttpTunnel</div><div class="mod-file">auxiliary/http_tunnel.py</div><div class="mod-desc">HTTP/DNS covert tunneling for data exfiltration.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">socket</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">TrafficAnalyzer</div><div class="mod-file">auxiliary/traffic_analyzer.py</div><div class="mod-desc">Deep packet inspection, protocol reconstruction, anomaly detection.</div><div class="mod-libs"><span class="lib-tag">scapy</span><span class="lib-tag">struct</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">RDPScanner</div><div class="mod-file">auxiliary/rdp_scanner.py</div><div class="mod-desc">NLA check, BlueKeep detection.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">struct</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">FTPScanner</div><div class="mod-file">auxiliary/ftp_scanner.py</div><div class="mod-desc">Anonymous login check, writable directory detection.</div><div class="mod-libs"><span class="lib-tag">ftplib</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">SNMPScanner</div><div class="mod-file">auxiliary/snmp_scanner.py</div><div class="mod-desc">Community string sweep, interface enumeration.</div><div class="mod-libs"><span class="lib-tag">socket</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">IPMIScanner</div><div class="mod-file">auxiliary/ipmi_scanner.py</div><div class="mod-desc">Cipher zero exploit, BMC information extraction.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">struct</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">NetBIOSScanner</div><div class="mod-file">auxiliary/netbios_scanner.py</div><div class="mod-desc">Name query, workgroup discovery.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">struct</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">SocksProxy</div><div class="mod-file">auxiliary/socks_proxy.py</div><div class="mod-desc">SOCKS4/5 traffic routing proxy.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">struct</span><span class="lib-tag">threading</span></div></div>
+      <div class="module-card mod-aux"><div class="mod-name">HTTPScanner / Tools</div><div class="mod-file">auxiliary/http_scanner.py / tools.py</div><div class="mod-desc">HTTP methods, WebDAV, robots.txt, file server, DNS lookup, WHOIS, wordlist gen.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">http.server</span><span class="lib-tag">socket</span></div></div>
+    </div>
+  </div>
+
+  <!-- POST-EXPLOITATION -->
+  <div class="module-section">
+    <div class="section-title" style="color:var(--post-color); border-color:var(--post-color);">
+      <div class="icon" style="background:rgba(244,63,94,0.15); color:var(--post-color);">&#9760;</div>
+      Post-Exploitation (11 Modules)
+    </div>
+    <div class="module-grid">
+      <div class="module-card mod-post"><div class="mod-name">PrivescSuggest</div><div class="mod-file">post/privesc_suggest.py (28KB!)</div><div class="mod-desc">WinPEAS/LinPEAS-level privilege escalation checks.</div><div class="mod-libs"><span class="lib-tag">os</span><span class="lib-tag">subprocess</span><span class="lib-tag">re</span></div></div>
+      <div class="module-card mod-post"><div class="mod-name">Persistence</div><div class="mod-file">post/persistence.py</div><div class="mod-desc">30+ persistence mechanisms: registry, cron, service, WMI, startup, DLL hijack, etc.</div><div class="mod-libs"><span class="lib-tag">os</span><span class="lib-tag">subprocess</span><span class="lib-tag">json</span></div></div>
+      <div class="module-card mod-post"><div class="mod-name">LateralMove</div><div class="mod-file">post/lateral_move.py</div><div class="mod-desc">WMI exec, PSExec, SMB copy, Pass-the-Hash, SSH lateral movement.</div><div class="mod-libs"><span class="lib-tag">paramiko</span><span class="lib-tag">subprocess</span><span class="lib-tag">socket</span></div></div>
+      <div class="module-card mod-post"><div class="mod-name">CredentialHarvest</div><div class="mod-file">post/credential_harvest.py</div><div class="mod-desc">Universal credential harvester: browser, WiFi, system, app credentials.</div><div class="mod-libs"><span class="lib-tag">os</span><span class="lib-tag">json</span><span class="lib-tag">subprocess</span></div></div>
+      <div class="module-card mod-post"><div class="mod-name">Antiforensics</div><div class="mod-file">post/antiforensics.py</div><div class="mod-desc">Log tampering, timestomping, MFT manipulation, artifact wiping.</div><div class="mod-libs"><span class="lib-tag">os</span><span class="lib-tag">subprocess</span><span class="lib-tag">struct</span></div></div>
+      <div class="module-card mod-post"><div class="mod-name">ContainerEscape</div><div class="mod-file">post/container_escape.py</div><div class="mod-desc">Docker/K8s escape, capability abuse, pod breakouts.</div><div class="mod-libs"><span class="lib-tag">subprocess</span><span class="lib-tag">json</span></div></div>
+      <div class="module-card mod-post"><div class="mod-name">MemoryForensics</div><div class="mod-file">post/memory_forensics.py</div><div class="mod-desc">Process dump, credential extraction, DLL injection analysis.</div><div class="mod-libs"><span class="lib-tag">struct</span><span class="lib-tag">ctypes</span></div></div>
+      <div class="module-card mod-post"><div class="mod-name">RansomwareSimulator</div><div class="mod-file">post/ransom_sim.py</div><div class="mod-desc">Safe, reversible encryption for incident response testing.</div><div class="mod-libs"><span class="lib-tag">Crypto.Cipher.AES</span><span class="lib-tag">os</span></div></div>
+      <div class="module-card mod-post"><div class="mod-name">WindowsPostExploit</div><div class="mod-file">post/windows_post.py</div><div class="mod-desc">Mimikatz integration, token manipulation, persistence.</div><div class="mod-libs"><span class="lib-tag">subprocess</span><span class="lib-tag">ctypes</span></div></div>
+      <div class="module-card mod-post"><div class="mod-name">LinuxPostExploit</div><div class="mod-file">post/linux_post.py</div><div class="mod-desc">Linux enum, privesc, persistence, credential harvesting.</div><div class="mod-libs"><span class="lib-tag">os</span><span class="lib-tag">subprocess</span></div></div>
+      <div class="module-card mod-post"><div class="mod-name">SysEnum / LootManager</div><div class="mod-file">post/sys_enum.py / loot_manager.py</div><div class="mod-desc">System enumeration, centralized loot storage.</div><div class="mod-libs"><span class="lib-tag">os</span><span class="lib-tag">json</span></div></div>
+    </div>
+  </div>
+
+  <!-- PAYLOADS -->
+  <div class="module-section">
+    <div class="section-title" style="color:var(--payload-color); border-color:var(--payload-color);">
+      <div class="icon" style="background:rgba(249,115,22,0.15); color:var(--payload-color);">&#128163;</div>
+      Payloads (11 Modules)
+    </div>
+    <div class="module-grid">
+      <div class="module-card mod-payload"><div class="mod-name">PayloadGenerator</div><div class="mod-file">payloads/generator.py</div><div class="mod-desc">Multi-platform: Python/PowerShell/Bash/Java/C/PHP/Node/Ruby.</div><div class="mod-libs"><span class="lib-tag">utils.crypto</span><span class="lib-tag">base64</span><span class="lib-tag">json</span></div></div>
+      <div class="module-card mod-payload"><div class="mod-name">ShellcodeFactory</div><div class="mod-file">payloads/shellcode_factory.py</div><div class="mod-desc">x86/x64 shellcode, XOR/AES encoding, obfuscation.</div><div class="mod-libs"><span class="lib-tag">struct</span><span class="lib-tag">utils.crypto</span></div></div>
+      <div class="module-card mod-payload"><div class="mod-name">ShellcodeGenerator</div><div class="mod-file">payloads/shellcode_generator.py</div><div class="mod-desc">x86/x64 reverse/bind TCP/UDP shellcode, staged delivery.</div><div class="mod-libs"><span class="lib-tag">struct</span></div></div>
+      <div class="module-card mod-payload"><div class="mod-name">MeterpreterPayload</div><div class="mod-file">payloads/meterpreter.py</div><div class="mod-desc">Post-exploitation stager, reflective DLL injection.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">struct</span><span class="lib-tag">ctypes</span></div></div>
+      <div class="module-card mod-payload"><div class="mod-name">MultiHandler</div><div class="mod-file">payloads/multi_handler.py</div><div class="mod-desc">Multi-protocol listener, staged/stageless payload handling.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">threading</span></div></div>
+      <div class="module-card mod-payload"><div class="mod-name">PayloadEncoder</div><div class="mod-file">payloads/encoder.py</div><div class="mod-desc">Base64, XOR, alpha, shikata_ga_nai encoding.</div><div class="mod-libs"><span class="lib-tag">utils.crypto</span><span class="lib-tag">base64</span></div></div>
+      <div class="module-card mod-payload"><div class="mod-name">PayloadObfuscator</div><div class="mod-file">payloads/obfuscator.py</div><div class="mod-desc">Multi-layer encoding, string encryption, junk code, control flow flattening.</div><div class="mod-libs"><span class="lib-tag">random</span><span class="lib-tag">base64</span></div></div>
+      <div class="module-card mod-payload"><div class="mod-name">PolymorphicGenerator</div><div class="mod-file">payloads/polymorphic.py</div><div class="mod-desc">Self-modifying code, metamorphic engine.</div><div class="mod-libs"><span class="lib-tag">utils.crypto</span><span class="lib-tag">random</span></div></div>
+      <div class="module-card mod-payload"><div class="mod-name">NopGenerator</div><div class="mod-file">payloads/nop_generator.py</div><div class="mod-desc">Polymorphic NOP sled for x86/x64/ARM.</div><div class="mod-libs"><span class="lib-tag">random</span></div></div>
+      <div class="module-card mod-payload"><div class="mod-name">MacroBuilder</div><div class="mod-file">payloads/macro_builder.py</div><div class="mod-desc">VBA reverse shell, download-exec, keylogger, persistence macros.</div><div class="mod-libs"><span class="lib-tag">base64</span><span class="lib-tag">random</span></div></div>
+      <div class="module-card mod-payload"><div class="mod-name">BindShellConnector</div><div class="mod-file">payloads/bind_shell.py</div><div class="mod-desc">Connect to bind shells on target systems.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">select</span></div></div>
+    </div>
+  </div>
+
+  <!-- EVASION -->
+  <div class="module-section">
+    <div class="section-title" style="color:var(--evasion-color); border-color:var(--evasion-color);">
+      <div class="icon" style="background:rgba(236,72,153,0.15); color:var(--evasion-color);">&#128373;</div>
+      Evasion (6 Modules)
+    </div>
+    <div class="module-grid">
+      <div class="module-card mod-evasion"><div class="mod-name">AVEvasion</div><div class="mod-file">evasion/av_evasion.py</div><div class="mod-desc">Process injection, AMSI bypass, sandbox detection and evasion.</div><div class="mod-libs"><span class="lib-tag">ctypes</span><span class="lib-tag">subprocess</span></div></div>
+      <div class="module-card mod-evasion"><div class="mod-name">IdsEvasion</div><div class="mod-file">evasion/ids_evasion.py</div><div class="mod-desc">Fragment overlap, TTL manipulation, protocol anomaly for IDS/IPS bypass.</div><div class="mod-libs"><span class="lib-tag">scapy</span><span class="lib-tag">struct</span></div></div>
+      <div class="module-card mod-evasion"><div class="mod-name">WAFBypass</div><div class="mod-file">evasion/waf_bypass.py</div><div class="mod-desc">HTTP/2 smuggling, chunked encoding, Unicode normalization.</div><div class="mod-libs"><span class="lib-tag">requests</span><span class="lib-tag">socket</span></div></div>
+      <div class="module-card mod-evasion"><div class="mod-name">Stego</div><div class="mod-file">evasion/stego.py</div><div class="mod-desc">LSB PNG/BMP, WAV audio steganography, PDF embedding.</div><div class="mod-libs"><span class="lib-tag">struct</span><span class="lib-tag">PIL</span></div></div>
+      <div class="module-card mod-evasion"><div class="mod-name">TrafficEvasion</div><div class="mod-file">evasion/traffic_evasion.py</div><div class="mod-desc">Protocol tunneling, domain fronting, DNS/ICMP exfiltration.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">dnslib</span></div></div>
+      <div class="module-card mod-evasion"><div class="mod-name">PayloadEncryptor</div><div class="mod-file">evasion/encryption.py</div><div class="mod-desc">Payload encryption, traffic obfuscation, anti-forensics, timing randomization.</div><div class="mod-libs"><span class="lib-tag">utils.crypto</span><span class="lib-tag">os</span></div></div>
+    </div>
+  </div>
+
+  <!-- C2 -->
+  <div class="module-section">
+    <div class="section-title" style="color:var(--c2-color); border-color:var(--c2-color);">
+      <div class="icon" style="background:rgba(239,68,68,0.15); color:var(--c2-color);">&#127760;</div>
+      Command &amp; Control (2 Modules)
+    </div>
+    <div class="module-grid">
+      <div class="module-card mod-c2"><div class="mod-name">C2Server + C2Handler</div><div class="mod-file">c2/c2_server.py</div><div class="mod-desc">Multi-protocol C2 (HTTP/DNS/SMB/TCP), staging, tasking, DNS over HTTPS.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">threading</span><span class="lib-tag">json</span><span class="lib-tag">ssl</span></div></div>
+      <div class="module-card mod-c2"><div class="mod-name">C2Agent + Agent</div><div class="mod-file">c2/c2_agent.py</div><div class="mod-desc">Agent implant: process injection, AMSI bypass, sleep obfuscation, sandbox evasion.</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">ctypes</span><span class="lib-tag">json</span></div></div>
+    </div>
+  </div>
+
+  <!-- UTILS -->
+  <div class="module-section">
+    <div class="section-title" style="color:var(--util-color); border-color:var(--util-color);">
+      <div class="icon" style="background:rgba(100,116,139,0.15); color:var(--util-color);">&#128295;</div>
+      Utilities &mdash; Shared Foundation Layer
+    </div>
+    <div class="module-grid">
+      <div class="module-card mod-util"><div class="mod-name">constants</div><div class="mod-file">utils/constants.py</div><div class="mod-desc">Framework-wide: BASE_DIR, DB_PATH, LOGS_DIR, MODULE_TYPES, EXPLOIT_RANKINGS, PAYLOAD_TYPES, PLATFORMS, USER_AGENTS, COMMON_DIRS, SQLI/XSS/LFI_PAYLOADS, Colors (ANSI).</div><div class="mod-libs"><span class="lib-tag">os</span></div></div>
+      <div class="module-card mod-util"><div class="mod-name">crypto</div><div class="mod-file">utils/crypto.py</div><div class="mod-desc">md5/sha1/sha256/sha512 hashes, base64 encode/decode, XOR encrypt, AES encrypt/decrypt, random bytes/string generation.</div><div class="mod-libs"><span class="lib-tag">hashlib</span><span class="lib-tag">Crypto.Cipher.AES</span><span class="lib-tag">base64</span><span class="lib-tag">os</span></div></div>
+      <div class="module-card mod-util"><div class="mod-name">network</div><div class="mod-file">utils/network.py</div><div class="mod-desc">get_local_ip(), resolve_host(), reverse_dns(), is_valid_ip(), expand_cidr(), parse_port_range(), random_user_agent(), create_tcp/udp_socket(), grab_banner(), ip_to_int().</div><div class="mod-libs"><span class="lib-tag">socket</span><span class="lib-tag">struct</span><span class="lib-tag">ipaddress</span><span class="lib-tag">constants</span></div></div>
+      <div class="module-card mod-util"><div class="mod-name">validators</div><div class="mod-file">utils/validators.py</div><div class="mod-desc">validate_ip/port/url/cidr/email/mac(), sanitize_input(), is_private_ip(). SafetyChecker: authorize_target(), emergency_stop().</div><div class="mod-libs"><span class="lib-tag">re</span><span class="lib-tag">ipaddress</span><span class="lib-tag">urllib.parse</span></div></div>
+    </div>
+  </div>
+
+  <!-- REPORTING & PLUGINS -->
+  <div class="module-section">
+    <div class="section-title" style="color:var(--report-color); border-color:var(--report-color);">
+      <div class="icon" style="background:rgba(132,204,22,0.15); color:var(--report-color);">&#128196;</div>
+      Reporting &amp; Plugins
+    </div>
+    <div class="module-grid">
+      <div class="module-card mod-report"><div class="mod-name">ReportGenerator</div><div class="mod-file">reporting/report_gen.py</div><div class="mod-desc">HTML (Jinja2), JSON, PDF (ReportLab), CSV report generation.</div><div class="mod-libs"><span class="lib-tag">jinja2</span><span class="lib-tag">reportlab</span><span class="lib-tag">json</span><span class="lib-tag">csv</span></div></div>
+      <div class="module-card mod-report"><div class="mod-name">ComplianceReport</div><div class="mod-file">reporting/compliance_report.py</div><div class="mod-desc">PCI-DSS, HIPAA, SOC2, ISO 27001, GDPR, NIST compliance reporting.</div><div class="mod-libs"><span class="lib-tag">json</span><span class="lib-tag">datetime</span></div></div>
+      <div class="module-card mod-report"><div class="mod-name">ReportGenerator (Core)</div><div class="mod-file">core/report_generator.py</div><div class="mod-desc">Core HTML/JSON/Markdown pentest report generation.</div><div class="mod-libs"><span class="lib-tag">json</span><span class="lib-tag">datetime</span></div></div>
+      <div class="module-card mod-plugin"><div class="mod-name">PluginManager</div><div class="mod-file">plugins/plugin_manager.py</div><div class="mod-desc">Plugin discovery, loading, marketplace. BasePlugin ABC for extensions.</div><div class="mod-libs"><span class="lib-tag">importlib</span><span class="lib-tag">inspect</span><span class="lib-tag">json</span></div></div>
+    </div>
+  </div>
+
+  <!-- EXTERNAL DEPENDENCIES -->
+  <div class="dep-section">
+    <div class="section-title">
+      <div class="icon" style="background:rgba(14,165,233,0.15); color:var(--ext-color);">&#128230;</div>
+      External Dependencies (requirements.txt)
+    </div>
+    <div class="dep-grid">
+      <div class="dep-card"><div class="dep-name">scapy</div><div class="dep-ver">v2.5.0</div><div class="dep-usage">Packet crafting/sniffing (sniffer, wifi_scanner)</div></div>
+      <div class="dep-card"><div class="dep-name">paramiko</div><div class="dep-ver">v3.4.0</div><div class="dep-usage">SSH connections (ssh_scanner, lateral_move)</div></div>
+      <div class="dep-card"><div class="dep-name">requests</div><div class="dep-ver">v2.31.0</div><div class="dep-usage">HTTP client (20+ modules)</div></div>
+      <div class="dep-card"><div class="dep-name">beautifulsoup4</div><div class="dep-ver">v4.12.2</div><div class="dep-usage">HTML parsing (web_scanner, osint, phishing)</div></div>
+      <div class="dep-card"><div class="dep-name">prompt-toolkit</div><div class="dep-ver">v3.0.43</div><div class="dep-usage">Interactive CLI with completion</div></div>
+      <div class="dep-card"><div class="dep-name">pycryptodome</div><div class="dep-ver">v3.20.0</div><div class="dep-usage">AES, RSA, padding (utils/crypto, payloads, evasion)</div></div>
+      <div class="dep-card"><div class="dep-name">jinja2</div><div class="dep-ver">v3.1.3</div><div class="dep-usage">HTML templating (report_gen)</div></div>
+      <div class="dep-card"><div class="dep-name">reportlab</div><div class="dep-ver">v4.1.0</div><div class="dep-usage">PDF generation (report_gen)</div></div>
+      <div class="dep-card"><div class="dep-name">flask</div><div class="dep-ver">v3.0.2</div><div class="dep-usage">REST API + web dashboard</div></div>
+      <div class="dep-card"><div class="dep-name">python-nmap</div><div class="dep-ver">v0.7.1</div><div class="dep-usage">Nmap wrapper (network_mapper)</div></div>
+      <div class="dep-card"><div class="dep-name">rich</div><div class="dep-ver">v13.7.0</div><div class="dep-usage">Terminal formatting/tables</div></div>
+      <div class="dep-card"><div class="dep-name">aiohttp</div><div class="dep-ver">v3.9.3</div><div class="dep-usage">Async HTTP (osint)</div></div>
+      <div class="dep-card"><div class="dep-name">sqlalchemy</div><div class="dep-ver">v2.0.25</div><div class="dep-usage">ORM + SQLite database</div></div>
+      <div class="dep-card"><div class="dep-name">colorama</div><div class="dep-ver">v0.4.6</div><div class="dep-usage">Cross-platform terminal colors</div></div>
+    </div>
+  </div>
+
+  <!-- INTER-MODULE CONNECTION MAP -->
+  <div class="conn-section">
+    <div class="section-title">
+      <div class="icon" style="background:rgba(245,158,11,0.15); color:var(--accent-amber);">&#128279;</div>
+      Inter-Module Dependency Map &mdash; How Modules Connect
+    </div>
+    <div class="conn-flow">
+<pre>
+<span class="hl-cli">main.py</span>
+  <span class="hl-arrow">&rarr;</span> <span class="hl-cli">cli/console.InteractiveConsole</span>
+       <span class="hl-arrow">&darr;</span> (singleton)
+       <span class="hl-core">core/framework.Framework</span>  &larr;── CENTRAL HUB
+       <span class="hl-arrow">&darr;</span>         <span class="hl-arrow">&darr;</span>         <span class="hl-arrow">&darr;</span>         <span class="hl-arrow">&darr;</span>         <span class="hl-arrow">&darr;</span>
+   <span class="hl-core">ConfigMgr</span>  <span class="hl-core">Database</span>  <span class="hl-core">EventSys</span>  <span class="hl-core">SessionMgr</span>  <span class="hl-core">ModuleLoader</span>  <span class="hl-util">SafetyChecker</span>
+       <span class="hl-arrow">&darr;</span>         <span class="hl-arrow">&darr;</span>         <span class="hl-arrow">&darr;</span>                       <span class="hl-arrow">&darr;</span>
+   <span class="hl-util">constants</span>  <span class="hl-util">constants</span>  <span class="hl-util">constants</span>          discovers all module classes with run()
+
+<span class="hl-cli">InteractiveConsole</span> ── lazy imports ──&rarr; <span style="color:#10B981">recon/*</span>  <span style="color:#F59E0B">auxiliary/*</span>  <span style="color:#F43F5E">post/*</span>  <span style="color:#F97316">payloads/*</span>  <span style="color:#EC4899">evasion/*</span>  <span style="color:#EF4444">c2/*</span>  <span style="color:#8B5CF6">core/intel*</span>
+
+<span style="color:#10B981">recon/</span>  <span class="hl-arrow">&rarr;</span>  <span class="hl-util">utils.network</span> (port_scanner, host_discovery, service_enum)
+<span style="color:#10B981">recon/</span>  <span class="hl-arrow">&rarr;</span>  <span class="hl-util">utils.constants</span> (web_scanner, port_scanner)
+<span style="color:#F97316">payloads/</span> <span class="hl-arrow">&rarr;</span> <span class="hl-util">utils.crypto</span> (generator, encoder, polymorphic)
+<span style="color:#EC4899">evasion/</span>  <span class="hl-arrow">&rarr;</span> <span class="hl-util">utils.crypto</span> (encryption)
+<span class="hl-api">api/server</span> <span class="hl-arrow">&rarr;</span> <span class="hl-core">Framework</span> + <span style="color:#84CC16">reporting/report_gen</span>
+<span class="hl-api">api/dashboard</span> <span class="hl-arrow">&rarr;</span> <span class="hl-core">EventSystem</span>
+
+<span class="hl-core">Framework.run_module()</span> flow:
+  authorize_target() <span class="hl-arrow">&rarr;</span> validate_options() <span class="hl-arrow">&rarr;</span> module.run() <span class="hl-arrow">&rarr;</span> results <span class="hl-arrow">&rarr;</span> DB store
+</pre>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
