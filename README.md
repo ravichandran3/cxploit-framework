@@ -880,12 +880,13 @@ Logs are stored in `data/logs/`.
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-module`)
-3. Add your module following the structure above
-4. Ensure all modules have `MODULE_INFO`, `run()`, and `check()` methods
-5. Verify syntax: `python -c "import py_compile; py_compile.compile('your_file.py', doraise=True)"`
-6. Submit a pull request
+This project is licensed under PolyForm Strict 1.0.0, which does not
+permit redistribution or modification by anyone other than the
+copyright holder. As a result, this repository does not accept pull
+requests or external code contributions.
+
+If you find a bug or security issue, please open an issue describing
+it — do not submit a patch.
 
 ### Coding Standards
 - PEP 8 compliance
