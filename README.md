@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/version-2.0.0-brightgreen?style=for-the-badge" alt="Version">
   <img src="https://img.shields.io/badge/python-3.10+-blue?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/license-Educational-orange?style=for-the-badge" alt="License">
+  <img src="https://img.shields.io/badge/license-PolyForm%20Strict%201.0.0-orange?style=for-the-badge" alt="License">
   <img src="https://img.shields.io/badge/modules-105-red?style=for-the-badge" alt="Modules">
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-purple?style=for-the-badge" alt="Platform">
 </p>
@@ -925,9 +925,12 @@ Logs are stored in `data/logs/`.
 
 ## 📄 License
 
-This project is provided for **educational and authorized security testing purposes only**.
+This project is licensed under the **PolyForm Strict License 1.0.0**. See the [LICENSE](LICENSE) file for the full terms.
 
-Unauthorized use of this software against systems you do not own or have explicit permission to test is **illegal** and **unethical**. The authors take no responsibility for the misuse of this tool.
+- **Not allowed:** redistribution and modification.
+- **Allowed:** noncommercial personal, educational, and research use.
+
+Use only for authorized security testing.
 
 ---
 
