@@ -13,6 +13,10 @@
   <em>105 modules • 7 categories • Auto-Exploitation • Encrypted C2 • WAF Bypass • Real-Time Dashboard</em>
 </p>
 
+<p align="center">
+  <a href="docs/CXploit_Framework_User_Manual_v2.0.pdf"><strong>📘 Download the CXploit User Manual v2.0 (PDF)</strong></a>
+</p>
+
 ---
 
 ## ⚠️ Legal Disclaimer
@@ -27,6 +31,7 @@
 
 - [Overview](#-overview)
 - [What's New in v2.0](#-whats-new-in-v20)
+- [User Manual (PDF)](docs/CXploit_Framework_User_Manual_v2.0.pdf)
 - [Features](#-features)
 - [Architecture](#-architecture)
 - [Installation](#-installation)
