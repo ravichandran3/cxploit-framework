@@ -6,7 +6,7 @@
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20Linux%20%7C%20macOS-purple?style=for-the-badge" alt="Platform">
 </p>
 
-<h1 align="center">⚡ CXploit — Custom Exploit Development Framework v2.0</h1>
+<h1 align="center">⚡ CXploit - Custom Exploit Development Framework v2.0</h1>
 
 <p align="center">
   <em>A comprehensive, Metasploit-class exploit development and penetration testing framework built entirely in Python.</em><br>
